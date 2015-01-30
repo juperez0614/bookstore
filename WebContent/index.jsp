@@ -11,7 +11,7 @@
 <body>
 <%
 String driver = "org.gjt.mm.mysql.Driver";
-String url = "jdbc:mysql://localhost:3306/CSS490D";
+String url = "jdbc:mysql://localhost:3306/bookStore";
 String username = "root";
 String passwd = "123ABC";
 
@@ -19,6 +19,10 @@ DBConnectionPool connPool = new DBConnectionPool(url, username, passwd);
 Connection conn = connPool.getConnection();
 if(conn != null){
 	out.println("Success");
+	String title = request.getParameter("Title");
+	String strQuery = "insert into Books(Title) values ('" + title + "');";
+	Statement stmt = conn.createStatement();
+	stmt.executeUpdate(strQuery);
 }else {
 	out.println("Failed");
 }
