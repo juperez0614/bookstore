@@ -12,7 +12,7 @@ public class Author implements Serializable {
 	public Author(){}
 	
 	public Author(int id, String firstName, String lastName, String biography){
-		this.id = id; 
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName; 
 		this.biography = biography; 
