@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Publisher implements Serializable {
 
 	private static final long serialVersionUID = 5L;
-	
+	private int id; 
 	private String companyName; 
 	private String address;
 	private String address2; 
@@ -14,12 +14,13 @@ public class Publisher implements Serializable {
 	private int zipCode; 
 	private String phone; 
 	private String pointOfContact;
-	private Book bookId; 
+	private int bookId; 
 	
 	public Publisher(){}
 	
-	public Publisher (String companyName, String address, String address2, String city, 
-			String state, int zipCode, String phone, String pointOfContact, Book bookId){
+	public Publisher (int id,String companyName, String address, String address2, String city, 
+			String state, int zipCode, String phone, String pointOfContact, int bookId){
+		this.id = id;
 		this.companyName = companyName; 
 		this.address = address; 
 		this.address2 = address2; 
@@ -29,6 +30,14 @@ public class Publisher implements Serializable {
 		this.phone = phone; 
 		this.pointOfContact = pointOfContact; 
 		this.bookId = bookId; 
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCompanyName() {
@@ -95,11 +104,11 @@ public class Publisher implements Serializable {
 		this.pointOfContact = pointOfContact;
 	}
 
-	public Book getBookId() {
+	public int getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(Book bookId) {
+	public void setBookId(int bookId) {
 		this.bookId = bookId;
 	}
 }

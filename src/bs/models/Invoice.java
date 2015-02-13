@@ -5,8 +5,9 @@ import java.util.Date;
 
 public class Invoice implements Serializable {
 	private static final long serialVersionUID = 4L;
-	private Book bookId; 
-	private Author authorId; 
+	private int id;
+	private int bookId; 
+	private int authorId; 
 	private String paymentType; 
 	private Date transactionDate;
 	private double totalAmount; 
@@ -14,8 +15,9 @@ public class Invoice implements Serializable {
 	
 	public Invoice(){}
 	
-	public Invoice (Book bookId, Author authorId, String paymentType, Date transactionDate,
+	public Invoice (int id, int bookId, int authorId, String paymentType, Date transactionDate,
 			double totalAmount, boolean isProcessed){
+		this.id = id;
 		this.bookId = bookId;
 		this.authorId = authorId; 
 		this.paymentType = paymentType;
@@ -24,19 +26,27 @@ public class Invoice implements Serializable {
 		this.isProcessed = isProcessed; 
 	}
 
-	public Book getBookId() {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(Book bookId) {
+	public void setBookId(int bookId) {
 		this.bookId = bookId;
 	}
 
-	public Author getAuthorId() {
+	public int getAuthorId() {
 		return authorId;
 	}
 
-	public void setAuthorId(Author authorId) {
+	public void setAuthorId(int authorId) {
 		this.authorId = authorId;
 	}
 

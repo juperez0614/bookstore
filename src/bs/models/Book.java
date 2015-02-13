@@ -4,15 +4,26 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
 	private static final long serialVersionUID = 3L;
+	private int id;
 	private int ISBN; 
 	private double price; 
 	private String summary; 
 	
 	public Book(){}
 	
-	public Book(int ISBN, double price, String summary){
+	public Book(int id, int ISBN, double price, String summary){
+		this.id = id; 
 		this.ISBN = ISBN;
-		this.price = price; this.summary = summary; 
+		this.price = price; 
+		this.summary = summary; 
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getISBN() {
