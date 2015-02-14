@@ -1,7 +1,7 @@
 use bookstore;
 
 CREATE Table  Author (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     FirstName nVarchar(50) NULL, 
     LastName nVarChar(50) NULL, 
     Biography nVarChar(250) NULL, 
@@ -9,7 +9,7 @@ CREATE Table  Author (
 );
 
 CREATE table Book (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     ISBN INT NULL, 
     Price double NULL, 
     Summary nVarChar(250), 
@@ -26,7 +26,7 @@ CREATE Table BookAuthor (
 );
 
 CREATE Table Rating (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     Rating INT NULL, 
     Review nVarChar(250) NULL, 
     
@@ -36,7 +36,7 @@ CREATE Table Rating (
 );
 
 CREATE Table Publisher (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
 	CompanyName nVarChar(50) NULL, 
     Address nVarChar(50) NULL, 
     Address2 nVarChar(50) NULL, 
@@ -47,11 +47,12 @@ CREATE Table Publisher (
     PointOfContact nVarChar(50) NULL, 
     BookId INT NOT NULL, 
     
+    Primary Key(Id),
     FOREIGN KEY (BookId) REFERENCES Book(Id)
 
 );
 CREATE Table UserTbl (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     UserPassword nVarChar(50) NOT NULL, 
     
     PRIMARY KEY (Id)
@@ -59,7 +60,7 @@ CREATE Table UserTbl (
 );
 
 CREATE Table UserRole (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     Role nVarChar(50), 
     UserId INT NOT NULL, 
     
@@ -68,7 +69,7 @@ CREATE Table UserRole (
 
 );
 CREATE TABLE Customer(
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     FirstName nVarChar(50) NULL, 
     LastName nVarChar(50) NULL, 
     Address nVarChar(50) NULL, 
@@ -85,7 +86,7 @@ CREATE TABLE Customer(
 
 
 CREATE Table Invoice (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     BookId INT NOT NULL, 
     CustomerId INT NOT NULL, 
     PaymentType nVarChar(50) NULL, 
@@ -100,7 +101,7 @@ CREATE Table Invoice (
 ); 
 
 CREATE Table LineItem (
-	Id INT NOT NULL, 
+	Id INT NOT NULL auto_increment, 
     BookId INT NOT NULL, 
     InvoiceId INT NOT NULL, 
     Quantity INT NULL, 

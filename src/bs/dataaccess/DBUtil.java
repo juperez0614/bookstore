@@ -13,26 +13,27 @@ public class DBUtil {
 			System.out.println(e);
 		}
 	}
-	
-	public static void closePreparedStatement(Statement ps){
-		try{
-			if(ps != null){
+
+	public static void closePreparedStatement(Statement ps) {
+		try {
+			if (ps != null) {
 				ps.close();
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			System.out.println(e);
 		}
 	}
-	
-	public static void closeResultSet(ResultSet rs){
-		try{
-			if(rs != null){
+
+	public static void closeResultSet(ResultSet rs) {
+		try {
+			if (rs != null) {
 				rs.close();
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			System.out.println(e);
 		}
 	}
+
 	public static Connection connectToDb() {
 		String url = "jdbc:mysql://localhost:3306/bookstore";
 		String name = "newuser";
