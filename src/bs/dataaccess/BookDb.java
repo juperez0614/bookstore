@@ -10,13 +10,14 @@ public class BookDb {
 
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Book (ISBN, Price, Summary)"
-				+ " VALUES (?, ?, ?)";
+		String query = "INSERT INTO Book (ISBN, Price, Summary, Title)"
+				+ " VALUES (?, ?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, book.getISBN());
 			ps.setDouble(2, book.getPrice());
 			ps.setString(3, book.getSummary());
+			ps.setString(4, book.getTitle());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -37,13 +38,14 @@ public class BookDb {
 		PreparedStatement ps = null;
 
 		String query = "UPDATE Book SET " + "ISBN = ?, " + "Price = ?, "
-				+ "Summary = ? " + "WHERE Id = ?";
+				+ "Summary = ?, " +"Title = ?" + "WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, book.getISBN());
 			ps.setDouble(2, book.getPrice());
 			ps.setString(3, book.getSummary());
-			ps.setInt(4, book.getId());
+			ps.setString(4, book.getTitle());
+			ps.setInt(5, book.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,6 +78,7 @@ public class BookDb {
 				book.setId(rs.getInt("Id"));
 				book.setISBN(rs.getInt("ISBN"));
 				book.setPrice(rs.getDouble("Price"));
+				book.setTitle(rs.getString("Title"));
 				;
 				book.setSummary(rs.getString("Summary"));
 			}

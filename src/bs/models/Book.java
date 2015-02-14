@@ -8,14 +8,15 @@ public class Book implements Serializable {
 	private int ISBN; 
 	private double price; 
 	private String summary; 
+	private String title;
 	
 	public Book(){}
 	
-	public Book(int id, int ISBN, double price, String summary){
-		this.id = id; 
+	public Book( int ISBN, double price, String summary, String title){
 		this.ISBN = ISBN;
 		this.price = price; 
 		this.summary = summary; 
+		this.title = title;
 	}
 
 	public int getId() {
@@ -48,5 +49,13 @@ public class Book implements Serializable {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }
