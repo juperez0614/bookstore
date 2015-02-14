@@ -1,3 +1,4 @@
+--Create DATABASE bookstore;
 use bookstore;
 
 CREATE Table  Author (
