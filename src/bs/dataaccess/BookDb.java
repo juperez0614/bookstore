@@ -1,23 +1,22 @@
 package bs.dataaccess;
 
 import java.sql.*;
+import bs.models.Book;
 
-import bs.models.Author;
+public class BookDb {
 
-public class AuthorDb {
-
-	public static Author createAuthor(Author author) {
+	public static Book createBook(Book book) {
 		Connection conn = DBUtil.connectToDb();
 
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Author (firstName, lastName, biography)"
+		String query = "INSERT INTO Book (ISBN, Price, Summary)"
 				+ " VALUES (?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setString(1, author.getFirstName());
-			ps.setString(2, author.getLastName());
-			ps.setString(3, author.getBiography());
+			ps.setInt(1, book.getISBN());
+			ps.setDouble(2, book.getPrice());
+			ps.setString(3, book.getSummary());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -30,21 +29,21 @@ public class AuthorDb {
 				e.printStackTrace();
 			}
 		}
-		return author;
+		return book;
 	}
 
-	public static Author updateAuthor(Author author) {
+	public static Book updateBook(Book book) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "UPDATE Author SET " + "FirstName = ?, "
-				+ "LastName = ?, " + "Biography = ? " + "WHERE Id = ?";
+		String query = "UPDATE Book SET " + "ISBN = ?, " + "Price = ?, "
+				+ "Summary = ? " + "WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setString(1, author.getFirstName());
-			ps.setString(2, author.getLastName());
-			ps.setString(3, author.getBiography());
-			ps.setInt(4, author.getId());
+			ps.setInt(1, book.getISBN());
+			ps.setDouble(2, book.getPrice());
+			ps.setString(3, book.getSummary());
+			ps.setInt(4, book.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,29 +56,30 @@ public class AuthorDb {
 				e.printStackTrace();
 			}
 		}
-		return author;
+		return book;
 	}
 
-	public static Author getAuthor(int id) {
+	public static Book getBook(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		String query = "SELECT * FROM Author" + " WHERE Id = ?";
+		String query = "SELECT * FROM Book" + " WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
-			Author author = null;
+			Book book = null;
 			if (rs.next()) {
-				author = new Author();
-				author.setId(rs.getInt("Id"));
-				author.setFirstName(rs.getString("firstName"));
-				author.setLastName(rs.getString("LastName"));
-				author.setBiography(rs.getString("Biography"));
+				book = new Book();
+				book.setId(rs.getInt("Id"));
+				book.setISBN(rs.getInt("ISBN"));
+				book.setPrice(rs.getDouble("Price"));
+				;
+				book.setSummary(rs.getString("Summary"));
 			}
-			return author;
+			return book;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -93,15 +93,14 @@ public class AuthorDb {
 		}
 	}
 
-	public static int deleteAuthor(Author author) {
+	public static int deleteBook(Book book) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "DELETE FROM Author" 
-		+ " WHERE Id = ?";
+		String query = "DELETE FROM Book" + " WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, author.getId());
+			ps.setInt(1, book.getId());
 
 			return ps.executeUpdate();
 
@@ -117,4 +116,5 @@ public class AuthorDb {
 			}
 		}
 	}
+
 }
