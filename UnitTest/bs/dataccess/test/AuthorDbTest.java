@@ -12,14 +12,13 @@ public class AuthorDbTest {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Author(3, "Test", "Test", "Test");
+		a = new Author("Test", "Test", "Test");
 	}
 
 	@Test
 	public void testCreateAuthor_ShouldPass() {
 		Author returnedAuthor = AuthorDb.createAuthor(a);
 
-		assertEquals(3, returnedAuthor.getId());
 		assertEquals("Test", returnedAuthor.getFirstName());
 		assertEquals("Test", returnedAuthor.getLastName());
 		assertEquals("Test", returnedAuthor.getBiography());

@@ -8,16 +8,18 @@ public class AuthorDb {
 
 	public static Author createAuthor(Author author) {
 		Connection conn = DBUtil.connectToDb();
+		if(conn != null){
+			System.out.println("success");
+		}
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Author (Id, firstName, lastName, biography)"
-				+ " VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO Author (firstName, lastName, biography)"
+				+ " VALUES (?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, author.getId());
-			ps.setString(2, author.getFirstName());
-			ps.setString(3, author.getLastName());
-			ps.setString(4, author.getBiography());
+			ps.setString(1, author.getFirstName());
+			ps.setString(2, author.getLastName());
+			ps.setString(3, author.getBiography());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
