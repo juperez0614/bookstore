@@ -1,42 +1,23 @@
 package bs.models;
 
 public class LineItem {
-	private int id;
-	private int invoiceId;
-	private int bookId;
+	private Book book;
 	private int quantity;
 	
 	public LineItem(){}
 	
-	public LineItem(int nId, int nInvoiceId, int nBookId, int nQuantity){
-		id = nId;
-		invoiceId = nInvoiceId;
-		bookId = nBookId;
+	public LineItem(Book nBookId, int nQuantity){
+		book = nBookId;
 		quantity = nQuantity;
 	}
 
-	public int getId() {
-		return id;
+
+	public Book getBook() {
+		return book;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getInvoiceId() {
-		return invoiceId;
-	}
-
-	public void setInvoiceId(int invoiceId) {
-		this.invoiceId = invoiceId;
-	}
-
-	public int getBookId() {
-		return bookId;
-	}
-
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
+	public void setBook(Book book) {
+		this.book = book;
 	}
 
 	public int getQuantity() {

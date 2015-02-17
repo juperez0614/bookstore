@@ -1,25 +1,32 @@
 package bs.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 public class Invoice implements Serializable {
 	private static final long serialVersionUID = 4L;
 	private int id;
-	private int bookId; 
-	private int authorId; 
+	private Customer customer;
 	private String paymentType; 
 	private Date transactionDate;
 	private double totalAmount; 
 	private boolean isProcessed; 
+	private List<LineItem> lineItems;
 	
+	public List<LineItem> getLineItems() {
+		return lineItems;
+	}
+
+	public void setLineItems(List<LineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
+
+
 	public Invoice(){}
 	
-	public Invoice (int id, int bookId, int authorId, String paymentType, Date transactionDate,
-			double totalAmount, boolean isProcessed){
-		this.id = id;
-		this.bookId = bookId;
-		this.authorId = authorId; 
+	public Invoice ( String paymentType, Date transactionDate,
+			double totalAmount, boolean isProcessed){ 
 		this.paymentType = paymentType;
 		this.transactionDate = transactionDate;
 		this.totalAmount = totalAmount; 
@@ -34,20 +41,12 @@ public class Invoice implements Serializable {
 		this.id = id;
 	}
 
-	public int getBookId() {
-		return bookId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
-	}
-
-	public int getAuthorId() {
-		return authorId;
-	}
-
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public String getPaymentType() {
