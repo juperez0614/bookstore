@@ -6,9 +6,8 @@ public class Rating {
 	private String review;
 	
 
-	public Rating(int nId, int nRating, String nReview)
+	public Rating(int nRating, String nReview)
 	{
-		id = nId;
 		rating = nRating;
 		review = nReview;
 	}

@@ -11,8 +11,8 @@ public class CustomerDb {
 		PreparedStatement ps = null;
 
 		String query = "INSERT INTO Customer (firstName, lastName, Address, "
-				+ "Address2, City, State, Email)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+				+ "Address2, City, State, Zipcode, Email)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, customer.getFirstName());
@@ -21,7 +21,8 @@ public class CustomerDb {
 			ps.setString(4, customer.getAddress2());
 			ps.setString(5, customer.getCity());
 			ps.setString(6, customer.getState());
-			ps.setString(7, customer.getEmail());
+			ps.setInt(7, customer.getZipcode());
+			ps.setString(8, customer.getEmail());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,7 +44,8 @@ public class CustomerDb {
 
 		String query = "UPDATE Book SET " + "firstName = ?, "
 				+ "lastName = ?, " + "Address = ? " + "Address2 = ? "
-				+ "City = ? " + "State = ? " + "Email = ? " + "WHERE Id = ?";
+				+ "City = ? " + "State = ? "
+						+ "Zipcode = ?" + "Email = ? " + "WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, customer.getFirstName());
@@ -52,8 +54,9 @@ public class CustomerDb {
 			ps.setString(4, customer.getAddress2());
 			ps.setString(5, customer.getCity());
 			ps.setString(6, customer.getState());
-			ps.setString(7, customer.getEmail());
-			ps.setInt(8, customer.getId());
+			ps.setInt(7, customer.getZipcode());
+			ps.setString(8, customer.getEmail());
+			ps.setInt(9, customer.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,6 +93,7 @@ public class CustomerDb {
 				customer.setAddress2(rs.getString("Address2"));
 				customer.setCity(rs.getString("City"));
 				customer.setState(rs.getString("State"));
+				customer.setZipcode(rs.getInt("Zipcode"));
 				customer.setEmail(rs.getString("Email"));
 
 			}

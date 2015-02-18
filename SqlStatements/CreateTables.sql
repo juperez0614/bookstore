@@ -13,7 +13,9 @@ CREATE table Book (
 	Id INT NOT NULL auto_increment, 
     ISBN INT NULL, 
     Price double NULL, 
-    Summary nVarChar(250), 
+    Summary nVarChar(250),
+    Title nVarChar(100),
+    Genre nVarChar(100),
     PRIMARY KEY (Id)
 );
 
@@ -46,13 +48,11 @@ CREATE Table Publisher (
     State nVarChar(2) NULL, 
     Phone nVarChar(12) NULL, 
     PointOfContact nVarChar(50) NULL, 
-    BookId INT NOT NULL, 
-    
-    Primary Key(Id),
-    FOREIGN KEY (BookId) REFERENCES Book(Id)
 
+    Primary Key(Id)
 );
-CREATE Table UserTbl (
+
+CREATE Table UserAuth (
 	Id INT NOT NULL auto_increment, 
     UserPassword nVarChar(50) NOT NULL, 
     
@@ -66,7 +66,7 @@ CREATE Table UserRole (
     UserId INT NOT NULL, 
     
     PRIMARY KEY (Id), 
-    FOREIGN KEY (UserId) REFERENCES UserTbl(Id)
+    FOREIGN KEY (UserId) REFERENCES UserAuth(Id)
 
 );
 CREATE TABLE Customer(
@@ -88,7 +88,6 @@ CREATE TABLE Customer(
 
 CREATE Table Invoice (
 	Id INT NOT NULL auto_increment, 
-    BookId INT NOT NULL, 
     CustomerId INT NOT NULL, 
     PaymentType nVarChar(50) NULL, 
     TransactionDate DATE NULL, 
@@ -96,7 +95,6 @@ CREATE Table Invoice (
     IsProcessed BOOLEAN NULL, 
     
     PRIMARY KEY(Id),
-     FOREIGN KEY (BookId) REFERENCES Book(Id), 
     FOREIGN KEY (CustomerId) REFERENCES customer(Id)
 
 ); 
@@ -104,11 +102,8 @@ CREATE Table Invoice (
 CREATE Table LineItem (
 	Id INT NOT NULL auto_increment, 
     BookId INT NOT NULL, 
-    InvoiceId INT NOT NULL, 
     Quantity INT NULL, 
     
     PRIMARY KEY (Id), 
-    FOREIGN KEY (BookId) REFERENCES Book(Id), 
-    FOREIGN KEY (InvoiceId) REFERENCES Invoice(Id)
-
+    FOREIGN KEY (BookId) REFERENCES Book(Id)
 );

@@ -10,20 +10,22 @@ public class Customer implements Serializable {
 	private String address;
 	private String address2; 
 	private String city;
-	private String state; 
+	private String state;
+	private int zipcode;
 	private String email; 
 	private int userId;
 	
 	public Customer(){}
 	
 	public Customer (String firstName, String lastName, String address,
-			String address2, String city, String state, String email, int userId){
+			String address2, String city, String state, int zipcode, String email, int userId){
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.address = address; 
 		this.address2 = address2; 
 		this.city = city; 
-		this.state = state; 
+		this.state = state;
+		this.zipcode = zipcode;
 		this.email = email;
 		this.userId = userId;
 	}
@@ -83,6 +85,14 @@ public class Customer implements Serializable {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public int getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(int zipcode) {
+		this.zipcode = zipcode;
 	}
 
 	public String getEmail() {

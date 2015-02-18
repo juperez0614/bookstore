@@ -1,6 +1,9 @@
 package bs.dataaccess;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import bs.models.Book;
 
 public class BookDb {
@@ -119,5 +122,38 @@ public class BookDb {
 			}
 		}
 	}
+	
+	
+	public static List<Book> getBookByPrice(double price) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Book> toReturn = null;
 
+		String query = "SELECT * FROM Book" + " WHERE Price <= ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setDouble(1, price);
+			rs = ps.executeQuery();
+
+			Book book = null;
+			toReturn = new ArrayList<Book>();
+			while (rs.next()) {
+				book = new Book();
+				book= getBook(rs.getInt("Id"));
+				toReturn.add(book);
+			}
+			return toReturn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

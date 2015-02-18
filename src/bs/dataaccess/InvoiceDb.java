@@ -7,12 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bs.models.Author;
 import bs.models.Invoice;
-import bs.models.LineItem;
 
 public class InvoiceDb {
-	public static Invoice createInvoice(Invoice invoice){
+	public static Invoice createInvoice(Invoice invoice) {
 		Connection conn = DBUtil.connectToDb();
 
 		PreparedStatement ps = null;
@@ -20,11 +18,10 @@ public class InvoiceDb {
 		String query = "INSERT INTO Invoice  (CustomerId, paymentType, "
 				+ "transactionDate, totalAmount, isProcessed)"
 				+ " VALUES (?, ?, ?, ?, ?)";
-		
-		
+
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1,invoice.getCustomer().getId());
+			ps.setInt(1, invoice.getCustomer().getId());
 			ps.setString(2, invoice.getPaymentType());
 			ps.setDate(3, invoice.getTransactionDate());
 			ps.setDouble(4, invoice.getTotalAmount());
@@ -41,18 +38,17 @@ public class InvoiceDb {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return invoice;
 	}
-	
+
 	public static Invoice updateInvoice(Invoice invoice) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
 		String query = "UPDATE Invoice SET " + "Customer = ?, "
 				+ "PaymentType = ?, " + "TransactionDate = ?, "
-						+ "TotalAmount = ?, " + "isProcessed = ? " 
-						+ "WHERE Id = ?";
+				+ "TotalAmount = ?, " + "isProcessed = ? " + "WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, invoice.getCustomer().getId());
@@ -75,23 +71,23 @@ public class InvoiceDb {
 		}
 		return invoice;
 	}
-	
-	public static List<Invoice> selectUnprocessedInvoices(){
+
+	public static List<Invoice> selectUnprocessedInvoices() {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String query = "Select * From Invoice " 
-						+ "WHERE isProcessed = "+ false;
+		String query = "Select * From Invoice " + "WHERE isProcessed = "
+				+ false;
 		List<Invoice> invList = new ArrayList<Invoice>();
-		
-		try{
+
+		try {
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
-			while(rs.next()){
+			while (rs.next()) {
 				Invoice i = InvoiceDb.getInvoice(rs.getInt("Id"));
 				invList.add(i);
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -105,9 +101,8 @@ public class InvoiceDb {
 		}
 		return invList;
 	}
-		
-	
-	public static Invoice getInvoice(int id){
+
+	public static Invoice getInvoice(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -122,7 +117,8 @@ public class InvoiceDb {
 			if (rs.next()) {
 				invoice = new Invoice();
 				invoice.setId(rs.getInt("Id"));
-				invoice.setCustomer(CustomerDb.getCustomer(rs.getInt("CustomerId")));
+				invoice.setCustomer(CustomerDb.getCustomer(rs
+						.getInt("CustomerId")));
 				invoice.setPaymentType(rs.getString("PaymentType"));
 				invoice.setTransactionDate(rs.getDate("TransactionDate"));
 				invoice.setTotalAmount(rs.getDouble("TotalAmount"));
@@ -143,5 +139,5 @@ public class InvoiceDb {
 			}
 		}
 	}
-	
+
 }

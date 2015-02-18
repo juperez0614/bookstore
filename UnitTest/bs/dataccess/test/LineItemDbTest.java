@@ -13,7 +13,7 @@ public class LineItemDbTest {
 		Book b = new Book(01, 19.99, "sum", "a");
 		i.setBook(b);
 		i.setQuantity(2);
-		Invoice ic = new Invoice(); 
+		//nvoice ic = new Invoice(); 
 	}
 
 	@Test

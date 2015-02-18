@@ -14,13 +14,12 @@ public class Publisher implements Serializable {
 	private int zipCode; 
 	private String phone; 
 	private String pointOfContact;
-	private int bookId; 
+
 	
 	public Publisher(){}
 	
-	public Publisher (int id,String companyName, String address, String address2, String city, 
-			String state, int zipCode, String phone, String pointOfContact, int bookId){
-		this.id = id;
+	public Publisher (String companyName, String address, String address2, String city, 
+			String state, int zipCode, String phone, String pointOfContact){
 		this.companyName = companyName; 
 		this.address = address; 
 		this.address2 = address2; 
@@ -29,7 +28,6 @@ public class Publisher implements Serializable {
 		this.zipCode = zipCode; 
 		this.phone = phone; 
 		this.pointOfContact = pointOfContact; 
-		this.bookId = bookId; 
 	}
 
 	public int getId() {
@@ -104,11 +102,4 @@ public class Publisher implements Serializable {
 		this.pointOfContact = pointOfContact;
 	}
 
-	public int getBookId() {
-		return bookId;
-	}
-
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
-	}
 }

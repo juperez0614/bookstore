@@ -1,6 +1,7 @@
 package bs.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Book implements Serializable {
 	private static final long serialVersionUID = 3L;
@@ -9,6 +10,10 @@ public class Book implements Serializable {
 	private double price; 
 	private String summary; 
 	private String title;
+	private String genre;
+	private Publisher publisher; 
+	private List<Author> authorList; //in case of multiple authors
+	private List<Rating> ratingList;
 	
 	public Book(){}
 	
@@ -57,5 +62,37 @@ public class Book implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	public List<Author> getAuthorList() {
+		return authorList;
+	}
+
+	public void setAuthorList(List<Author> authorList) {
+		this.authorList = authorList;
+	}
+
+	public List<Rating> getRatingList() {
+		return ratingList;
+	}
+
+	public void setRatingList(List<Rating> ratingList) {
+		this.ratingList = ratingList;
 	}
 }

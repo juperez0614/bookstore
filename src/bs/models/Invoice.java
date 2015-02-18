@@ -8,29 +8,21 @@ public class Invoice implements Serializable {
 	private static final long serialVersionUID = 4L;
 	private int id;
 	private Customer customer;
-	private String paymentType; 
+	private String paymentType;
 	private Date transactionDate;
-	private double totalAmount; 
-	private boolean isProcessed; 
+	private double totalAmount;
+	private boolean isProcessed;
 	private List<LineItem> lineItems;
-	
-	public List<LineItem> getLineItems() {
-		return lineItems;
+
+	public Invoice() {
 	}
 
-	public void setLineItems(List<LineItem> lineItems) {
-		this.lineItems = lineItems;
-	}
-
-
-	public Invoice(){}
-	
-	public Invoice ( String paymentType, Date transactionDate,
-			double totalAmount, boolean isProcessed){ 
+	public Invoice(String paymentType, Date transactionDate,
+			double totalAmount, boolean isProcessed) {
 		this.paymentType = paymentType;
 		this.transactionDate = transactionDate;
-		this.totalAmount = totalAmount; 
-		this.isProcessed = isProcessed; 
+		this.totalAmount = totalAmount;
+		this.isProcessed = isProcessed;
 	}
 
 	public int getId() {
@@ -79,5 +71,13 @@ public class Invoice implements Serializable {
 
 	public void setProcessed(boolean isProcessed) {
 		this.isProcessed = isProcessed;
+	}
+
+	public List<LineItem> getLineItems() {
+		return lineItems;
+	}
+
+	public void setLineItems(List<LineItem> lineItems) {
+		this.lineItems = lineItems;
 	}
 }

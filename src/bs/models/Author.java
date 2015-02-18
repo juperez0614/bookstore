@@ -1,13 +1,15 @@
 package bs.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Author implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id; 
 	private String firstName;
 	private String lastName; 
-	private String biography; 
+	private String biography;
+	private List<Book> bookList;
 	
 	public Author(){}
 	
@@ -47,6 +49,14 @@ public class Author implements Serializable {
 
 	public void setBiography(String biography) {
 		this.biography = biography;
+	}
+
+	public List<Book> getBookList() {
+		return bookList;
+	}
+
+	public void setBookList(List<Book> bookList) {
+		this.bookList = bookList;
 	}
 	
 	
