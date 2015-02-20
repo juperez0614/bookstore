@@ -26,9 +26,9 @@ public class AuthorDbTest {
 
 	@Test
 	public void testGetAuthor_ShouldPass() {
-		Author returnedAuthor = AuthorDb.getAuthor(7);
+		Author returnedAuthor = AuthorDb.getAuthor(3);
 
-		assertEquals(7, returnedAuthor.getId());
+		assertEquals(3, returnedAuthor.getId());
 		assertEquals("Test", returnedAuthor.getFirstName());
 		assertEquals("Test", returnedAuthor.getLastName());
 		assertEquals("Test", returnedAuthor.getBiography());

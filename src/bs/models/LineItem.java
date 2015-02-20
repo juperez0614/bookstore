@@ -3,12 +3,14 @@ package bs.models;
 public class LineItem {
 	private Book book;
 	private int quantity;
+	private Invoice invoice; 
 	
 	public LineItem(){}
 	
-	public LineItem(Book nBookId, int nQuantity){
-		book = nBookId;
-		quantity = nQuantity;
+	public LineItem(Book book, int quantity/*Invoice invoice*/){
+		this.book = book;
+		this.quantity = quantity;
+		//this.invoice = invoice;
 	}
 
 
@@ -26,6 +28,14 @@ public class LineItem {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 	
 

@@ -1,4 +1,4 @@
---Create DATABASE bookstore;
+Create DATABASE bookstore;
 use bookstore;
 
 CREATE Table  Author (
@@ -69,6 +69,7 @@ CREATE Table UserRole (
     FOREIGN KEY (UserId) REFERENCES UserAuth(Id)
 
 );
+
 CREATE TABLE Customer(
 	Id INT NOT NULL auto_increment, 
     FirstName nVarChar(50) NULL, 
@@ -82,7 +83,7 @@ CREATE TABLE Customer(
     Email nVarChar(50) NULL, 
     
     Primary KEY (Id), 
-    FOREIGN KEY (UserId) REFERENCES UserTbl(Id)
+    FOREIGN KEY (UserId) REFERENCES UserAuth(Id)
 );
 
 
@@ -103,7 +104,9 @@ CREATE Table LineItem (
 	Id INT NOT NULL auto_increment, 
     BookId INT NOT NULL, 
     Quantity INT NULL, 
+    InvoiceId INT NOT NULL,
     
     PRIMARY KEY (Id), 
-    FOREIGN KEY (BookId) REFERENCES Book(Id)
+    FOREIGN KEY (BookId) REFERENCES Book(Id), 
+    FOREIGN KEY (InvoiceId) REFERENCES Invoice(Id)
 );

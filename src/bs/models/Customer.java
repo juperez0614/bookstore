@@ -14,6 +14,7 @@ public class Customer implements Serializable {
 	private int zipcode;
 	private String email; 
 	private int userId;
+	private String password;
 	
 	public Customer(){}
 	
@@ -108,5 +109,13 @@ public class Customer implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

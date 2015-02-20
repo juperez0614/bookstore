@@ -1,6 +1,7 @@
 package bs.dataaccess;
 
 import java.sql.*;
+
 import bs.models.Customer;
 
 public class CustomerDb {
@@ -10,11 +11,16 @@ public class CustomerDb {
 
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Customer (firstName, lastName, Address, "
-				+ "Address2, City, State, Zipcode, Email)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO customer (FirstName, LastName, Address, "
+				+ "Address2, City, State, ZipCode, UserId, Email)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		
 		try {
 			ps = conn.prepareStatement(query);
+			if(ps != null){
+				System.out.println("scc");
+			}
 			ps.setString(1, customer.getFirstName());
 			ps.setString(2, customer.getLastName());
 			ps.setString(3, customer.getAddress());
@@ -22,7 +28,8 @@ public class CustomerDb {
 			ps.setString(5, customer.getCity());
 			ps.setString(6, customer.getState());
 			ps.setInt(7, customer.getZipcode());
-			ps.setString(8, customer.getEmail());
+			ps.setInt(8, customer.getUserId());
+			ps.setString(9, customer.getEmail());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -42,10 +49,11 @@ public class CustomerDb {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "UPDATE Book SET " + "firstName = ?, "
-				+ "lastName = ?, " + "Address = ? " + "Address2 = ? "
-				+ "City = ? " + "State = ? "
-						+ "Zipcode = ?" + "Email = ? " + "WHERE Id = ?";
+		String query = "UPDATE Customer SET " + "firstName = ?, "
+				+ "lastName = ?, " + "Address = ?, " + "Address2 = ?, "
+				+ "City = ?, " + "State = ?, "
+						+ "Zipcode = ?, " + "Email = ? " + "WHERE Id = ?";
+		
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, customer.getFirstName());
@@ -133,5 +141,33 @@ public class CustomerDb {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static int emailExists(String email){
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String query = "Select * FROM Customer" + " WHERE email = ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, email);
+
+			rs = ps.executeQuery();
+			
+			if (rs.next()){
+				return rs.getInt("Id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
 	}
 }

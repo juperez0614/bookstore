@@ -7,18 +7,18 @@ import java.util.List;
 import bs.models.*;
 
 public class LineItemDb {
-
 	public static LineItem createLineItem(LineItem lineItem, Invoice invoice){
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null; 
-		String query = "INSERT INTO LineItem (InvoiceId, BookId, Quantity "
-				+ ")"
+		String query = "INSERT INTO lineitem (BookId, Quantity, InvoiceId)"
 				+ " VALUES (?, ?, ?)";
+		
 		try{
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, invoice.getId());
-			ps.setInt(2, lineItem.getBook().getId());
-			ps.setInt(3, lineItem.getQuantity());
+			ps.setInt(1, lineItem.getBook().getId());
+			ps.setInt(2, lineItem.getQuantity());
+			ps.setInt(3, invoice.getId());
+			ps.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
 			return null;
