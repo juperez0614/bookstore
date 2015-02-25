@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bs.dataaccess.CustomerDb;
+import bs.dataaccess.UserAuthDb;
 import bs.models.Customer;
 
 /**
@@ -44,15 +45,17 @@ public class CustomerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("insertCust");
-		
+		String username = (String) request.getSession().getAttribute("username");
+		System.out.println(username);
 		String Url = "";
 
 		if (action.equals("addCustomer")) {
-			Url = createCustomerAccount(request, response);
+			Url = createCustomerAccount(request, response, username);
 		}
+		
 	}
 	
-	private String createCustomerAccount(HttpServletRequest request, HttpServletResponse response){
+	private String createCustomerAccount(HttpServletRequest request, HttpServletResponse response, String username){
 		HttpSession session = request.getSession();
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
@@ -63,8 +66,9 @@ public class CustomerServlet extends HttpServlet {
 		String zipcode = request.getParameter("zipcode");
 		String email = request.getParameter("email");
 		
-		Customer customerToAdd = new Customer(firstName, lastName, address, address2, city, state, Integer.parseInt(zipcode), email, 1);
+		Customer customerToAdd = new Customer(firstName, lastName, address, address2, city, state, Integer.parseInt(zipcode), email, UserAuthDb.getUserAuth(username));
 		int idCheck = CustomerDb.emailExists(email);
+		System.out.println(UserAuthDb.getUserAuth(username));
 		System.out.println(idCheck);
 		if (idCheck != 0){ // move to update
 			customerToAdd.setId(idCheck);

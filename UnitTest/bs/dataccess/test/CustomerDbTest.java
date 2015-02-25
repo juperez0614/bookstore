@@ -12,7 +12,7 @@ public class CustomerDbTest {
 	private Customer c; 
 	@Before
 	public void setUp() throws Exception {
-		c = new Customer("test", "test", "test", "test", "test", "tt",1, "test", 1 );
+	//	c = new Customer("test", "test", "test", "test", "test", "tt",1, "test", "" );
 	}
 
 	@Test

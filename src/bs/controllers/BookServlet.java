@@ -26,8 +26,6 @@ public class BookServlet extends HttpServlet {
 	 */
 	public BookServlet() {
 		super();
-		// TODO Auto-generated constructor stub
-
 	}
 
 	/**
@@ -36,7 +34,7 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO implement getBookList 
 
 	}
 
@@ -46,7 +44,7 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		String action = request.getParameter("insertBook");
 
 		String Url = "";
@@ -64,9 +62,9 @@ public class BookServlet extends HttpServlet {
 		String summary = request.getParameter("summary");
 		String price = request.getParameter("price");
 
-		Book bookToAdd = new Book(Integer.parseInt(isbn),  Double.parseDouble(price), summary, title);
+		Book book = new Book(Integer.parseInt(isbn),  Double.parseDouble(price), summary, title);
 
-		BookDb.createBook(bookToAdd);
+		BookDb.createBook(book);
 
 		// session.setAttribute("customer", customerToAdd);
 

@@ -13,13 +13,12 @@ public class Customer implements Serializable {
 	private String state;
 	private int zipcode;
 	private String email; 
-	private int userId;
-	private String password;
+	private UserAuth userName;
 	
 	public Customer(){}
 	
 	public Customer (String firstName, String lastName, String address,
-			String address2, String city, String state, int zipcode, String email, int userId){
+			String address2, String city, String state, int zipcode, String email, UserAuth username){
 		this.firstName = firstName; 
 		this.lastName = lastName; 
 		this.address = address; 
@@ -28,7 +27,7 @@ public class Customer implements Serializable {
 		this.state = state;
 		this.zipcode = zipcode;
 		this.email = email;
-		this.userId = userId;
+		this.userName = username;
 	}
 
 	public int getId() {
@@ -102,20 +101,15 @@ public class Customer implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public UserAuth getUserName() {
+		return userName;
+	}
+
+	public void setUserName(UserAuth userName) {
+		this.userName = userName;
 	}	
-	public int getUserId() {
-		return userId;
-	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
 }

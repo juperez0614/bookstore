@@ -53,20 +53,18 @@ CREATE Table Publisher (
 );
 
 CREATE Table UserAuth (
-	Id INT NOT NULL auto_increment, 
+    Username nVarChar(50) NOT NULL, 
     UserPassword nVarChar(50) NOT NULL, 
     
-    PRIMARY KEY (Id)
+    PRIMARY KEY (Username)
 
 );
 
 CREATE Table UserRole (
-	Id INT NOT NULL auto_increment, 
     Role nVarChar(50), 
-    UserId INT NOT NULL, 
-    
-    PRIMARY KEY (Id), 
-    FOREIGN KEY (UserId) REFERENCES UserAuth(Id)
+    Username nVarChar(50) NOT NULL, 
+     
+    FOREIGN KEY (Username) REFERENCES UserAuth(Username)
 
 );
 
@@ -79,11 +77,11 @@ CREATE TABLE Customer(
     City nVarChar(50) NULL, 
     State nVarChar(2) NULL, 
 	ZipCode INT NULL, 
-    UserId INT NOT NULL, 
+    Username nVarChar(50) NOT NULL, 
     Email nVarChar(50) NULL, 
     
     Primary KEY (Id), 
-    FOREIGN KEY (UserId) REFERENCES UserAuth(Id)
+    FOREIGN KEY (Username) REFERENCES UserAuth(Username)
 );
 
 

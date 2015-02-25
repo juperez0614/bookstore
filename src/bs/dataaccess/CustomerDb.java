@@ -12,7 +12,7 @@ public class CustomerDb {
 		PreparedStatement ps = null;
 
 		String query = "INSERT INTO customer (FirstName, LastName, Address, "
-				+ "Address2, City, State, ZipCode, UserId, Email)"
+				+ "Address2, City, State, ZipCode, Username, Email)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		
@@ -28,7 +28,7 @@ public class CustomerDb {
 			ps.setString(5, customer.getCity());
 			ps.setString(6, customer.getState());
 			ps.setInt(7, customer.getZipcode());
-			ps.setInt(8, customer.getUserId());
+			ps.setString(8, customer.getUserName().getUsername());
 			ps.setString(9, customer.getEmail());
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -52,7 +52,7 @@ public class CustomerDb {
 		String query = "UPDATE Customer SET " + "firstName = ?, "
 				+ "lastName = ?, " + "Address = ?, " + "Address2 = ?, "
 				+ "City = ?, " + "State = ?, "
-						+ "Zipcode = ?, " + "Email = ? " + "WHERE Id = ?";
+						+ "Zipcode = ?, " + "Email = ? " + "WHERE id = ?";
 		
 		try {
 			ps = conn.prepareStatement(query);
