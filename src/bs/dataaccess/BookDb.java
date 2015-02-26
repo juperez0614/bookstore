@@ -124,7 +124,7 @@ public class BookDb {
 	}
 	
 	
-	public static List<Book> getBookByPrice(double price) {
+	public static List<Book> getAllBookByPrice(double price) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;

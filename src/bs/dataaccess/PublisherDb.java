@@ -1,5 +1,9 @@
 package bs.dataaccess;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import bs.models.Publisher;
 import bs.models.Publisher;
 
 public class PublisherDb {
@@ -72,6 +76,45 @@ public class PublisherDb {
 			return publisher;
 		}
 
+		
+		public static List<Publisher> getAll(){
+			Connection conn = DBUtil.connectToDb();
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			List<Publisher> publisherList = new ArrayList<Publisher>();
+
+			String query = "SELECT * FROM Publisher";
+			try {
+				ps = conn.prepareStatement(query);
+				rs = ps.executeQuery();
+
+				Publisher publisher = null; 
+				while (rs.next()) {
+					publisher = new Publisher();
+					publisher.setId(rs.getInt("Id"));
+					publisher.setCompanyName(rs.getString("CompanyName"));
+					publisher.setAddress(rs.getString("Address"));
+					publisher.setAddress2(rs.getString("Address2"));
+					publisher.setCity(rs.getString("City"));
+					publisher.setState(rs.getString("State"));
+					publisher.setZipCode(rs.getInt("Zipcode"));
+					publisher.setPhone(rs.getString("Phone"));
+					publisher.setPointOfContact(rs.getString("PointofContact"));
+					publisherList.add(publisher);
+				}
+				return publisherList;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			} finally {
+				DBUtil.closePreparedStatement(ps);
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		public static Publisher getPublisher(int id) {
 			Connection conn = DBUtil.connectToDb();
 			PreparedStatement ps = null;

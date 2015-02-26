@@ -15,8 +15,11 @@ CREATE table Book (
     Price double NULL, 
     Summary nVarChar(250),
     Title nVarChar(100),
-    Genre nVarChar(100),
-    PRIMARY KEY (Id)
+    GenreId INT NOT NULL,
+    PublisherId INT NOT NULL,
+    PRIMARY KEY (Id), 
+    FOREIGN KEY (GenreId) REFERENCES Genre(Id),
+    FOREIGN KEY (PublisherId) REFERENCES Publisher(Id)
 );
 
 CREATE Table BookAuthor (
@@ -32,9 +35,13 @@ CREATE Table Rating (
 	Id INT NOT NULL auto_increment, 
     Rating INT NULL, 
     Review nVarChar(250) NULL, 
+    BookId INT NOT NULL, 
+    CustomerId INT NOT NULL, 
     
     PRIMARY KEY (Id), 
-    CHECK (Rating > 0 AND Rating <= 5)
+    CHECK (Rating > 0 AND Rating <= 5), 
+    FOREIGN KEY (CustomerId) REFERENCES Customer(Id), 
+    FOREIGN KEY (BookId) REFERENCES Book(Id)
 
 );
 
@@ -108,3 +115,10 @@ CREATE Table LineItem (
     FOREIGN KEY (BookId) REFERENCES Book(Id), 
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(Id)
 );
+
+CREATE Table Genre (
+	Id INT NOT NULL auto_increment, 
+    Genre nVarChar(100) NOT NULL, 
+    Primary Key (Id)
+);
+

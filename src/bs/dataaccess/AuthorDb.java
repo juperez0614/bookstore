@@ -1,8 +1,11 @@
 package bs.dataaccess;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import bs.models.Author;
+
 
 public class AuthorDb {
 
@@ -60,6 +63,40 @@ public class AuthorDb {
 		return author;
 	}
 
+	
+	public static List<Author> getAll(){
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Author> authorList = new ArrayList<Author>();
+
+		String query = "SELECT * FROM Author";
+		try {
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			Author author = null; 
+			while (rs.next()) {
+				author = new Author();
+				author.setId(rs.getInt("Id"));
+				author.setFirstName(rs.getString("firstName"));
+				author.setLastName(rs.getString("LastName"));
+				author.setBiography(rs.getString("Biography"));
+				authorList.add(author);
+			}
+			return authorList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public static Author getAuthor(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
