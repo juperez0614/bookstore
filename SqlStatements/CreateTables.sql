@@ -1,12 +1,67 @@
 Create DATABASE bookstore;
 use bookstore;
 
+
+
+CREATE Table UserAuth (
+    Username nVarChar(50) NOT NULL, 
+    UserPassword nVarChar(50) NOT NULL, 
+    
+    PRIMARY KEY (Username)
+
+);
+
+CREATE Table UserRole (
+    Role nVarChar(50), 
+    Username nVarChar(50) NOT NULL, 
+     
+    FOREIGN KEY (Username) REFERENCES UserAuth(Username)
+
+);
+
 CREATE Table  Author (
 	Id INT NOT NULL auto_increment, 
     FirstName nVarchar(50) NULL, 
     LastName nVarChar(50) NULL, 
     Biography nVarChar(250) NULL, 
     PRIMARY KEY (Id)
+);
+
+CREATE Table Publisher (
+	Id INT NOT NULL auto_increment, 
+	CompanyName nVarChar(50) NULL, 
+    Address nVarChar(50) NULL, 
+    Address2 nVarChar(50) NULL, 
+    City nVarChar(50) NULL, 
+    ZipCode INT NULL, 
+    State nVarChar(2) NULL, 
+    Phone nVarChar(12) NULL, 
+    PointOfContact nVarChar(50) NULL, 
+
+    Primary Key(Id)
+);
+
+
+CREATE TABLE Customer(
+	Id INT NOT NULL auto_increment, 
+    FirstName nVarChar(50) NULL, 
+    LastName nVarChar(50) NULL, 
+    Address nVarChar(50) NULL, 
+    Address2 nVarChar(50) NULL, 
+    City nVarChar(50) NULL, 
+    State nVarChar(2) NULL, 
+	ZipCode INT NULL, 
+    Username nVarChar(50) NOT NULL, 
+    Email nVarChar(50) NULL, 
+    
+    Primary KEY (Id), 
+    FOREIGN KEY (Username) REFERENCES UserAuth(Username)
+);
+
+CREATE Table Genre (
+	Id INT NOT NULL auto_increment, 
+    Genre nVarChar(100) NOT NULL, 
+    Primary Key (Id)
 );
 
 CREATE table Book (
@@ -45,52 +100,6 @@ CREATE Table Rating (
 
 );
 
-CREATE Table Publisher (
-	Id INT NOT NULL auto_increment, 
-	CompanyName nVarChar(50) NULL, 
-    Address nVarChar(50) NULL, 
-    Address2 nVarChar(50) NULL, 
-    City nVarChar(50) NULL, 
-    ZipCode INT NULL, 
-    State nVarChar(2) NULL, 
-    Phone nVarChar(12) NULL, 
-    PointOfContact nVarChar(50) NULL, 
-
-    Primary Key(Id)
-);
-
-CREATE Table UserAuth (
-    Username nVarChar(50) NOT NULL, 
-    UserPassword nVarChar(50) NOT NULL, 
-    
-    PRIMARY KEY (Username)
-
-);
-
-CREATE Table UserRole (
-    Role nVarChar(50), 
-    Username nVarChar(50) NOT NULL, 
-     
-    FOREIGN KEY (Username) REFERENCES UserAuth(Username)
-
-);
-
-CREATE TABLE Customer(
-	Id INT NOT NULL auto_increment, 
-    FirstName nVarChar(50) NULL, 
-    LastName nVarChar(50) NULL, 
-    Address nVarChar(50) NULL, 
-    Address2 nVarChar(50) NULL, 
-    City nVarChar(50) NULL, 
-    State nVarChar(2) NULL, 
-	ZipCode INT NULL, 
-    Username nVarChar(50) NOT NULL, 
-    Email nVarChar(50) NULL, 
-    
-    Primary KEY (Id), 
-    FOREIGN KEY (Username) REFERENCES UserAuth(Username)
-);
-
 
 CREATE Table Invoice (
 	Id INT NOT NULL auto_increment, 
@@ -116,9 +125,5 @@ CREATE Table LineItem (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(Id)
 );
 
-CREATE Table Genre (
-	Id INT NOT NULL auto_increment, 
-    Genre nVarChar(100) NOT NULL, 
-    Primary Key (Id)
-);
+
 
