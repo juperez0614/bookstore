@@ -125,5 +125,18 @@ CREATE Table LineItem (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(Id)
 );
 
+CREATE Table WeeklyProfits(
+	WeekId INT NOT NULL auto_increment, 
+    TotalProfit double NOT NULL, 
+    PRIMARY KEY (WeekId)
+
+);
+
+Create Table MonthlyProfits(
+	MonthId INT NOT NULL auto_increment, 
+    TotalProfit double NOT NULL, 
+    PRIMARY KEY (MonthId)
+);
+
 
 

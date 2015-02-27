@@ -12,3 +12,4 @@ join book on book.id = lineItem.BookId
 Group By bookid
 order by sum(quantity) desc limit 5;
 
+
