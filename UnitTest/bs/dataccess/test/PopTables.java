@@ -46,7 +46,7 @@ public class PopTables {
 		pArray[0] = new Publisher("GoodBooks", "123 Candycane Ln", "Seattle", "WA", 98110, "808-719-3232", "Kaleb McGraw");
 		pArray[1] = new Publisher("BadBooks", "123 Candycane Ln", "Seattle", "WA", 98110, "426-736-3232", "John Outlaw");
 		pArray[2] = new Publisher("GreatBooks", "123 Candycane Ln", "Seattle", "WA", 98110, "405-789-3232", "Michael Phelps");
-		pArray[3] = new Publisher("BetterBooks", "", "Seattle", "WA", 98110, "808-779-3232", "Jesus Martinez");
+		pArray[3] = new Publisher("BetterBooks", "444 kiddycorner st", "Seattle", "WA", 98110, "808-779-3232", "Jesus Martinez");
 		pArray[4] = new Publisher("BestBooks", "999 Champion Ave", "Seattle", "WA", 98110, "808-732-3232", "Chris Crater");
 		pArray[5] = new Publisher("GreaterBooks", "321 Candycorn Ln", "Nashville", "TN", 32101, "808-766-3232", "Gumbo Jenkins");
 		pArray[6] = new Publisher("ExtremeBooks", "123 Skyhigh Tr", "Seattle", "WA", 98110, "305-719-3223", "Leroy Hilliford");
