@@ -44,5 +44,4 @@ public class RatingDbTest {
 		
 		assertEquals(1, result);
 	}
-
 }

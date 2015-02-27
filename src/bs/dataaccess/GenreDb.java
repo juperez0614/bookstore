@@ -98,6 +98,8 @@ public class GenreDb {
 			}
 		}
 	}
+	
+	
 
 	public static int deleteGenre(Genre genre) {
 		Connection conn = DBUtil.connectToDb();

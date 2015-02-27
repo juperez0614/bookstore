@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bs.models.Rating;
 
@@ -68,6 +70,41 @@ public class RatingDb {
 		}
 	}
 
+	
+	public static List<Rating> getAllRatingByBook(int id) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Rating> ratingList =  new ArrayList<Rating>();
+
+		String query = "SELECT * FROM Rating" + " WHERE bookId = ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			Rating rating = null;
+			while (rs.next()) {
+				rating = new Rating();
+				rating.setId(rs.getInt("Id"));
+				rating.setRating(rs.getInt("Rating"));
+				rating.setReview(rs.getString("Review"));
+				ratingList.add(rating);
+			}
+			return ratingList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static int deleteRating(Rating rating) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;

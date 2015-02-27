@@ -1,6 +1,9 @@
 package bs.dataaccess;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,8 +85,11 @@ public class BookDb {
 				book.setISBN(rs.getInt("ISBN"));
 				book.setPrice(rs.getDouble("Price"));
 				book.setTitle(rs.getString("Title"));
-				;
 				book.setSummary(rs.getString("Summary"));
+				book.setGenre(GenreDb.getGenre(rs.getInt("genreId")));
+				book.setPublisher(PublisherDb.getPublisher(rs.getInt("publisherid")));
+				book.setAuthorList(BookAuthorDb.getAuthorByBook(rs.getInt("Id")));
+				book.setRatingList(RatingDb.getAllRatingByBook(book.getId()));
 			}
 			return book;
 		} catch (SQLException e) {
@@ -144,6 +150,41 @@ public class BookDb {
 				toReturn.add(book);
 			}
 			return toReturn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static List<Book> getBookByGenre(String key) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Book> bookList = new ArrayList<Book>(); 
+
+		String query = "SELECT * FROM book "
+				+ "inner join genre on book.genreid = genre.id" + ""
+						+ " WHERE genre.genre = ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, key);
+			rs = ps.executeQuery();
+
+			Book book = null;
+			while (rs.next()) {
+				book = new Book();
+				book = getBook(rs.getInt("Id"));
+				bookList.add(book);
+				
+			}
+			return bookList; 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

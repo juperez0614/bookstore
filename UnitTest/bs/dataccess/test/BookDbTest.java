@@ -1,11 +1,15 @@
 package bs.dataccess.test;
 
-import static org.junit.Assert.*;
-import bs.models.*;
-import bs.dataaccess.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import bs.dataaccess.BookDb;
+import bs.models.Book;
 
 public class BookDbTest {
 	Book b; 
@@ -14,7 +18,7 @@ public class BookDbTest {
 		b = new Book(123456789, 19.99,"Test sum", "Title test");
 	}
 
-	@Test
+	/*@Test
 	public void testCreateBook() {
 		Book returnedBook = BookDb.createBook(b);
 		
@@ -57,6 +61,17 @@ public class BookDbTest {
 		int result = BookDb.deleteBook(book);
 		
 		assertEquals(1, result);
+	}*/
+	
+	@Test 
+	public void testGetBookByGenre(){
+		List<Book> bList = new ArrayList<Book>();
+		bList = BookDb.getBookByGenre("Suspense");
+		
+		assertEquals(1, bList.size());
+		assertEquals(3, bList.get(0).getAuthorList().size());
+		assertEquals("John", bList.get(0).getAuthorList().get(0).getFirstName());
+		assertEquals(3, bList.get(0).getRatingList().size());
 	}
 
 }
