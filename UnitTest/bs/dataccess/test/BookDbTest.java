@@ -66,12 +66,20 @@ public class BookDbTest {
 	@Test 
 	public void testGetBookByGenre(){
 		List<Book> bList = new ArrayList<Book>();
-		bList = BookDb.getBookByGenre("Suspense");
+		bList = BookDb.getBookByGenre("sus");
 		
 		assertEquals(1, bList.size());
 		assertEquals(3, bList.get(0).getAuthorList().size());
 		assertEquals("John", bList.get(0).getAuthorList().get(0).getFirstName());
 		assertEquals(3, bList.get(0).getRatingList().size());
+	}
+	
+	@Test 
+	public void testGetBooks(){
+		List<Book> bList = new ArrayList<Book>();
+		bList = BookDb.getAllBooks();	
+		assertEquals(10, bList.size());
+		
 	}
 
 }

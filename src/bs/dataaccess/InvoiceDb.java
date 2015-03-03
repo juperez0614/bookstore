@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +15,24 @@ public class InvoiceDb {
 		Connection conn = DBUtil.connectToDb();
 
 		PreparedStatement ps = null;
+		ResultSet rs = null;
 
 		String query = "INSERT INTO Invoice  (CustomerId, paymentType, "
 				+ "transactionDate, totalAmount, isProcessed)"
 				+ " VALUES (?, ?, ?, ?, ?)";
 
 		try {
-			ps = conn.prepareStatement(query);
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, invoice.getCustomer().getId());
 			ps.setString(2, invoice.getPaymentType());
 			ps.setDate(3, invoice.getTransactionDate());
 			ps.setDouble(4, invoice.getTotalAmount());
 			ps.setBoolean(5, invoice.isProcessed());
 			ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			if(rs.next()){
+				invoice.setId(rs.getInt(1));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

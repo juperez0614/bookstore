@@ -1,6 +1,10 @@
 package bs.models;
 
-public class Rating {
+import java.io.Serializable;
+
+public class Rating implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int rating;
 	private String review;

@@ -17,10 +17,7 @@ public class CustomerDb {
 		
 		
 		try {
-			ps = conn.prepareStatement(query);
-			if(ps != null){
-				System.out.println("scc");
-			}
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, customer.getFirstName());
 			ps.setString(2, customer.getLastName());
 			ps.setString(3, customer.getAddress());
@@ -31,6 +28,10 @@ public class CustomerDb {
 			ps.setString(8, customer.getUserName().getUsername());
 			ps.setString(9, customer.getEmail());
 			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()){
+				customer.setId(rs.getInt(1));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -119,6 +120,47 @@ public class CustomerDb {
 		}
 	}
 
+	
+	public static Customer getCustomerByUsername(String username) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String query = "SELECT * FROM Customer" + " WHERE username = ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+
+			Customer customer = null;
+			if (rs.next()) {
+				customer = new Customer();
+				customer.setId(rs.getInt("Id"));
+				customer.setFirstName(rs.getString("firstName"));
+				customer.setLastName(rs.getString("lastName"));
+				customer.setAddress(rs.getString("Address"));
+				customer.setAddress2(rs.getString("Address2"));
+				customer.setCity(rs.getString("City"));
+				customer.setState(rs.getString("State"));
+				customer.setZipcode(rs.getInt("Zipcode"));
+				customer.setEmail(rs.getString("Email"));
+
+			}
+			return customer;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public static int deleteCustomer(Customer customer) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;

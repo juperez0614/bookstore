@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <jsp:useBean id="author" class="bs.models.Author" scope="request" />
+   <%--  <jsp:useBean id="author" class="bs.models.Author" scope="request" /> --%>
 <!DOCTYPE html>
 <html>
 <head>

@@ -11,8 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import bs.dataaccess.CustomerDb;
 import bs.dataaccess.UserAuthDb;
+import bs.dataaccess.UserRoleDb;
 import bs.models.Customer;
 import bs.models.UserAuth;
+import bs.models.UserRole;
 
 /**
  * Servlet implementation class UserAuthServlet
@@ -47,7 +49,30 @@ public class UserAuthServlet extends HttpServlet {
 		if (action.equals("usercred")) {
 			Url = createUserAccount(request, response);
 		}
-		response.sendRedirect("AccountManagement.jsp");
+		else if(action.equals("login")){
+			Url = loginUserAccount(request, response);
+		}
+		response.sendRedirect(Url);
+		
+	}
+
+	private String loginUserAccount(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+		UserAuth returned = UserAuthDb.getUserAuth((String)request.getParameter("username"));
+		if(returned != null){
+			request.getSession().setAttribute("userauth", returned);
+			UserRole userType = UserRoleDb.getUserRole(returned.getUsername());
+			request.getSession().setAttribute("userrole", userType);
+			Customer cReturned = CustomerDb.getCustomerByUsername(returned.getUsername());
+			request.getSession().setAttribute("customer", cReturned);
+			return "index.jsp";
+		}
+		else
+		{
+			return null; //TODO: redirect to error page ask to fix
+		}
 		
 	}
 
@@ -63,7 +88,8 @@ public class UserAuthServlet extends HttpServlet {
 		request.getSession().setAttribute("username", userToAdd.getUsername());
 		this.getServletConfig().getServletContext().setAttribute("username", userToAdd.getUsername());
 		
-		return "/customer/AccountManagement.jsp";
+		
+		return "AccountManagement.jsp";
 
 	}
 	

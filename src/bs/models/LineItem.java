@@ -7,8 +7,8 @@ public class LineItem {
 	
 	public LineItem(){}
 	
-	public LineItem(Book book, int quantity/*Invoice invoice*/){
-		this.book = book;
+	public LineItem(Book book2, int quantity/*Invoice invoice*/){
+		this.book = book2;
 		this.quantity = quantity;
 		//this.invoice = invoice;
 	}

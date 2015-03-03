@@ -45,17 +45,21 @@ public class CustomerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("insertCust");
-		String username = (String) request.getSession().getAttribute("username");
+		String username = (String) request.getSession()
+				.getAttribute("username");
 		System.out.println(username);
 		String Url = "";
 
 		if (action.equals("addCustomer")) {
 			Url = createCustomerAccount(request, response, username);
 		}
-		
+
+		response.sendRedirect(Url);
+
 	}
-	
-	private String createCustomerAccount(HttpServletRequest request, HttpServletResponse response, String username){
+
+	private String createCustomerAccount(HttpServletRequest request,
+			HttpServletResponse response, String username) {
 		HttpSession session = request.getSession();
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
@@ -65,22 +69,24 @@ public class CustomerServlet extends HttpServlet {
 		String state = request.getParameter("state");
 		String zipcode = request.getParameter("zipcode");
 		String email = request.getParameter("email");
-		
-		Customer customerToAdd = new Customer(firstName, lastName, address, address2, city, state, Integer.parseInt(zipcode), email, UserAuthDb.getUserAuth(username));
+
+		Customer customerToAdd = new Customer(firstName, lastName, address,
+				address2, city, state, Integer.parseInt(zipcode), email,
+				UserAuthDb.getUserAuth(username));
 		int idCheck = CustomerDb.emailExists(email);
+		Customer returned = new Customer();
 		System.out.println(UserAuthDb.getUserAuth(username));
 		System.out.println(idCheck);
-		if (idCheck != 0){ // move to update
+		if (idCheck != 0) { // move to update
 			customerToAdd.setId(idCheck);
-			CustomerDb.updateCustomer(customerToAdd);
+			returned = CustomerDb.updateCustomer(customerToAdd);
+		} else { // move to create new user
+			returned = CustomerDb.createCustomer(customerToAdd);
+			System.out.println("name returned id: " + returned.getFirstName());
 		}
-		else { // move to create new user
-			CustomerDb.createCustomer(customerToAdd);
-		}
-		
-		
-		session.setAttribute("customer", customerToAdd);
-		
-		return "addAccount.jsp";
+
+		session.setAttribute("customer", returned);
+
+		return "index.jsp";
 	}
 }

@@ -170,11 +170,12 @@ public class BookDb {
 		List<Book> bookList = new ArrayList<Book>(); 
 
 		String query = "SELECT * FROM book "
-				+ "inner join genre on book.genreid = genre.id" + ""
-						+ " WHERE genre.genre = ?";
+				+ "inner join genre on book.genreid = genre.id"
+						+ " WHERE genre.genre LIKE ?";
+		
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setString(1, key);
+			ps.setString(1, "%" + key + "%");
 			rs = ps.executeQuery();
 
 			Book book = null;
@@ -198,6 +199,36 @@ public class BookDb {
 		}
 	}
 	
-	
+	public static List<Book> getAllBooks() {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Book> bookList = new ArrayList<Book>(); 
+
+		String query = "SELECT * FROM book ";
+		try {
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			Book book = null;
+			while (rs.next()) {
+				book = new Book();
+				book = getBook(rs.getInt("Id"));
+				bookList.add(book);
+				
+			}
+			return bookList; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 }
