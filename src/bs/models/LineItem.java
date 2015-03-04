@@ -1,19 +1,28 @@
 package bs.models;
 
-public class LineItem {
+import java.io.Serializable;
+
+public class LineItem implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Book book;
 	private int quantity;
 	private Invoice invoice; 
+	private int id;
 	
 	public LineItem(){}
 	
-	public LineItem(Book book2, int quantity/*Invoice invoice*/){
+	public LineItem(Book book2, int quantity){
 		this.book = book2;
-		this.quantity = quantity;
-		//this.invoice = invoice;
+		this.quantity = quantity; 
+		
 	}
 
-
+	public LineItem(Book book2, int quantity, int id){
+		this.book = book2;
+		this.quantity = quantity; 
+		this.id = id; 
+	}
 	public Book getBook() {
 		return book;
 	}
@@ -36,6 +45,14 @@ public class LineItem {
 
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 

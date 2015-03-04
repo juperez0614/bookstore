@@ -38,6 +38,7 @@ public class InvoiceDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -52,7 +53,7 @@ public class InvoiceDb {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "UPDATE Invoice SET " + "Customer = ?, "
+		String query = "UPDATE Invoice SET " + "CustomerId = ?, "
 				+ "PaymentType = ?, " + "TransactionDate = ?, "
 				+ "TotalAmount = ?, " + "isProcessed = ? " + "WHERE Id = ?";
 		try {

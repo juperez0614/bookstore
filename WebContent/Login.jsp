@@ -17,5 +17,10 @@
 	<br/>
 	<input value="Create User Account" type="submit" />
 </form>
+<script>
+if(document.getElementById('username').value==""){
+		document.getElementById("username").focus(); 
+	}
+</script>
 </body>
 </html>

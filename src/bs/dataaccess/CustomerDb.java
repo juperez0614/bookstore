@@ -10,6 +10,7 @@ public class CustomerDb {
 		Connection conn = DBUtil.connectToDb();
 
 		PreparedStatement ps = null;
+		ResultSet rs = null; 
 
 		String query = "INSERT INTO customer (FirstName, LastName, Address, "
 				+ "Address2, City, State, ZipCode, Username, Email)"
@@ -28,7 +29,7 @@ public class CustomerDb {
 			ps.setString(8, customer.getUserName().getUsername());
 			ps.setString(9, customer.getEmail());
 			ps.executeUpdate();
-			ResultSet rs = ps.getGeneratedKeys();
+			rs = ps.getGeneratedKeys();
 			if(rs.next()){
 				customer.setId(rs.getInt(1));
 			}
@@ -37,6 +38,7 @@ public class CustomerDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {

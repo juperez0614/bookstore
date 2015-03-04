@@ -28,7 +28,7 @@ public class LineItemDbTest {
 		list = new ArrayList<LineItem>();
 	}
 
-	@Test
+	/*@Test
 	public void testCreateLineItem() {
 		l.setBook(BookDb.getBook(1));
 		l.setQuantity(2);
@@ -51,6 +51,15 @@ public class LineItemDbTest {
 		
 		assertEquals(4, list.size());
 		assertEquals(123456789, list.get(0).getBook().getISBN());
+	}*/
+	
+	@Test
+	public void testGetItem() {
+		
+		LineItem i =  LineItemDb.getLineItem(1);
+		
+		assertEquals(1, i.getId());
+		assertEquals(1, i.getBook().getId());
 	}
 
 }

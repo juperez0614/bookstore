@@ -24,10 +24,24 @@
 				<td>${rating.rating }</td>
 				<td>${rating.review }</td>
 			</c:forEach>
+			<td>
 		</tr>
 	</table>
 	<form action="CartServlet" method="POST">
+	<input type="hidden" name="manageLineItem" value="addToCart" />
+	<input type="text" name="quantity" value="1"
+				onkeypress="return isNumber(event)" placeholder="Enter a Quantity" />
 		<input type="submit" value="puchase" />
 	</form>
+	<script>
+	function isNumber(evt) {
+	    evt = (evt) ? evt : window.event;
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+	    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    return true;
+	}
+	</script>
 </body>
 </html>

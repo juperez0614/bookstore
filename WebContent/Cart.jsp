@@ -13,8 +13,28 @@
 		<tr>
 			<c:forEach var="line" items="${cart.lineItems }">
 				<td>${line.book.title}</td>
+				<form action="CartServlet" method="POST">
+				<input type="text" name="invoiceId" value="${Invoice.id }"/>
+				<input type="hidden" name="lineId" value="${line.id }"/>
+					<input type="text" name="quantity" value="${line.quantity}"
+						onkeypress="return isNumber(event)"/>
+					<input type="submit" name="manageLineItem" value="update" />
+					 <input type="submit" name = "manageLineItem" value="delete" />
+					 <input type="submit" name="manageLineItem" value="checkout" />
+				</form>
 			</c:forEach>
 		</tr>
 	</table>
+	<a href="BookDisplay.jsp">Continue Shopping</a>
+	<script type="text/javascript">
+	function isNumber(evt) {
+	    evt = (evt) ? evt : window.event;
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+	    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    return true;
+	}
+	</script>
 </body>
 </html>
