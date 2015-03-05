@@ -15,6 +15,7 @@ import bs.dataaccess.UserRoleDb;
 import bs.models.Customer;
 import bs.models.UserAuth;
 import bs.models.UserRole;
+import bs.util.CookieUtil;
 
 /**
  * Servlet implementation class UserAuthServlet
@@ -59,7 +60,7 @@ public class UserAuthServlet extends HttpServlet {
 		String url = "";
 		if (user == null) {
 			Cookie[] cookies = request.getCookies();
-			String username = getCookieValue(cookies, "usernameCookie");
+			String username = CookieUtil.getCookieValue(cookies, "usernameCookie");
 			
 			// cookie doesn't exist, go to login
 			if(username == null || username.equals("")){
@@ -148,16 +149,5 @@ public class UserAuthServlet extends HttpServlet {
 		return "AccountManagement.jsp";
 	}
 
-	private String getCookieValue(Cookie[] cookies, String cookieName) {
-		String cookieValue = "";
-		
-		if (cookies != null) {
-			for(Cookie cookie: cookies){
-				if(cookieName.equals(cookie.getName())){
-					cookieValue = cookie.getValue();
-				}
-			}
-		}
-		return cookieValue;
-	}
+
 }

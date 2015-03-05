@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import bs.models.Cart;
 import bs.models.Customer;
 import bs.models.Invoice;
 import bs.models.LineItem;
+import bs.util.CookieUtil;
 
 /**
  * Servlet implementation class CartServlet
@@ -53,40 +55,42 @@ public class CartServlet extends HttpServlet {
 		//TODO: add cookies to keep contents of cart
 		//TODO: figure out inventory stuff
 		if (action.equals("addToCart")) {
-			Url = addToCart(request, quantity);
+			Url = addToCart(request, response, quantity);
 		} else if (action.equals("update")) {
-			Url = updateQuantity(request, quantity);
+			Url = updateQuantity(request, response, quantity);
 		}else if(action.equals("delete")){
-			Url  =deleteLineItem(request);
+			Url  =deleteLineItem(request, response);
 		}else if(action.equals("checkout")){
 			ProfitDb.processInvoice(Integer.parseInt(invoiceId));
-			Url = "index.jsp"; //change to confirm page
+			Invoice returned = InvoiceDb.getInvoice(Integer.parseInt(invoiceId));
+			request.getSession().setAttribute("Invoice", returned);
+			Url = "PurchaseConfirmation.jsp";
 		}
 
 		response.sendRedirect(Url);
 	}
 
-	private String deleteLineItem(HttpServletRequest request) {
+	private String deleteLineItem(HttpServletRequest request, HttpServletResponse response) {
 		String lineItemId = request.getParameter("lineId");
 		LineItem delete = LineItemDb.getLineItem(Integer
 				.parseInt(lineItemId));
 		LineItemDb.deleteLineItem(delete);
-		populateCart(request);
-		return "Cart.jsp"; //TODO: figure out empty list situation
+		populateCart(request, response);
+		return "Cart.jsp"; 
 	}
 
-	private String updateQuantity(HttpServletRequest request, String quantity) {
+	private String updateQuantity(HttpServletRequest request, HttpServletResponse response, String quantity) {
 		String lineItemId = request.getParameter("lineId");
 		
 		LineItem update = LineItemDb.getLineItem(Integer
 				.parseInt(lineItemId));
 		update.setQuantity(Integer.parseInt(quantity));
 		LineItemDb.updateLineItems(update);
-		populateCart(request);
+		populateCart(request, response);
 		return "Cart.jsp";
 	}
 
-	private String addToCart(HttpServletRequest request, String quantity) {
+	private String addToCart(HttpServletRequest request, HttpServletResponse response, String quantity) {
 
 		if (quantity.equals("") || quantity == null) {
 			quantity = "1";
@@ -100,21 +104,26 @@ public class CartServlet extends HttpServlet {
 			Invoice invoice = new Invoice();
 			invoice.setCustomer(c);
 			Invoice returned = InvoiceDb.createInvoice(invoice);
-			request.getSession().setAttribute("Invoice", returned);
+			request.getSession().setAttribute("Invoice", returned);// add to session
+			//CookieUtil.createCookie(response, Integer.toString(returned.getId()));
+
 		}
 		LineItem newItem = new LineItem((Book) request.getSession()
 				.getAttribute("Book"), Integer.parseInt(quantity));
 		LineItemDb.createLineItem(newItem, (Invoice) request.getSession()
 				.getAttribute("Invoice"));
-		populateCart(request);
+		
+		populateCart(request, response);
 		return "Cart.jsp";
 	}
 
-	private void populateCart(HttpServletRequest request) {
+	private void populateCart(HttpServletRequest request, HttpServletResponse response) {
+		
 		Invoice i = (Invoice) request.getSession().getAttribute("Invoice");
 		Cart cart = new Cart();
 		cart.setLineItems(LineItemDb.selectLineItems(i.getId()));
 		request.getSession().setAttribute("cart", cart);
+		
 	}
 
 }

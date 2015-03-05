@@ -19,18 +19,22 @@
 			<c:forEach var="line" items="${cart.lineItems }">
 				<td>${line.book.title}</td>
 				<form action="CartServlet" method="POST">
-				<input type="hidden" name="invoiceId" value="${Invoice.id }"/>
+			
 				<input type="hidden" name="lineId" value="${line.id }"/>
 					<input type="text" name="quantity" value="${line.quantity}"
 						onkeypress="return isNumber(event)"/>
 					<input type="submit" name="manageLineItem" value="update" />
 					 <input type="submit" name = "manageLineItem" value="delete" />
-					 <input type="submit" name="manageLineItem" value="checkout" />
+					
 				</form>
 			</c:forEach>
 		</tr>
 	</table>
 	<a href="BookDisplay.jsp">Continue Shopping</a>
+	<form action="CartServlet" method="POST">
+		<input type="hidden" name="invoiceId" value="${Invoice.id }"/>
+	 	<input type="submit" name="manageLineItem" value="checkout" />
+	</form>
   </c:otherwise>
 </c:choose>
 	<%-- <table>
