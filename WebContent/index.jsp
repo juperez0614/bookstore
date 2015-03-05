@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Welcome to The Store, ${customer.firstName} ${customer.lastName} ${customer.id }</h1>
+<h1>Welcome to The Store, ${customer.firstName} ${customer.lastName}</h1>
+<a href="UserAuthServlet?action=checkUser">Login/SignUp</a>
 <a href="BookServlet?action=getall">See our list of books</a>
 </body>
 </html>

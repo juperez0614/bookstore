@@ -7,12 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import bs.dataaccess.AuthorDb;
-import bs.dataaccess.CustomerDb;
 import bs.models.Author;
-import bs.models.Customer;
 
 /**
  * Servlet implementation class AuthorServlet
@@ -26,14 +23,12 @@ public class AuthorServlet extends HttpServlet {
      */
     public AuthorServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -50,7 +45,7 @@ public class AuthorServlet extends HttpServlet {
 	}
 
 	private String authorAccount(HttpServletRequest request, HttpServletResponse response){
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String bio = request.getParameter("biography");

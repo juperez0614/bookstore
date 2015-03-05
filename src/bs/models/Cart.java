@@ -9,6 +9,7 @@ public class Cart implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<LineItem> lineItems;
+	private String isEmpty; 
 	
 	public Cart(){}
 
@@ -37,5 +38,13 @@ public class Cart implements Serializable {
 		int quantity = lineItem.getQuantity() + 1; 
 		lineItem.setQuantity(quantity);
 	}
+	
+	public String getisEmpty(){
+		boolean result = lineItems.size() == 0; 
+		
+		return Boolean.toString(result); 
+	}
+
+
 
 }

@@ -30,7 +30,7 @@
 	<form action="CartServlet" method="POST">
 	<input type="hidden" name="manageLineItem" value="addToCart" />
 	<input type="text" name="quantity" value="1"
-				onkeypress="return isNumber(event)" placeholder="Enter a Quantity" />
+				onkeypress="return isNumber(event)" />
 		<input type="submit" value="puchase" />
 	</form>
 	<script>
@@ -41,7 +41,7 @@
 	        return false;
 	    }
 	    return true;
-	}
+	};
 	</script>
 </body>
 </html>

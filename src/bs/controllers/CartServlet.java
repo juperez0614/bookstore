@@ -48,41 +48,45 @@ public class CartServlet extends HttpServlet {
 		String action = request.getParameter("manageLineItem");
 		String quantity = request.getParameter("quantity");
 		String invoiceId = request.getParameter("invoiceId");
-		System.out.println("action is " + action);
-		System.out.println("quantity is " + quantity);
+		String Url = "";
+		//TODO: figure out how to display total price
+		//TODO: add cookies to keep contents of cart
+		//TODO: figure out inventory stuff
 		if (action.equals("addToCart")) {
-			addToCart(request, quantity);
+			Url = addToCart(request, quantity);
 		} else if (action.equals("update")) {
-			updateQuantity(request, quantity);
+			Url = updateQuantity(request, quantity);
 		}else if(action.equals("delete")){
-			deleteLineItem(request);
+			Url  =deleteLineItem(request);
 		}else if(action.equals("checkout")){
 			ProfitDb.processInvoice(Integer.parseInt(invoiceId));
-			//response.sendRedirect("index.jsp");
+			Url = "index.jsp"; //change to confirm page
 		}
 
-		response.sendRedirect("Cart.jsp");
+		response.sendRedirect(Url);
 	}
 
-	private void deleteLineItem(HttpServletRequest request) {
+	private String deleteLineItem(HttpServletRequest request) {
 		String lineItemId = request.getParameter("lineId");
 		LineItem delete = LineItemDb.getLineItem(Integer
 				.parseInt(lineItemId));
 		LineItemDb.deleteLineItem(delete);
 		populateCart(request);
+		return "Cart.jsp"; //TODO: figure out empty list situation
 	}
 
-	private void updateQuantity(HttpServletRequest request, String quantity) {
+	private String updateQuantity(HttpServletRequest request, String quantity) {
 		String lineItemId = request.getParameter("lineId");
-		System.out.println("line item id " + lineItemId);
+		
 		LineItem update = LineItemDb.getLineItem(Integer
 				.parseInt(lineItemId));
 		update.setQuantity(Integer.parseInt(quantity));
 		LineItemDb.updateLineItems(update);
 		populateCart(request);
+		return "Cart.jsp";
 	}
 
-	private void addToCart(HttpServletRequest request, String quantity) {
+	private String addToCart(HttpServletRequest request, String quantity) {
 
 		if (quantity.equals("") || quantity == null) {
 			quantity = "1";
@@ -102,8 +106,8 @@ public class CartServlet extends HttpServlet {
 				.getAttribute("Book"), Integer.parseInt(quantity));
 		LineItemDb.createLineItem(newItem, (Invoice) request.getSession()
 				.getAttribute("Invoice"));
-		/* request.getSession().setAttribute("lineItem", createdLine); */
 		populateCart(request);
+		return "Cart.jsp";
 	}
 
 	private void populateCart(HttpServletRequest request) {

@@ -1,7 +1,6 @@
 package bs.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +25,7 @@ public class CustomerServlet extends HttpServlet {
 	 */
 	public CustomerServlet() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**

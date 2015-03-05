@@ -7,12 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import bs.dataaccess.BookDb;
 import bs.dataaccess.PublisherDb;
-import bs.models.Book;
-import bs.models.Customer;
 import bs.models.Publisher;
 
 /**
@@ -27,14 +23,12 @@ public class PublisherServlet extends HttpServlet {
      */
     public PublisherServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 	/**

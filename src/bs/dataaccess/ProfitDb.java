@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.util.Calendar;
 
 import bs.models.Invoice;
@@ -129,6 +128,7 @@ public class ProfitDb {
 		java.util.Date currentDate = calendar.getTime();
 		i.setProcessed(true);
 		i.setTransactionDate(new java.sql.Date(currentDate.getTime()));
+		i.setPaymentType("Credit Card");
 		
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;

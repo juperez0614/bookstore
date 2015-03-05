@@ -13,7 +13,7 @@
 	<input type="text" id="username" name="username" placeholder="Enter User Name"/>
 	<br/>
 	<label>Password:</label>
-	<input type="password" id="password" name="pass" placeholder="Enter a password"/>
+	<input type="password" id="password" name="password" placeholder="Enter a password"/>
 	<br/>
 	<label>Confirm Password:</label>
 	<input type="password" id="passwordConfirm" name="passc" placeholder="Confirm password"/>

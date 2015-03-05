@@ -13,10 +13,11 @@
 	<input type="text" id="username" name="username" placeholder="Enter User Name"/>
 	<br/>
 	<label>Password:</label>
-	<input type="password" id="password" name="pass" placeholder="Enter a password"/>
+	<input type="password" id="password" name="password" placeholder="Enter a password"/>
 	<br/>
-	<input value="Create User Account" type="submit" />
+	<input value="Sign in" type="submit" />
 </form>
+<a href="UserCredentials.jsp">Create New Account</a>
 <script>
 if(document.getElementById('username').value==""){
 		document.getElementById("username").focus(); 
