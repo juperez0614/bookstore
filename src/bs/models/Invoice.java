@@ -2,6 +2,7 @@ package bs.models;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class Invoice implements Serializable {
@@ -79,5 +80,9 @@ public class Invoice implements Serializable {
 
 	public void setLineItems(List<LineItem> lineItems) {
 		this.lineItems = lineItems;
+	}
+	public String getPriceFormat(){
+		NumberFormat currency = NumberFormat.getCurrencyInstance();
+		return currency.format(totalAmount);
 	}
 }

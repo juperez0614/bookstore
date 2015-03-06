@@ -1,6 +1,7 @@
 package bs.models;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class Book implements Serializable {
@@ -8,6 +9,7 @@ public class Book implements Serializable {
 	private int id;
 	private int ISBN; 
 	private double price; 
+	private double cost; 
 	private String summary; 
 	private String title;
 	private Genre genre;
@@ -46,6 +48,14 @@ public class Book implements Serializable {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 
 	public String getSummary() {
@@ -94,5 +104,10 @@ public class Book implements Serializable {
 
 	public void setRatingList(List<Rating> ratingList) {
 		this.ratingList = ratingList;
+	}
+	
+	public String getPriceFormat(){
+		NumberFormat currency = NumberFormat.getCurrencyInstance();
+		return currency.format(price);
 	}
 }

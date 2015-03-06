@@ -1,6 +1,7 @@
 package bs.models;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Rating implements Serializable{
 
@@ -8,6 +9,7 @@ public class Rating implements Serializable{
 	private int id;
 	private int rating;
 	private String review;
+	private Date ratingDate;
 	
 
 	public Rating(int nRating, String nReview)
@@ -40,6 +42,14 @@ public class Rating implements Serializable{
 
 	public void setReview(String review) {
 		this.review = review;
+	}
+
+	public Date getRatingDate() {
+		return ratingDate;
+	}
+
+	public void setRatingDate(Date ratingDate) {
+		this.ratingDate = ratingDate;
 	}
 	
 	

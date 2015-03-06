@@ -15,12 +15,13 @@ public class RatingDb {
 
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Rating (Rating, Review)"
-				+ " VALUES (?, ?)";
+		String query = "INSERT INTO Rating (Rating, Review, RatingDate)"
+				+ " VALUES (?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, rating.getRating());
 			ps.setString(2, rating.getReview());
+			ps.setDate(3, rating.getRatingDate());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,6 +56,7 @@ public class RatingDb {
 				rating.setId(rs.getInt("Id"));
 				rating.setRating(rs.getInt("Rating"));
 				rating.setReview(rs.getString("Review"));
+				rating.setRatingDate(rs.getDate("RatingDate"));
 			}
 			return rating;
 		} catch (SQLException e) {
@@ -89,6 +91,7 @@ public class RatingDb {
 				rating.setId(rs.getInt("Id"));
 				rating.setRating(rs.getInt("Rating"));
 				rating.setReview(rs.getString("Review"));
+				rating.setRatingDate(rs.getDate("RatingDate"));
 				ratingList.add(rating);
 			}
 			return ratingList;
@@ -128,4 +131,5 @@ public class RatingDb {
 			}
 		}
 	}
+	
 }

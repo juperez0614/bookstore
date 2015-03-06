@@ -13,7 +13,7 @@ ${customer.firstName} ${customer.lastName}
 		<c:forEach var="item" items="${List}">
 			<tr>
 				<td><a href="BookServlet?action=${item.id }">${item.title} </a></td>
-				<td>${item.price}</td>
+				<td>${item.priceFormat}</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bs.dataaccess.BookDb;
+import bs.dataaccess.InventoryDb;
 import bs.models.Book;
+import bs.models.Inventory;
 
 /**
  * Servlet implementation class BookServlet
@@ -52,9 +54,11 @@ public class BookServlet extends HttpServlet {
 	private String getBook(HttpServletRequest request,
 			HttpServletResponse response) {
 		Book b = new Book();
+		Inventory i = new Inventory();
 		b = BookDb.getBook(Integer.parseInt(request.getParameter("action")));
-		System.out.println(b.getTitle());
+		i = InventoryDb.getInventory(b.getId());
 		request.getSession().setAttribute("Book", b);
+		request.getSession().setAttribute("Inventory", i);
 		return "BookDetails.jsp?id=" + b.getId();
 	}
 

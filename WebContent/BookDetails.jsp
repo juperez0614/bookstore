@@ -12,7 +12,7 @@
 	<table>
 		<tr>
 			<td>${Book.title}</td>
-			<td>${Book.price}</td>
+			<td>${Book.priceFormat}</td>
 			<td>${Book.ISBN }</td>
 			<td>${Book.genre.genre }</td>
 			<td>${Book.publisher.companyName }</td>
@@ -24,7 +24,14 @@
 				<td>${rating.rating }</td>
 				<td>${rating.review }</td>
 			</c:forEach>
-			<td>
+			<c:choose>
+			<c:when test="${Inventory.quantity  > 0}">
+			<td>${Inventory.quantity }</td>
+			</c:when>
+			<c:otherwise>
+				<td>Out of stock!!</td>
+			</c:otherwise>
+			</c:choose>
 		</tr>
 	</table>
 	<form action="CartServlet" method="POST">

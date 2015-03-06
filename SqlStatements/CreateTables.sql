@@ -67,11 +67,12 @@ CREATE Table Genre (
 CREATE table Book (
 	Id INT NOT NULL auto_increment, 
     ISBN INT NULL, 
-    Price double NULL, 
+    Price double NOT NULL, 
     Summary nVarChar(250),
     Title nVarChar(100),
     GenreId INT NOT NULL,
     PublisherId INT NOT NULL,
+    Cost double NOT NULL, 
     PRIMARY KEY (Id), 
     FOREIGN KEY (GenreId) REFERENCES Genre(Id),
     FOREIGN KEY (PublisherId) REFERENCES Publisher(Id)
@@ -92,6 +93,7 @@ CREATE Table Rating (
     Review nVarChar(250) NULL, 
     BookId INT NOT NULL, 
     CustomerId INT NOT NULL, 
+    RatingDate DATE NOT NULL, 
     
     PRIMARY KEY (Id), 
     CHECK (Rating > 0 AND Rating <= 5), 
@@ -136,6 +138,13 @@ Create Table MonthlyProfits(
 	MonthId INT NOT NULL auto_increment, 
     TotalProfit double NOT NULL, 
     PRIMARY KEY (MonthId)
+);
+
+Create Table Inventory (
+	BookId INT NOT NULL, 
+    Quantity INT NOT NULL, 
+    
+    Foreign key (BookId) REFERENCES Book(Id)
 );
 
 

@@ -1,7 +1,7 @@
 package bs.models;
 
-import java.util.List;
 import java.io.Serializable;
+import java.util.List;
 
 public class Cart implements Serializable {
 	/**
@@ -9,7 +9,6 @@ public class Cart implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<LineItem> lineItems;
-	private String isEmpty; 
 	
 	public Cart(){}
 

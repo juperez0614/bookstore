@@ -2,30 +2,18 @@ package bs.dataccess.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import bs.dataaccess.BookDb;
-import bs.dataaccess.InvoiceDb;
 import bs.dataaccess.LineItemDb;
-import bs.models.Invoice;
 import bs.models.LineItem;
 
 public class LineItemDbTest {
-	private LineItem l;
-	private Invoice i;
-	private LineItem returned;
-	private List<LineItem> list;
+
 
 	@Before
 	public void setUp() throws Exception {
-		l = new LineItem();
-		i = new Invoice();
-		returned = new LineItem();
-		list = new ArrayList<LineItem>();
+	
 	}
 
 	/*@Test

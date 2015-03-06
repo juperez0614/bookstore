@@ -43,6 +43,7 @@ public class UserAuthServlet extends HttpServlet {
 			// TODO:add default action
 		}
 
+		System.out.println("actino is: " + action);
 		String url = "index.jsp";
 		if (action.equals("checkUser")) {
 			url = checkUser(request, response);
@@ -62,6 +63,7 @@ public class UserAuthServlet extends HttpServlet {
 			Cookie[] cookies = request.getCookies();
 			String username = CookieUtil.getCookieValue(cookies, "usernameCookie");
 			
+			System.out.println("username cookie is the following value: " + username);
 			// cookie doesn't exist, go to login
 			if(username == null || username.equals("")){
 				url ="Login.jsp";

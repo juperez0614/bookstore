@@ -16,14 +16,15 @@ public class BookDb {
 
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Book (ISBN, Price, Summary, Title)"
-				+ " VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO Book (ISBN, Price, Summary, Title, Cost)"
+				+ " VALUES (?, ?, ?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, book.getISBN());
 			ps.setDouble(2, book.getPrice());
 			ps.setString(3, book.getSummary());
 			ps.setString(4, book.getTitle());
+			ps.setDouble(5, book.getCost());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,14 +45,15 @@ public class BookDb {
 		PreparedStatement ps = null;
 
 		String query = "UPDATE Book SET " + "ISBN = ?, " + "Price = ?, "
-				+ "Summary = ?, " +"Title = ?" + "WHERE Id = ?";
+				+ "Summary = ?, " +"Title = ?, " +"Cost = ?"+ "WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, book.getISBN());
 			ps.setDouble(2, book.getPrice());
 			ps.setString(3, book.getSummary());
 			ps.setString(4, book.getTitle());
-			ps.setInt(5, book.getId());
+			ps.setDouble(5, book.getCost());
+			ps.setInt(6, book.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,6 +86,7 @@ public class BookDb {
 				book.setId(rs.getInt("Id"));
 				book.setISBN(rs.getInt("ISBN"));
 				book.setPrice(rs.getDouble("Price"));
+				book.setCost(rs.getDouble("Cost"));
 				book.setTitle(rs.getString("Title"));
 				book.setSummary(rs.getString("Summary"));
 				book.setGenre(GenreDb.getGenre(rs.getInt("genreId")));
@@ -229,6 +232,83 @@ public class BookDb {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static List<Book> getTopTenBooks() {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Book> bookList = new ArrayList<Book>(); 
+
+		String query = "select book.id, book.title, lineItem.Quantity FROM book " +
+				"join lineItem on book.id = lineItem.BookId " +
+				"join invoice on lineItem.InvoiceId = invoice.Id " +
+				"Where invoice.transactionDate between DATE_SUB(CURDATE(), INTERVAL 7 DAY) and CURDATE() " +
+				"Group By LineItem.bookid " +
+				"order by sum(quantity) desc limit 10;";
+		
+		try {
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			Book book = null;
+			while (rs.next()) {
+				book = new Book();
+				book = getBook(rs.getInt("Id"));
+				bookList.add(book);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bookList; 
+	}
+	
+	public static List<Book> getTrendingBooks() {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Book> bookList = new ArrayList<Book>(); 
+
+		String query = "select book.id, book.title FROM book " + 
+				"join rating on book.id = rating.BookId " +
+				"where rating.ratingDate between DATE_SUB(CURDATE(), INTERVAL 14 DAY) and CURDATE() " + 
+				"Group By book.id " +
+				"order by AVG(rating.rating) desc limit 10;";
+		
+		try {
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+
+			Book book = null;
+			while (rs.next()) {
+				book = new Book();
+				book = getBook(rs.getInt("Id"));
+				bookList.add(book);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bookList; 
 	}
 	
 }
