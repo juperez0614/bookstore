@@ -69,6 +69,59 @@ public class BookAuthorDb
 	}
 	
 	
+	public static List<Book> getBookByAuthor(String name) {
+		String [] fullname = name.split(" ");
+		String firstname; 
+		String lastname; 
+		String query;
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Book> toReturn = null;
+		if (fullname.length == 2){
+			firstname = fullname[0];
+			lastname = fullname[1];
+			query = "select bookid from bookauthor "
+				+ "join author on author.id = bookauthor.AuthorId "
+				+ "where author.firstname = ? and author.lastname = ? ";
+			
+		}
+		else {
+			firstname = fullname[0];
+			lastname = fullname[0];
+			query = "select bookid from bookauthor "
+					+ "join author on author.id = bookauthor.AuthorId "
+					+ "where author.firstname = ? or author.lastname = ? ";
+		}
+		
+		try {
+			ps = conn.prepareStatement(query);
+				ps.setString(1, firstname);
+				ps.setString(2, lastname);
+			
+			rs = ps.executeQuery();
+
+			Book b = null;
+			toReturn = new ArrayList<Book>();
+			while (rs.next()) {
+				b = new Book();
+				b = BookDb.getBook(rs.getInt("BookId"));
+				toReturn.add(b);
+			}
+			return toReturn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static List<Author> getAuthorByBook(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
