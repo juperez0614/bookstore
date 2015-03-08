@@ -15,13 +15,15 @@ public class RatingDb {
 
 		PreparedStatement ps = null;
 
-		String query = "INSERT INTO Rating (Rating, Review, RatingDate)"
-				+ " VALUES (?, ?, ?)";
+		String query = "INSERT INTO Rating (Rating, Review, RatingDate, BookId, CustomerID)"
+				+ " VALUES (?, ?, ?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, rating.getRating());
 			ps.setString(2, rating.getReview());
 			ps.setDate(3, rating.getRatingDate());
+			ps.setInt(4, rating.getBookid());
+			ps.setInt(5, rating.getCustomerid());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -58,6 +58,8 @@ public class RatingServlet extends HttpServlet {
 		nRating.setCustomerid(c.getId());
 		
 		RatingDb.createRating(nRating);
+		
+		response.sendRedirect("BookServlet?action=" + nRating.getBookid());
 
 	}
 
