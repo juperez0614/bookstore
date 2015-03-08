@@ -1,6 +1,7 @@
 package bs.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,33 +55,35 @@ public class UserAuthServlet extends HttpServlet {
 
 	private String checkUser(HttpServletRequest request,
 			HttpServletResponse response) {
+		//String test = (String) request.getSession().getAttribute("uname");
 		UserAuth user = (UserAuth) request.getSession()
-				.getAttribute("username");
-		
+				.getAttribute("uname");
 
 		String url = "";
 		if (user == null) {
 			Cookie[] cookies = request.getCookies();
-			String username = CookieUtil.getCookieValue(cookies, "usernameCookie");
-			
-			System.out.println("username cookie is the following value: " + username);
+			String username = CookieUtil.getCookieValue(cookies,
+					"usernameCookie");
+
+			System.out.println("username cookie is the following value: "
+					+ username);
 			// cookie doesn't exist, go to login
-			if(username == null || username.equals("")){
-				url ="Login.jsp";
+			if (username == null || username.equals("")) {
+				url = "Login.jsp";
 			}
 			// if exist get user and go to home page
 			else {
 				user = UserAuthDb.getUserAuth(username);
 				request.getSession().setAttribute("user", user);
-				request.getSession().setAttribute("customer", CustomerDb.getCustomerByUsername(user.getUsername()));
+				request.getSession().setAttribute("customer",
+						CustomerDb.getCustomerByUsername(user.getUsername()));
 				url = "index.jsp";
 
 			}
-		}else{
+		} else {
 			// if user exists go to home page TODO: consider where to route to
-			url = "index.jsp";	
+			url = "index.jsp";
 		}
-		
 
 		return url;
 	}
@@ -91,41 +94,50 @@ public class UserAuthServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("insertUser");
-
 		String Url = "";
-
+		String action = request.getParameter("insertUser");
+		
+System.out.println(action);
 		if (action.equals("usercred")) {
 			Url = createUserAccount(request, response);
+			response.sendRedirect(Url);
 		} else if (action.equals("login")) {
 			Url = loginUserAccount(request, response);
-		}else if(action.equals("usernameCheck")){
-			Url = usernameCheck(request, response);
+			response.sendRedirect(Url);
+		} else if (action.equals("usernameCheck")) {
+			usernameCheck(request, response);
 		}
-		response.sendRedirect(Url);
 
 	}
 
-	private String usernameCheck(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void usernameCheck(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+
+		String name = request.getParameter("username");
+		System.out.println("name is " + name);
 		UserAuth returned = UserAuthDb.getUserAuth((String) request
 				.getParameter("username"));
-		
-		if(returned == null){
-			request.getSession().setAttribute("message", "Username is available");
-		}else{
-			request.getSession().setAttribute("message", "Username is not available");
+
+		if (returned == null) {
+			out.println("<p style='color:green'> " + name + " is avaliable</p>");
+
+		} else {
+			out.println("<p style='color:red'> " + name
+					+ " is  not avaliable</p>");
 		}
-		return "Login.jsp";
 	}
 
 	private String loginUserAccount(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		UserAuth returned = UserAuthDb.getUserAuth((String) request
-				.getParameter("username"));
-
+				.getParameter("uname"));
+		
+		
 		String password = request.getParameter("password");
+		System.out.println("passworkd " + password);
 
 		if (returned != null && returned.getPassword().equals(password)) {
 			request.getSession().setAttribute("userauth", returned);
@@ -155,8 +167,8 @@ public class UserAuthServlet extends HttpServlet {
 		UserAuth userToAdd = new UserAuth(userName, passWord);
 
 		UserAuth returnedUser = UserAuthDb.createUserAuth(userToAdd);
-		System.out.println("username to add: " + returnedUser.getUsername());
-		request.getSession().setAttribute("username", returnedUser.getUsername());
+		request.getSession().setAttribute("uname",
+				returnedUser);
 
 		Cookie c = new Cookie("usernameCookie", userToAdd.getUsername());
 		c.setMaxAge(60 * 60 * 24 * 365 * 2);
@@ -165,6 +177,5 @@ public class UserAuthServlet extends HttpServlet {
 
 		return "AccountManagement.jsp";
 	}
-
 
 }

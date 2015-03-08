@@ -20,6 +20,7 @@ import bs.models.Book;
 import bs.models.Customer;
 import bs.models.Inventory;
 import bs.models.Invoice;
+import bs.models.UserAuth;
 
 /**
  * Servlet implementation class CustomerServlet
@@ -72,13 +73,13 @@ public class CustomerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("insertCust");
-		String username = (String) request.getSession()
-				.getAttribute("username");
-		System.out.println(username);
+		UserAuth username = (UserAuth) request.getSession()
+				.getAttribute("uname");
+
 		String Url = "";
 
 		if (action.equals("addCustomer")) {
-			Url = createCustomerAccount(request, response, username);
+			Url = createCustomerAccount(request, response, username.getUsername());
 		}
 
 		response.sendRedirect(Url);

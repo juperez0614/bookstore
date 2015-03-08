@@ -38,6 +38,10 @@
 
 <input value="Create Account" type="submit" />
 </form>
-
+<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script>
+		
+		</script>
 </body>
 </html>
