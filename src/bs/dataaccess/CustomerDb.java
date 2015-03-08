@@ -273,4 +273,42 @@ public class CustomerDb {
 			}
 		}
 	}
+	
+	public static List<Customer> getCustomerByBooktoQuantityPurchase(int bookid, int quantity) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Customer> custList = null;
+		String query = "SELECT Distinct Invoice.CustomerId, lineItem.bookid, " 
+				+ "lineItem.quantity FROM invoice "
+				+ "join lineitem on lineitem.InvoiceId = invoice.Id "
+				+ "WHERE lineitem.bookid = ? AND lineitem.quantity >= ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bookid);
+			ps.setInt(2, quantity);
+			rs = ps.executeQuery();
+			
+			Customer customer = null;
+			custList = new ArrayList<Customer>();
+			while (rs.next()) {
+				customer = new Customer();
+				customer= CustomerDb.getCustomer(rs.getInt("CustomerId"));
+				custList.add(customer);
+
+			}
+			return custList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }
