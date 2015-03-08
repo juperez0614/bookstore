@@ -50,12 +50,12 @@ public class CustomerAnalysisServlet extends HttpServlet {
 			break;
 		case "customerid":
 			target.setId(Integer.parseInt(request.getParameter("customerid")));
-			setAllNullFieldsToBlank(target);
+
 			break;
 		case "customername":
 			target.setFirstName(request.getParameter("customerFirstName"));
 			target.setLastName(request.getParameter("customerLastName"));
-			setAllNullFieldsToBlank(target);
+
 			break;
 		case "customeraddress":
 			target.setAddress(request.getParameter("customerAddress"));
@@ -65,18 +65,24 @@ public class CustomerAnalysisServlet extends HttpServlet {
 			if (request.getParameter("customerZipcode") == null){
 				target.setZipcode(Integer.parseInt(request.getParameter("customerZipcode")));
 			}
-			setAllNullFieldsToBlank(target);
 			break;
 		case "customeremail":
 			target.setEmail(request.getParameter("customerEmail"));
-			setAllNullFieldsToBlank(target);
 			break;
 		case "customerusername":
 			target.setUserName(new UserAuth(request.getParameter("customerUsername"),""));
-			setAllNullFieldsToBlank(target);
 			break;
+		case "customerbookidquantity":
+			System.out.println(request.getParameter("customerbookid"));
+			System.out.println(request.getParameter("customerbookquantity"));
+			custList = CustomerDb.getCustomerByBooktoQuantityPurchase
+			(Integer.parseInt(request.getParameter("customerbookid")), Integer.parseInt(request.getParameter("customerbookquantity")));
 		}
-		custList = CustomerDb.getPartialCustomer(target);
+		if (!action.equals("customerbookidquantity")){
+			setAllNullFieldsToBlank(target);
+			custList = CustomerDb.getPartialCustomer(target);
+		}
+		
 		request.getSession().setAttribute("custResultList", custList);
 		
 		response.sendRedirect("SearchCustomer.jsp");	
