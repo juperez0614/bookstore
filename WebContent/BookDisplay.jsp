@@ -8,38 +8,68 @@
 <title>Insert title here</title>
 </head>
 <body>
-${customer.firstName} ${customer.lastName}
-<h1>Search Bar</h1>
-<form action="SearchServlet" method="get">
-<input type="hidden" name = "action" value = "search"/>
-<input type="text"  name = "searchbar" />
-<select name="searchtype">
-<option value="author">Author</option>
-<option value="title">Title</option>
-<option value="isbn">ISBN</option>
-<option value="publisher">Publisher</option>
-<option value="genre">Genre</option>
-</select>
-<input type="submit" name = "searchbutton" value="search"/>
-</form>
-<br>
-	<table>
-		<c:forEach var="item" items="${List}">
-			<tr>
-				<td><a href="BookServlet?action=${item.id }">${item.title} </a></td>
-				<td>${item.priceFormat}</td>
-			</tr>
-		</c:forEach>
-	</table>
-	<aside>
-		<table>
-				<c:forEach var="item" items="${genretable}">
-			<tr>
-				
-				<td><a href="SearchServlet?action=genre&genreitem=${item.genre}">${item.genre}</a></td> 
-			</tr>
-		</c:forEach>
-		</table>
-	</aside>
+	<jsp:include page="/Partial/Header.jsp"></jsp:include>
+	<div class="container theme-showcase">
+		<form action="SearchServlet" method="get" class="form-inline">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search"
+					name="searchbar"> <input type="hidden" name="action"
+					value="search" /> <select name="searchtype" class="form-control">
+					<option value="author">Author</option>
+					<option value="title">Title</option>
+					<option value="isbn">ISBN</option>
+					<option value="publisher">Publisher</option>
+					<option value="genre">Genre</option>
+				</select>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</div>
+		</form>
+
+
+
+
+
+		<div class="row">
+			<div class="col-md-2">
+				<h1>Genre</h1>
+				<table class="table">
+					<tbody>
+						<c:forEach var="item" items="${genretable}">
+							<tr>
+
+								<td><a
+									href="SearchServlet?action=genre&genreitem=${item.genre}">${item.genre}</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-10">
+				<h1>Inventory</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="item" items="${List}">
+							<tr>
+								<td><a href="BookServlet?action=${item.id }">${item.title}
+								</a></td>
+								<td>${item.priceFormat}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.selectpicker').selectpicker();
+		});
+	</script>
 </body>
 </html>

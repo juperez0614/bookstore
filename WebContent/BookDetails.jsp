@@ -9,57 +9,62 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table>
-		<tr>
-			<td>${Book.title}</td>
-			<td>${Book.priceFormat}</td>
-			<td>${Book.ISBN }</td>
-			<td>${Book.genre.genre }</td>
-			<td>${Book.publisher.companyName }</td>
-			<c:forEach var="author" items="${Book.authorList}">
-				<td>${author.firstName }</td>
-				<td>${author.lastName }</td>
-			</c:forEach>
-			<c:choose>
-				<c:when test="${Inventory.quantity  > 0}">
-					<td>${Inventory.quantity }</td>
-				</c:when>
-				<c:otherwise>
-					<td>Out of stock!!</td>
-				</c:otherwise>
-			</c:choose>
-		</tr>
-	</table>
-	<form action="CartServlet" method="POST">
-		<input type="hidden" name="manageLineItem" value="addToCart" /> <input
-			type="text" name="quantity" value="1"
-			onkeypress="return isNumber(event)" /> <input type="submit"
-			value="puchase" />
-	</form>
-
-	<jsp:include page="Partial/ShowRatings.jsp"></jsp:include>
-	<form id='ratingForm' action="BookServlet">
-		<input type="hidden" name="action" value="showAllRatings" /> 
-		<input type="hidden" name="bookId" value="${Book.id }" /> 
-		<input type="submit" value="show all ratings" />
-	</form>
-	<button id="showRatingForm">Write a Review</button>
-	<div id="ratingInput" style="visibility: hidden">
-		<form action="RatingServlet" method="Post">
-			<input type="hidden" name="bookid" value="${Book.id }" />
-			<select name="ratingNumber">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-			</select>
-			<textarea name="ratingReview" rows="8" cols="50"></textarea>
-			<input type="submit" value="Submit Review" />
+	<jsp:include page="/Partial/Header.jsp"></jsp:include>
+	<div class="container theme-showcase">
+		<table>
+			<tr>
+				<td>${Book.title}</td>
+				<td>${Book.priceFormat}</td>
+				<td>${Book.ISBN }</td>
+				<td>${Book.genre.genre }</td>
+				<td>${Book.publisher.companyName }</td>
+				<c:forEach var="author" items="${Book.authorList}">
+					<td>${author.firstName }</td>
+					<td>${author.lastName }</td>
+				</c:forEach>
+				<c:choose>
+					<c:when test="${Inventory.quantity  > 0}">
+						<td>${Inventory.quantity }</td>
+					</c:when>
+					<c:otherwise>
+						<td>Out of stock!!</td>
+					</c:otherwise>
+				</c:choose>
+			</tr>
+		</table>
+		<form action="CartServlet" method="POST">
+			<input type="hidden" name="manageLineItem" value="addToCart" /> <input
+				type="text" name="quantity" value="1"
+				onkeypress="return isNumber(event)" /> <input type="submit"
+				value="puchase" />
 		</form>
-	</div>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<jsp:include page="Partial/ShowRatings.jsp"></jsp:include>
+		<c:if test="${ratingList.size() == 5}">
+			<form id='ratingForm' action="BookServlet">
+				<input type="hidden" name="action" value="showAllRatings" /> <input
+					type="hidden" name="bookId" value="${Book.id }" /> <input
+					type="submit" value="show all ratings" />
+			</form>
+		</c:if>
+		<button id="showRatingForm">Write a Review</button>
+		<div id="ratingInput" style="visibility: hidden">
+			<form action="RatingServlet" method="Post">
+				<input type="hidden" name="bookid" value="${Book.id }" /> <select
+					name="ratingNumber">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+				<textarea name="ratingReview" rows="8" cols="50"></textarea>
+				<input type="submit" value="Submit Review" />
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script>
 	
 

@@ -19,6 +19,7 @@ import bs.models.Inventory;
 import bs.models.Invoice;
 import bs.models.LineItem;
 
+//TODO: figure out completeing purchase
 /**
  * Servlet implementation class CartServlet
  */
@@ -51,6 +52,8 @@ public class CartServlet extends HttpServlet {
 		String quantity = request.getParameter("quantity");
 		String invoiceId = request.getParameter("invoiceId");
 		String Url = "";
+
+		System.out.println("action is cart " + action);
 		// TODO: figure out how to display total price
 		// TODO: add cookies to keep contents of cart
 		// TODO: figure out inventory stuff
@@ -65,7 +68,14 @@ public class CartServlet extends HttpServlet {
 			Invoice returned = InvoiceDb
 					.getInvoice(Integer.parseInt(invoiceId));
 			request.getSession().setAttribute("Invoice", returned);
+
 			Url = "PurchaseConfirmation.jsp";
+
+		} else if (action.equals("confirmCheckout")) {
+			// request.getSession().removeAttribute("cart");
+			Cart newCart = new Cart();
+			request.getSession().setAttribute("cart", newCart);
+			Url = "index.jsp";
 		}
 
 		response.sendRedirect(Url);
@@ -120,18 +130,17 @@ public class CartServlet extends HttpServlet {
 																		// session
 				// CookieUtil.createCookie(response,
 				// Integer.toString(returned.getId()));
-				LineItemDb.createLineItem(newItem, (Invoice) request.getSession()
-				.getAttribute("Invoice"));
+				LineItemDb.createLineItem(newItem, (Invoice) request
+						.getSession().getAttribute("Invoice"));
 
 			} else {
-				 if (updateDoubleEntry(request, response, toCheck, toCart,
-						newItem)){
-					 return url;
-				 } 
-				 else{
-					LineItemDb.createLineItem(newItem, (Invoice) request.getSession()
-					.getAttribute("Invoice"));
-				 }		
+				if (updateDoubleEntry(request, response, toCheck, toCart,
+						newItem)) {
+					return url;
+				} else {
+					LineItemDb.createLineItem(newItem, (Invoice) request
+							.getSession().getAttribute("Invoice"));
+				}
 			}
 			populateCart(request, response);
 			return url;
@@ -143,19 +152,24 @@ public class CartServlet extends HttpServlet {
 	private boolean updateDoubleEntry(HttpServletRequest request,
 			HttpServletResponse response, Invoice toCheck, Cart toCart,
 			LineItem newItem) {
-		for (int i = 0; i < toCart.getLineItems().size(); i++) {
-			// book exists in cart already
-			if (newItem.getBook().getId() == toCart.getLineItems().get(i)
-					.getBook().getId()) {
-				toCart.getLineItems()
-						.get(i)
-						.setQuantity(
-								toCart.getLineItems().get(i).getQuantity()
-										+ newItem.getQuantity());
-				toCart.getLineItems().get(i).setInvoice(toCheck);
-				LineItemDb.updateLineItems(toCart.getLineItems().get(i));
-				populateCart(request, response);
-				return true;
+		//System.out.println("cart object " + toCart.getLineItems().get(0));
+		System.out.println("invoice " + toCheck.getId());
+		System.out.println("lineitem " + newItem.getId());
+		if (toCart != null) { //this doesn't work
+			for (int i = 0; i < toCart.getLineItems().size(); i++) {
+				// book exists in cart already
+				if (newItem.getBook().getId() == toCart.getLineItems().get(i)
+						.getBook().getId()) {
+					toCart.getLineItems()
+							.get(i)
+							.setQuantity(
+									toCart.getLineItems().get(i).getQuantity()
+											+ newItem.getQuantity());
+					toCart.getLineItems().get(i).setInvoice(toCheck);
+					LineItemDb.updateLineItems(toCart.getLineItems().get(i));
+					populateCart(request, response);
+					return true;
+				}
 			}
 		}
 		return false;

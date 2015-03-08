@@ -8,44 +8,53 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:choose>
-		<c:when test="${cart.isEmpty == 'true'}">
-			<h1>
-				Your cart is empty, check out our selections <a
-					href="BookDisplay.jsp">Here!</a>
-			</h1>
-		</c:when>
-		<c:otherwise>
-			<table>
-				<tr>
-					<th>Description</th>
-					<th>Price</th>
-					<th>Quantity</th>
-				</tr>
-				<c:forEach var="line" items="${cart.lineItems }">
-					<tr>
-						<td>${line.book.title}</td>
-						<td><c:out value="${line.book.priceFormat }"></c:out></td>
-						<td>
-							<form action="CartServlet" method="POST">
-
-								<input type="hidden" name="lineId" value="${line.id }" /> <input
-									type="text" name="quantity" value="${line.quantity}"
-									onkeypress="return isNumber(event)" /> <input type="submit"
-									name="manageLineItem" value="update" /> <input type="submit"
-									name="manageLineItem" value="delete" />
-							</form>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-			<a href="BookDisplay.jsp">Continue Shopping</a>
-			<form action="CartServlet" method="POST">
-				<input type="hidden" name="invoiceId" value="${Invoice.id }" /> <input
-					type="submit" name="manageLineItem" value="checkout" />
-			</form>
-		</c:otherwise>
-	</c:choose>
+	<jsp:include page="/Partial/Header.jsp"></jsp:include>
+	<div class="container theme-showcase">
+		<c:choose>
+			<c:when test="${cart.isEmpty == 'true'}">
+				<h2>
+					Your cart is empty, check out our selections <a
+						href="BookDisplay.jsp">Here!</a>
+				</h2>
+			</c:when>
+			<c:otherwise>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Description</th>
+									<th>Price</th>
+									<th>Quantity</th>
+								</tr>
+							</thead>
+							<c:forEach var="line" items="${cart.lineItems }">
+								<tr>
+									<td>${line.book.title}</td>
+									<td><c:out value="${line.book.priceFormat }"></c:out></td>
+									<td>
+										<form action="CartServlet" method="POST">
+															
+											<input type="hidden" name="lineId" value="${line.id }" /> <input
+												type="text" name="quantity" value="${line.quantity}"
+												onkeypress="return isNumber(event)" /> <input type="submit"
+												name="manageLineItem" value="update" class="btn btn-default"/> <input
+												type="submit" name="manageLineItem" value="delete" class="btn btn-default" />
+										</form>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+				</div>
+				<a href="BookDisplay.jsp">Continue Shopping</a>
+				<form action="CartServlet" method="POST">
+					<input type="hidden" name="invoiceId" value="${Invoice.id }" /> <input
+						type="submit" name="manageLineItem" value="checkout" class="btn btn-default" />
+				</form>
+			</c:otherwise>
+		</c:choose>
+	</div>
 	<script type="text/javascript">
 	function isNumber(evt) {
 	    evt = (evt) ? evt : window.event;

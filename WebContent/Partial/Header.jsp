@@ -5,18 +5,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <body>
-	<header>
-		<h2>The Book Store</h2>
-		<h3>Best Online Book Selections</h3>
-	</header>
-	<nav id="nav_bar">
-		<ul>
-			<li><a href="UserAuthServlet?action=checkUser">Login/SignUp</a></li>
-			<li><a href="BookServlet?action=getall">See our list of
-					books</a></li>
-		</ul>
-	</nav>
+	<div id="navbar" class="navbar-collapse">
+		<nav id="nav_bar" class="navbar navbar-inverse navbar-fixed-top">
+			<a href="#" class="navbar-brand">The Book Store</a>
+			<ul class="nav navbar-nav">
+				<li><a href="index.jsp">Home</a></li>
+				<li><a href="UserAuthServlet?action=checkUser">Login/SignUp</a></li>
+				<li><a href="BookServlet?action=getall">Book List</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="container theme-showcase">
+		<header class="jumbotron">
+			<h2>Welcome to the Book Store ${customer.firstName}
+				${customer.lastName}</h2>
+			<h3>Best Online Book Selections</h3>
+		</header>
+	</div>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
 </body>
 </html>

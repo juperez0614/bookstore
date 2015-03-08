@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -10,10 +9,9 @@
 <body>
 	<jsp:include page="/Partial/Header.jsp"></jsp:include>
 	<div class="container theme-showcase">
-		<h4>Profit for this timeframe our: ${startdate } to ${enddate } is
-			${profit }</h4>
-		<h4>Sales for this timeframe our: ${startdate } to ${enddate } is
-			${sales }</h4>
+		<h1>404 Error</h1>
+		<p>The server was not able to find the file you requested.</p>
+		<p>To continue, click the back button</p>
 	</div>
 </body>
 </html>

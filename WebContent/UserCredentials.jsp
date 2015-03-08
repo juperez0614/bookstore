@@ -7,19 +7,33 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form id="insertUser" name="insertUser" action="UserAuthServlet"
-		method="post">
-		<input type="hidden" name="insertUser" value="usercred" /> <label>Username:</label>
-		<input type="text" id="username" class="uname" name="username"
-			placeholder="Enter User Name" />
-		<p class="status">${message }</p>
-		<label>Password:</label> <input type="password" id="password"
-			name="password" placeholder="Enter a password" /> <br /> <label>Confirm
-			Password:</label> <input type="password" id="passwordConfirm" name="passc"
-			placeholder="Confirm password" /> <br />
-		<div id="warning" class="feedback"></div>
-		<input value="Create User Account" type="submit" id="submit" />
-	</form>
+	<jsp:include page="/Partial/Header.jsp"></jsp:include>
+	<div class="container theme-showcase">
+		<form id="insertUser" name="insertUser" action="UserAuthServlet"
+			method="post" class="form-inline">
+			<input type="hidden" name="insertUser" value="usercred" />
+			<div class="form-group">
+				<label for="newusernew">Username:</label> <input type="text"
+					id="username" class="uname form-control" name="username"
+					placeholder="Enter User Name" />
+				<div class="status">${message }</div>
+			</div>
+			<br>
+			<div class="form-group">
+			<label for="newuserpassword">Password:</label> <input type="password" id="password"
+				name="password" placeholder="Enter a password" class="form-control" /> 
+				</div>
+				<br /> 
+				<div class="form-group">
+				<label>Confirm
+				Password:</label> <input type="password" id="passwordConfirm" name="passc"
+				placeholder="Confirm password" class="form-control" /> 
+			<div id="warning" class="feedback" style="color:red"></div>
+			</div>
+			<br />
+			<button type="submit" class="btn btn-default" id="submit">Create Account</button>
+		</form>
+	</div>
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript">

@@ -8,23 +8,76 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table>
+	<jsp:include page="/Partial/Header.jsp"></jsp:include>
+	<div class="container theme-showcase">
+		<div class="row">
+			<div class="col-md-2">
+				<h1>Genre</h1>
+				<table class="table">
+					<tbody>
+						<c:forEach var="item" items="${genretable}">
+							<tr>
+
+								<td><a
+									href="SearchServlet?action=genre&genreitem=${item.genre}">${item.genre}</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-10">
+				<h1>Inventory</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="item" items="${genreList}">
+							<tr>
+								<td><a href="BookServlet?action=${item.id }">${item.title}
+								</a></td>
+								<td>${item.priceFormat}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+	<%-- <table>
 		<c:forEach var="item" items="${genreList}">
 			<tr>
-				<td><a href="BookServlet?action=${item.id }">${item.title} </a></td>
+				<td><a href="BookServlet?action=${item.id }">${item.title}
+				</a></td>
 				<td>${item.priceFormat}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<aside>
 		<table>
-				<c:forEach var="item" items="${genretable}">
-			<tr>
-				
-				<td><a href="SearchServlet?action=genre&genreitem=${item.genre}">${item.genre}</a></td> 
-			</tr>
-		</c:forEach>
+			<c:forEach var="item" items="${genretable}">
+				<tr>
+
+					<td><a
+						href="SearchServlet?action=genre&genreitem=${item.genre}">${item.genre}</a></td>
+				</tr>
+			</c:forEach>
 		</table>
-	</aside>
+	</aside> --%>
 </body>
 </html>
