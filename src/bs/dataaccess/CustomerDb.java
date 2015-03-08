@@ -1,6 +1,8 @@
 package bs.dataaccess;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import bs.models.Customer;
 
@@ -106,6 +108,7 @@ public class CustomerDb {
 				customer.setState(rs.getString("State"));
 				customer.setZipcode(rs.getInt("Zipcode"));
 				customer.setEmail(rs.getString("Email"));
+				customer.setUserName(UserAuthDb.getUserAuth(rs.getString("Username")));
 
 			}
 			return customer;
@@ -213,5 +216,61 @@ public class CustomerDb {
 			}
 		}
 		return 0;
+	}
+	
+	
+	public static List<Customer> getPartialCustomer(Customer fromCustomer) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Customer> custList = null;
+		String query = "SELECT * FROM Customer " 
+				+ "WHERE FirstName Like ? OR "
+				+ "LastName Like ? OR (Address Like ? AND "
+				+ "Address2 Like ?) OR City Like ? OR "
+				+ "State Like ? OR Zipcode Like ? OR "
+				+ "Email Like ? OR Id Like ? OR Username Like ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, "%"+ fromCustomer.getFirstName() + "%");
+			ps.setString(2, fromCustomer.getLastName());
+			ps.setString(3, fromCustomer.getAddress());
+			ps.setString(4, fromCustomer.getAddress2());
+			ps.setString(5, fromCustomer.getCity());
+			ps.setString(6, fromCustomer.getState());
+			ps.setInt(7, fromCustomer.getZipcode());
+			ps.setString(8, fromCustomer.getEmail());
+			ps.setInt(9, fromCustomer.getId());
+			ps.setString(10, fromCustomer.getUserName().getUsername());
+			rs = ps.executeQuery();
+
+			Customer customer = null;
+			custList = new ArrayList<Customer>();
+			while (rs.next()) {
+				customer = new Customer();
+				customer.setId(rs.getInt("Id"));
+				customer.setFirstName(rs.getString("firstName"));
+				customer.setLastName(rs.getString("lastName"));
+				customer.setAddress(rs.getString("Address"));
+				customer.setAddress2(rs.getString("Address2"));
+				customer.setCity(rs.getString("City"));
+				customer.setState(rs.getString("State"));
+				customer.setZipcode(rs.getInt("Zipcode"));
+				customer.setEmail(rs.getString("Email"));
+				custList.add(customer);
+
+			}
+			return custList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

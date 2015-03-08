@@ -146,5 +146,48 @@ public class InvoiceDb {
 			}
 		}
 	}
+	
+	
+	public static List<Invoice> getInvoiceListForCustomer(int id) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Invoice> invoiceList = null;
+
+		String query = "SELECT * FROM Invoice" + " WHERE customerId = ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			Invoice invoice = null;
+			invoiceList = new ArrayList<Invoice>();
+			while (rs.next()) {
+				invoice = new Invoice();
+				invoice.setId(rs.getInt("Id"));
+				invoice.setCustomer(CustomerDb.getCustomer(rs
+						.getInt("CustomerId")));
+				invoice.setPaymentType(rs.getString("PaymentType"));
+				invoice.setTransactionDate(rs.getDate("TransactionDate"));
+				invoice.setTotalAmount(rs.getDouble("TotalAmount"));
+				invoice.setProcessed(rs.getBoolean("isProcessed"));
+				invoice.setLineItems(LineItemDb.selectLineItems(rs.getInt("Id")));
+				
+				invoiceList.add(invoice);
+			}
+			return invoiceList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

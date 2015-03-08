@@ -20,10 +20,6 @@
 				<td>${author.firstName }</td>
 				<td>${author.lastName }</td>
 			</c:forEach>
-			<%-- <c:forEach var="rating" items="${Book.ratingList}">
-				<td>${rating.rating }</td>
-				<td>${rating.review }</td>
-			</c:forEach> --%>
 			<c:choose>
 				<c:when test="${Inventory.quantity  > 0}">
 					<td>${Inventory.quantity }</td>
@@ -43,9 +39,9 @@
 
 	<jsp:include page="Partial/ShowRatings.jsp"></jsp:include>
 	<form id='ratingForm' action="BookServlet">
-		<input type="hidden" name="action" value="showAllRatings" /> <input
-			type="hidden" name="bookId" value="${Book.id }" /> <input
-			type="submit" value="show all ratings" />
+		<input type="hidden" name="action" value="showAllRatings" /> 
+		<input type="hidden" name="bookId" value="${Book.id }" /> 
+		<input type="submit" value="show all ratings" />
 	</form>
 	<button id="showRatingForm">Write a Review</button>
 	<div id="ratingInput" style="visibility: hidden">

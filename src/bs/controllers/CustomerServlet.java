@@ -1,6 +1,8 @@
 package bs.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bs.dataaccess.BookDb;
 import bs.dataaccess.CustomerDb;
+import bs.dataaccess.InventoryDb;
+import bs.dataaccess.InvoiceDb;
 import bs.dataaccess.UserAuthDb;
+import bs.models.Book;
 import bs.models.Customer;
+import bs.models.Inventory;
+import bs.models.Invoice;
 
 /**
  * Servlet implementation class CustomerServlet
@@ -34,7 +42,27 @@ public class CustomerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		String action = request.getParameter("action");
+		String url = "";
+		
+		if (action.matches("\\d+")){
+			url = getCustomer(request, response);
+		}
+		
+		response.sendRedirect(url);
 
+	}
+	
+	private String getCustomer(HttpServletRequest request,
+			HttpServletResponse response) {
+		Customer c = new Customer();
+		List<Invoice> iList = new ArrayList<Invoice>();
+		c = CustomerDb.getCustomer(Integer.parseInt(request.getParameter("action")));
+		iList = InvoiceDb.getInvoiceListForCustomer(c.getId());
+		request.getSession().setAttribute("customer", c);
+		request.getSession().setAttribute("invoiceList", iList);
+		return "CustomerDetails.jsp?id=" + c.getId();
 	}
 
 	/**
