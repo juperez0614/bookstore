@@ -12,7 +12,9 @@
 <h1>Welcome to The Store, ${customer.firstName} ${customer.lastName}</h1>
 <a href="UserAuthServlet?action=checkUser">Login/SignUp</a>
 <a href="BookServlet?action=getall">See our list of books</a>
-<h1>Top Ten</h1>
+<c:if test="${topten.size() > 0 }">
+	<h1>Top Ten</h1>
+</c:if>
 <table>
 		<c:forEach var="item" items="${topten}">
 			<tr>
@@ -21,7 +23,9 @@
 		</c:forEach>
 	</table>
 	<br />
-	<h1>Trending</h1>
+	<c:if test="${trending.size() > 0 }">
+		<h1>Trending</h1>
+	</c:if>
 	<table>
 		<c:forEach var="item" items="${trending}">
 			<tr>

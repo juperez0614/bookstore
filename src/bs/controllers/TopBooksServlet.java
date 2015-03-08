@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bs.dataaccess.BookDb;
+import bs.dataaccess.GenreDb;
 import bs.models.Book;
+import bs.models.Genre;
 
 /**
  * Servlet implementation class TopBooksServlet
@@ -34,11 +36,16 @@ public class TopBooksServlet extends HttpServlet {
 		
 		List<Book> topTen = BookDb.getTopTenBooks();
 		List<Book> trending = BookDb.getTrendingBooks();
+		List<Genre> genreTable = GenreDb.getAll();
 		
-		System.out.println("top ten: " + topTen.size());
+		if(topTen != null ){
+			request.getSession().setAttribute("topten", topTen);	
+		}
+		if(trending != null ){
+			request.getSession().setAttribute("trending", trending);
+		}
 		
-		request.getSession().setAttribute("topten", topTen);
-		request.getSession().setAttribute("trending", trending);
+		request.getSession().setAttribute("genretable", genreTable);
 		 
 	}
 
