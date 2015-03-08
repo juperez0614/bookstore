@@ -77,7 +77,7 @@
     <servlet-name>TopBooksServlet</servlet-name>
     <url-pattern>/Top/top.jsp</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>SearchServlet</servlet-name>
     <servlet-class>bs.controllers.SearchServlet</servlet-class>
   </servlet>
@@ -85,4 +85,13 @@
     <servlet-name>SearchServlet</servlet-name>
     <url-pattern>/Search/*</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>RatingServlet</servlet-name>
+    <servlet-class>bs.controllers.RatingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RatingServlet</servlet-name>
+    <url-pattern>/Rating/*</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

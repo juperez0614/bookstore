@@ -10,6 +10,8 @@ public class Rating implements Serializable{
 	private int rating;
 	private String review;
 	private Date ratingDate;
+	private int bookid;
+	private int customerid;
 	
 
 	public Rating(int nRating, String nReview)
@@ -50,6 +52,22 @@ public class Rating implements Serializable{
 
 	public void setRatingDate(Date ratingDate) {
 		this.ratingDate = ratingDate;
+	}
+
+	public int getBookid() {
+		return bookid;
+	}
+
+	public void setBookid(int bookid) {
+		this.bookid = bookid;
+	}
+
+	public int getCustomerid() {
+		return customerid;
+	}
+
+	public void setCustomerid(int customerid) {
+		this.customerid = customerid;
 	}
 	
 	

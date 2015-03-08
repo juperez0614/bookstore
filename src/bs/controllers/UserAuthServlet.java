@@ -99,9 +99,24 @@ public class UserAuthServlet extends HttpServlet {
 			Url = createUserAccount(request, response);
 		} else if (action.equals("login")) {
 			Url = loginUserAccount(request, response);
+		}else if(action.equals("usernameCheck")){
+			Url = usernameCheck(request, response);
 		}
 		response.sendRedirect(Url);
 
+	}
+
+	private String usernameCheck(HttpServletRequest request,
+			HttpServletResponse response) {
+		UserAuth returned = UserAuthDb.getUserAuth((String) request
+				.getParameter("username"));
+		
+		if(returned == null){
+			request.getSession().setAttribute("message", "Username is available");
+		}else{
+			request.getSession().setAttribute("message", "Username is not available");
+		}
+		return "Login.jsp";
 	}
 
 	private String loginUserAccount(HttpServletRequest request,

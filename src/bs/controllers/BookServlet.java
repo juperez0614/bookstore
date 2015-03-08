@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bs.dataaccess.BookDb;
 import bs.dataaccess.InventoryDb;
+import bs.dataaccess.RatingDb;
 import bs.models.Book;
 import bs.models.Inventory;
 
@@ -37,8 +38,10 @@ public class BookServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String action = request.getParameter("action");
+		
 		String displayUrl = "";
 		
+		System.out.println("action is " + action);
 
 		if (action.equals("getall") ) {
 			displayUrl = getAll(request, response);
@@ -46,6 +49,12 @@ public class BookServlet extends HttpServlet {
 		}
 		else if(action.matches("\\d+")){
 			displayUrl = getBook(request, response);
+			request.getSession().setAttribute("ratingList", RatingDb.getLast5RatingByBook(Integer.parseInt(action)));
+		}
+		else if(action.equals("showAllRatings")){
+			String bookId = request.getParameter("bookId");
+			request.getSession().setAttribute("ratingList", RatingDb.getAllRatingByBook(Integer.parseInt(bookId)));
+			displayUrl = "BookDetails.jsp?id=" + Integer.parseInt(bookId);
 		}
 		response.sendRedirect(displayUrl);
 
