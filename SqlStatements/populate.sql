@@ -277,6 +277,112 @@ values (9,9);
 insert into bookauthor (bookid, authorid)
 values (10,10);
 
+insert into bookauthor (bookid, authorid)
+values (11,1);
+insert into bookauthor (bookid, authorid)
+values (12,2);
+insert into bookauthor (bookid, authorid)
+values (13,3);
+insert into bookauthor (bookid, authorid)
+values (14,4);
+insert into bookauthor (bookid, authorid)
+values (15,5);
+insert into bookauthor (bookid, authorid)
+values (16,6);
+insert into bookauthor (bookid, authorid)
+values (17,7);
+insert into bookauthor (bookid, authorid)
+values (18,8);
+insert into bookauthor (bookid, authorid)
+values (19,9);
+insert into bookauthor (bookid, authorid)
+values (20,10);
+
+insert into bookauthor (bookid, authorid)
+values (21,1);
+insert into bookauthor (bookid, authorid)
+values (22,2);
+insert into bookauthor (bookid, authorid)
+values (23,3);
+insert into bookauthor (bookid, authorid)
+values (24,4);
+insert into bookauthor (bookid, authorid)
+values (25,5);
+insert into bookauthor (bookid, authorid)
+values (26,6);
+insert into bookauthor (bookid, authorid)
+values (27,7);
+insert into bookauthor (bookid, authorid)
+values (28,8);
+insert into bookauthor (bookid, authorid)
+values (29,9);
+insert into bookauthor (bookid, authorid)
+values (30,10);
+
+insert into bookauthor (bookid, authorid)
+values (31,1);
+insert into bookauthor (bookid, authorid)
+values (32,2);
+insert into bookauthor (bookid, authorid)
+values (33,3);
+insert into bookauthor (bookid, authorid)
+values (34,4);
+insert into bookauthor (bookid, authorid)
+values (35,5);
+insert into bookauthor (bookid, authorid)
+values (36,6);
+insert into bookauthor (bookid, authorid)
+values (37,7);
+insert into bookauthor (bookid, authorid)
+values (38,8);
+insert into bookauthor (bookid, authorid)
+values (39,9);
+insert into bookauthor (bookid, authorid)
+values (40,10);
+
+insert into bookauthor (bookid, authorid)
+values (41,1);
+insert into bookauthor (bookid, authorid)
+values (42,2);
+insert into bookauthor (bookid, authorid)
+values (43,3);
+insert into bookauthor (bookid, authorid)
+values (44,4);
+insert into bookauthor (bookid, authorid)
+values (45,5);
+insert into bookauthor (bookid, authorid)
+values (46,6);
+insert into bookauthor (bookid, authorid)
+values (47,7);
+insert into bookauthor (bookid, authorid)
+values (48,8);
+insert into bookauthor (bookid, authorid)
+values (49,9);
+insert into bookauthor (bookid, authorid)
+values (50,10);
+
+insert into bookauthor (bookid, authorid)
+values (51,1);
+insert into bookauthor (bookid, authorid)
+values (52,2);
+insert into bookauthor (bookid, authorid)
+values (53,3);
+insert into bookauthor (bookid, authorid)
+values (54,4);
+insert into bookauthor (bookid, authorid)
+values (55,5);
+insert into bookauthor (bookid, authorid)
+values (56,6);
+insert into bookauthor (bookid, authorid)
+values (57,7);
+insert into bookauthor (bookid, authorid)
+values (58,8);
+insert into bookauthor (bookid, authorid)
+values (59,9);
+insert into bookauthor (bookid, authorid)
+values (60,10);
+
+
 insert into rating (rating, review, bookid, customerid, ratingdate)
 values (1, "reveiwb1", 1, 1, '2015-01-06');
 insert into rating (rating, review, bookid, customerid, ratingdate)
@@ -403,7 +509,108 @@ values (9, 20);
 insert into inventory (bookid, quantity)
 values (10, 20);
 
+insert into inventory (bookid, quantity)
+values (11, 20);
+insert into inventory (bookid, quantity)
+values (12, 20);
+insert into inventory (bookid, quantity)
+values (13, 20);
+insert into inventory (bookid, quantity)
+values (14, 20);
+insert into inventory (bookid, quantity)
+values (15, 20);
+insert into inventory (bookid, quantity)
+values (16, 20);
+insert into inventory (bookid, quantity)
+values (17, 20);
+insert into inventory (bookid, quantity)
+values (18, 20);
+insert into inventory (bookid, quantity)
+values (19, 20);
+insert into inventory (bookid, quantity)
+values (20, 20);
 
 
+insert into inventory (bookid, quantity)
+values (21, 20);
+insert into inventory (bookid, quantity)
+values (22, 20);
+insert into inventory (bookid, quantity)
+values (23, 20);
+insert into inventory (bookid, quantity)
+values (24, 20);
+insert into inventory (bookid, quantity)
+values (25, 20);
+insert into inventory (bookid, quantity)
+values (26, 20);
+insert into inventory (bookid, quantity)
+values (27, 20);
+insert into inventory (bookid, quantity)
+values (28, 20);
+insert into inventory (bookid, quantity)
+values (29, 20);
+insert into inventory (bookid, quantity)
+values (30, 20);
 
+insert into inventory (bookid, quantity)
+values (31, 20);
+insert into inventory (bookid, quantity)
+values (32, 20);
+insert into inventory (bookid, quantity)
+values (33, 20);
+insert into inventory (bookid, quantity)
+values (34, 20);
+insert into inventory (bookid, quantity)
+values (35, 20);
+insert into inventory (bookid, quantity)
+values (36, 20);
+insert into inventory (bookid, quantity)
+values (37, 20);
+insert into inventory (bookid, quantity)
+values (38, 20);
+insert into inventory (bookid, quantity)
+values (39, 20);
+insert into inventory (bookid, quantity)
+values (40, 20);
 
+insert into inventory (bookid, quantity)
+values (41, 20);
+insert into inventory (bookid, quantity)
+values (42, 20);
+insert into inventory (bookid, quantity)
+values (43, 20);
+insert into inventory (bookid, quantity)
+values (44, 20);
+insert into inventory (bookid, quantity)
+values (45, 20);
+insert into inventory (bookid, quantity)
+values (46, 20);
+insert into inventory (bookid, quantity)
+values (47, 20);
+insert into inventory (bookid, quantity)
+values (48, 20);
+insert into inventory (bookid, quantity)
+values (49, 20);
+insert into inventory (bookid, quantity)
+values (50, 20);
+
+insert into inventory (bookid, quantity)
+values (51, 20);
+insert into inventory (bookid, quantity)
+values (52, 20);
+insert into inventory (bookid, quantity)
+values (53, 20);
+insert into inventory (bookid, quantity)
+values (54, 20);
+insert into inventory (bookid, quantity)
+values (55, 20);
+insert into inventory (bookid, quantity)
+values (56, 20);
+insert into inventory (bookid, quantity)
+values (57, 20);
+insert into inventory (bookid, quantity)
+values (58, 20);
+insert into inventory (bookid, quantity)
+values (59, 20);
+insert into inventory (bookid, quantity)
+values (60, 20);

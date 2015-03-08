@@ -16,7 +16,6 @@ CREATE Table UserRole (
     Username nVarChar(50) NOT NULL, 
      
     FOREIGN KEY (Username) REFERENCES UserAuth(Username)
-
 );
 
 CREATE Table  Author (

@@ -14,6 +14,50 @@ UPDATE LineItem SET BookId =
 						+ "WHERE id = ?";
 
 
+select book.id, book.title from book
+join genre on genre.id = book.genreid
+join lineitem on lineitem.bookid = book.id
+where genre.genre = "suspense"
+group by lineitem.bookid
+order by sum(lineitem.quantity) desc limit 5;
+
+
+select book.id, book.title, sum(lineitem.quantity), genre.genre from book
+inner join genre on genre.id = book.genreid
+join lineitem on lineitem.bookid = book.id
+where genre.id = 3
+group by book.Id
+order by (CASE WHEN sum(lineitem.quantity) IS NOT NULL Then sum(lineitem.quantity)
+				ELSE book.title end) desc;
+
+select book.id as id, book.title, genre.genre from book
+inner join genre on genre.id = book.genreid 
+where genre.id = 3;
+
+select book.id, lineitem.quantity, lineitem.invoiceid from book 
+ join lineitem on book.Id = lineitem.bookid;
+
+SELECT book.id, sum(lineitem.quantity), genre.genre FROM book 
+join genre on book.genreid = genre.id
+Left JOIN lineItem ON book.id = lineitem.bookid 
+where genre.id = 4
+group by book.id
+order by sum(lineitem.quantity) desc;
+
+select book.isbn, book.title from book;
+
+
+select * from bookauthor 
+join author on author.id = bookauthor.AuthorId
+where author.firstname = "john" and author.lastname = "Mclain";
+
+select * from book 
+join publisher on book.publisherid = publisher.id;
+
+select * from Book where title Like "%book%";
+
+select * from author;
+
 Select * from invoice;
 
 select * from userauth where Username = 'new use';
@@ -26,7 +70,7 @@ SELECT  * from invoice;
 
 select * from customer;
 
-select book.title, lineItem.Quantity FROM book 
+select book.id, book.title, lineItem.Quantity FROM book 
 join lineItem on book.id = lineItem.BookId
 join invoice on lineItem.InvoiceId = invoice.Id
 Where invoice.transactionDate between DATE_SUB(CURDATE(), INTERVAL 7 DAY) and CURDATE()
@@ -43,6 +87,7 @@ select * from invoice;
 
 
 select * from invoice Where transactionDate = DATE_SUB(CURDATE(), INTERVAL 6 DAY);
+
 select sum(book.price * lineItem.quantity) as bTotal FROM LineItem 
 join book on book.id = lineItem.BookId
 join invoice on invoice.id = lineitem.InvoiceId
@@ -91,4 +136,4 @@ select * from invoice;
 select (Sum(Book.price * lineItem.quantity) - sum(Book.cost * lineItem.quantity)) AS Profit 
  from lineItem inner join Book on book.Id = lineItem.BookId
  inner join Invoice on lineItem.InvoiceId = Invoice.Id
- where TransactionDate between '2015-01-01' and '2015-02-30'; 
+ where TransactionDate between '2015-01-28' and '2015-03-06'; 
