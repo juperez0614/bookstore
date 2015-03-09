@@ -11,11 +11,12 @@
 <body>
 	<div id="navbar" class="navbar-collapse">
 		<nav id="nav_bar" class="navbar navbar-inverse navbar-fixed-top">
-			<a href="#" class="navbar-brand">The Book Store</a>
+			<a href="index.jsp" class="navbar-brand">The Book Store</a>
 			<ul class="nav navbar-nav">
-				<li><a href="index.jsp">Home</a></li>
+				
 				<li><a href="UserAuthServlet?action=checkUser">Login/SignUp</a></li>
 				<li><a href="BookServlet?action=getall">Book List</a></li>
+				<li><a href="Cart.jsp">Cart</a></li>
 			</ul>
 		</nav>
 	</div>

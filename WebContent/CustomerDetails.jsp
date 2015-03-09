@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,26 +8,35 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table>
-		<tr>
-			<td>${customer.firstName}</td>
-			<td>${customer.lastName}</td>
-			<td>${customer.userName.username }</td>
-			<td>${customer.email }</td>
-		</tr>
-		<tr>
-			<td>${customer.address}</td>
-			<td>${customer.address2}</td>
-			<td>${customer.city}</td>
-			<td>${customer.state}</td>
-		</tr>
-		<tr>
-		<c:forEach var="receipt" items="${invoiceList}">
-		<tr>
-				<td>${receipt.transactionDate }</td>
-				<td>${receipt.totalAmount }</td>
-		</tr>
-			</c:forEach>
-	</table>
+	<jsp:include page="/Partial/Header.jsp"></jsp:include>
+	<div class="container theme-showcase">
+	<h4><b>Name:</b> ${customer.firstName} ${customer.lastName}</h4>
+	<p><b>Username:</b> ${customer.userName.username }</p>
+	<p><b>Email:</b> ${customer.email }</p>
+	<p><b>Address: </b> ${customer.address}</p>
+	<p><b>Address:</b> ${customer.address2}</p>
+	<p><b>City:</b> ${customer.city} <b>State:</b> ${customer.state} <b>Zipcode:</b> ${customer.zipcode}</p>
+		<div class="row">
+			<div class="col-md-6">
+				<table class="table">
+				<thead>
+						<tr>
+							<th>Transaction Date</th>
+							<th>Total Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<c:forEach var="receipt" items="${invoiceList}">
+							<tr>
+								<td>${receipt.transactionDate }</td>
+								<td>${receipt.totalAmount }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

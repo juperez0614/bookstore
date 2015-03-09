@@ -43,7 +43,6 @@
 							$(".uname")
 									.keyup(
 											function() {
-												console.log("in key up");
 												var uname = $(this).val();
 												if (uname.length >= 3) {
 													$(".status")

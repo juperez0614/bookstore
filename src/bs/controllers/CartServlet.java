@@ -1,6 +1,10 @@
 package bs.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,16 +12,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import bs.dataaccess.InventoryDb;
 import bs.dataaccess.InvoiceDb;
 import bs.dataaccess.LineItemDb;
 import bs.dataaccess.ProfitDb;
+import bs.dataaccess.UserAuthDb;
 import bs.models.Book;
 import bs.models.Cart;
 import bs.models.Customer;
 import bs.models.Inventory;
 import bs.models.Invoice;
 import bs.models.LineItem;
+import bs.models.UserAuth;
 
 //TODO: figure out completeing purchase
 /**
@@ -60,6 +69,7 @@ public class CartServlet extends HttpServlet {
 		if (action.equals("addToCart")) {
 			Url = addToCart(request, response, quantity);
 		} else if (action.equals("update")) {
+
 			Url = updateQuantity(request, response, quantity);
 		} else if (action.equals("delete")) {
 			Url = deleteLineItem(request, response);
@@ -72,10 +82,17 @@ public class CartServlet extends HttpServlet {
 			Url = "PurchaseConfirmation.jsp";
 
 		} else if (action.equals("confirmCheckout")) {
-			// request.getSession().removeAttribute("cart");
-			Cart newCart = new Cart();
-			request.getSession().setAttribute("cart", newCart);
+			Cart c = (Cart) request.getSession().getAttribute("cart");
+			System.out.println("cart size is " + c.getLineItems().size());
+			Invoice i = (Invoice) request.getSession().getAttribute("Invoice");
+			System.out.println("invoice is : " + i.getId());
+			request.getSession().removeAttribute("Invoice");
+			request.getSession().removeAttribute("cart");
 			Url = "index.jsp";
+		}
+		else if(action.equals("updateQuantityVerify")){
+			inventoryCheck(request, response);
+			return;
 		}
 
 		response.sendRedirect(Url);
@@ -97,7 +114,13 @@ public class CartServlet extends HttpServlet {
 
 		LineItem update = LineItemDb.getLineItem(Integer.parseInt(lineItemId));
 		update.setQuantity(Integer.parseInt(quantity));
-		LineItemDb.updateLineItems(update);
+		if(verifyInventory(update) == true){
+			LineItemDb.updateLineItems(update);
+		}
+		else{
+			request.getSession().setAttribute("quantityupdateerror", "Not Enough Stock");
+		}
+		
 		populateCart(request, response);
 		return "Cart.jsp";
 	}
@@ -200,6 +223,36 @@ public class CartServlet extends HttpServlet {
 		Inventory i = InventoryDb.getInventory(toCheck.getBook().getId());
 		i.setQuantity(i.getQuantity() + toCheck.getQuantity());
 		InventoryDb.updateInventory(i);
+	}
+	
+	private void inventoryCheck(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+	
+		String lineItemId = request.getParameter("lineId");
+		System.out.println(lineItemId);
+		LineItem update = LineItemDb.getLineItem(Integer.parseInt(lineItemId));
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		String name = request.getParameter("quantity");
+		System.out.println("quantity is " + name);
+		
+		Inventory returned = InventoryDb.getInventory(update.getBook().getId());
+		
+		if (returned.getQuantity() <= 0 || (returned.getQuantity() - Integer.parseInt(name)) < 0) {
+			out.print("<p style='color:red'>We only have " + returned.getQuantity() + " left in stock");
+		}
+		
+		out.close();
+		
+		/*try {
+			request.getRequestDispatcher("Cart.jsp").forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+*/
 	}
 
 }

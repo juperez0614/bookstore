@@ -35,11 +35,27 @@
 									<td>
 										<form action="CartServlet" method="POST">
 															
-											<input type="hidden" name="lineId" value="${line.id }" /> <input
-												type="text" name="quantity" value="${line.quantity}"
-												onkeypress="return isNumber(event)" /> <input type="submit"
-												name="manageLineItem" value="update" class="btn btn-default"/> <input
+											<input type="hidden" class= "lineId" name="lineId" value="${line.id }" /> 
+											<input
+												type="text" class="quantity" name="quantity" value="${line.quantity}"
+												onkeypress="return isNumber(event)" /> 
+												
+												<%-- <c:choose>
+												<c:when test="${disableButton == false }">
+												<p>${disableButton} is in when clause</p> --%>
+											<input type="submit"
+												name="manageLineItem" class="update btn btn-default"  value="update"  /> 
+												<%-- </c:when>
+												<c:otherwise>
+												<p>${disableButton} is in otherwise clause</p>
+												<div id="updateButton"></div>
+												<!-- <input type="submit"
+												name="manageLineItem" class="update"  value="update" disabled />  -->
+												</c:otherwise>
+												</c:choose> --%>
+											<input
 												type="submit" name="manageLineItem" value="delete" class="btn btn-default" />
+												<div class="status"></div>
 										</form>
 									</td>
 								</tr>
@@ -55,6 +71,8 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+		<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript">
 	function isNumber(evt) {
 	    evt = (evt) ? evt : window.event;
@@ -64,6 +82,41 @@
 	    }
 	    return true;
 	};
+	
+	/* $(document)
+	.ready(
+			function() {
+				$(".quantity")
+						.keyup(
+								function() {
+									var quantity = $(this).val();
+									var lineid = $(".lineId").val();
+										$(".status")
+												.html(
+														' Checking availability...');
+										$
+												.ajax({
+													type : "POST",
+													url : "CartServlet?manageLineItem=updateQuantityVerify&lineId=" 
+															+ lineid + "&quantity=" + quantity,
+													
+													success : function(
+															msg) {
+														
+														
+														$('.status')
+																.html(
+																		msg);
+														
+														
+													}
+											
+												}); 
+												
+
+								});
+			});
+	 */
 	</script>
 </body>
 </html>
