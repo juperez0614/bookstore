@@ -25,7 +25,8 @@
 					placeholder="Enter a password" />
 			</div>
 			<br />
-			<button type="submit" class="btn btn-default">Log in</button>
+			<div id="warning" style="color:red"></div>
+			<button type="submit" class="btn btn-default" id="submit">Log in</button>
 		</form>
 		<a href="UserCredentials.jsp">Create New Account</a>
 	</div>
@@ -36,6 +37,21 @@
 			if (document.getElementById('username').value == "") {
 				document.getElementById('username').focus();
 			}
+			var elMsg = document.getElementById('warning');
+			function loginCheck(){
+				if (document.getElementById('username').value == "") {
+					elMsg.textContent = "Please enter your username";
+					document.getElementById('username').focus();
+					return false;
+				}
+				if (document.getElementById('password').value == "") {
+					elMsg.textContent = "Please enter your password";
+					document.getElementById('password').focus();
+					return false;
+				}
+			}
+			var elSubmit = document.getElementById('submit');
+			elSubmit.onclick = loginCheck;
 		});
 	</script>
 </body>

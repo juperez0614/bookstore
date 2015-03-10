@@ -22,7 +22,7 @@
 						<p id="inventoryquantity" ><b>Quantity</b> ${Inventory.quantity }</p>
 					</c:when>
 					<c:otherwise >
-						<p id= "inventoryquantity" >Out of stock!!</p>
+						<p style="color:red" id= "inventoryquantity" ><b>Out of stock!!</b></p>
 					</c:otherwise>
 				</c:choose>
 		<div class="row">

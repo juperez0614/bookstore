@@ -36,8 +36,8 @@ public class DBUtil {
 
 	public static Connection connectToDb() {
 		String url = "jdbc:mysql://localhost:3306/bookstore";
-		String name = "root";
-		String passwd = "rootpassformysql";
+		String name = "newuser";
+		String passwd = "01234";
 
 		DBConnectionPool connPool = null;
 		try {
