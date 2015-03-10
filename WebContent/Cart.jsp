@@ -18,7 +18,10 @@
 				</h2>
 			</c:when>
 			<c:otherwise>
-				<div class="row">
+
+							<jsp:include page="/Partial/CartTable.jsp"></jsp:include>
+
+				<%-- <div class="row">
 					<div class="col-md-12">
 						<table class="table">
 							<thead>
@@ -28,31 +31,22 @@
 									<th>Quantity</th>
 								</tr>
 							</thead>
-							<c:forEach var="line" items="${cart.lineItems }">
+							<c:forEach var="line" items="${cart.lineItems }" varStatus="count" >
+							<input type="hidden" id="count" value="${count.index }" />
 								<tr>
 									<td>${line.book.title}</td>
 									<td><c:out value="${line.book.priceFormat }"></c:out></td>
 									<td>
+									
 										<form action="CartServlet" method="POST">
 															
-											<input type="hidden" class= "lineId" name="lineId" value="${line.id }" /> 
+											<input type="hidden" class = "idLine" name="lineId" value="${line.id }" /> 
 											<input
-												type="text" class="quantity" name="quantity" value="${line.quantity}"
+												type="text" class="quantity" id="quantity${count.index }" name="quantity" value="${line.quantity}"
 												onkeypress="return isNumber(event)" /> 
-												
-												<%-- <c:choose>
-												<c:when test="${disableButton == false }">
-												<p>${disableButton} is in when clause</p> --%>
+										
 											<input type="submit"
-												name="manageLineItem" class="update btn btn-default"  value="update"  /> 
-												<%-- </c:when>
-												<c:otherwise>
-												<p>${disableButton} is in otherwise clause</p>
-												<div id="updateButton"></div>
-												<!-- <input type="submit"
-												name="manageLineItem" class="update"  value="update" disabled />  -->
-												</c:otherwise>
-												</c:choose> --%>
+												name="manageLineItem" id="update${count.index }"   class="update btn btn-default"  value="update${line.id }"  /> 
 											<input
 												type="submit" name="manageLineItem" value="delete" class="btn btn-default" />
 												<div class="status"></div>
@@ -61,8 +55,9 @@
 								</tr>
 							</c:forEach>
 						</table>
+						
 					</div>
-				</div>
+				</div> --%>
 				<a href="BookDisplay.jsp">Continue Shopping</a>
 				<form action="CartServlet" method="POST">
 					<input type="hidden" name="invoiceId" value="${Invoice.id }" /> <input
@@ -83,14 +78,23 @@
 	    return true;
 	};
 	
-	/* $(document)
+	/*   $(document)
 	.ready(
+			
+			
 			function() {
-				$(".quantity")
+				var table = $("#table");
+				console.log(table);
+				$(table).find(".quantity")
 						.keyup(
 								function() {
-									var quantity = $(this).val();
-									var lineid = $(".lineId").val();
+									var row = $(table).closest("tr");
+									console.log(row);
+									var quantity = $(row).find(".quantity").val();
+									var lineid = $(row).find(".lineid").val();
+									var count = $(row).find("#count").val();
+									console.log("after count: "+count);
+									console.log(lineid + " is wdjal;jd" );
 										$(".status")
 												.html(
 														' Checking availability...');
@@ -99,6 +103,7 @@
 													type : "POST",
 													url : "CartServlet?manageLineItem=updateQuantityVerify&lineId=" 
 															+ lineid + "&quantity=" + quantity,
+													data: count, 
 													
 													success : function(
 															msg) {
@@ -107,7 +112,13 @@
 														$('.status')
 																.html(
 																		msg);
-														
+														if (msg != ""){
+				
+															$("#update" +count ).attr("disabled", true);
+														}
+														else {
+															$("#update" +count).attr("disabled", false);
+														}
 														
 													}
 											
@@ -115,8 +126,10 @@
 												
 
 								});
-			});
-	 */
+				
+				
+			}); */
+	  
 	</script>
 </body>
 </html>

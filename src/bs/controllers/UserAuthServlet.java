@@ -40,10 +40,6 @@ public class UserAuthServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-		if (action == null) {
-			// TODO:add default action
-		}
-
 		System.out.println("actino is: " + action);
 		String url = "index.jsp";
 		if (action.equals("checkUser")) {

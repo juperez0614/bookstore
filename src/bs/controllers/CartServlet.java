@@ -2,9 +2,6 @@ package bs.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,21 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import bs.dataaccess.InventoryDb;
 import bs.dataaccess.InvoiceDb;
 import bs.dataaccess.LineItemDb;
 import bs.dataaccess.ProfitDb;
-import bs.dataaccess.UserAuthDb;
 import bs.models.Book;
 import bs.models.Cart;
 import bs.models.Customer;
 import bs.models.Inventory;
 import bs.models.Invoice;
 import bs.models.LineItem;
-import bs.models.UserAuth;
 
 //TODO: figure out completeing purchase
 /**
@@ -91,7 +83,7 @@ public class CartServlet extends HttpServlet {
 			Url = "index.jsp";
 		}
 		else if(action.equals("updateQuantityVerify")){
-			inventoryCheck(request, response);
+			Url = inventoryCheck(request, response);
 			return;
 		}
 
@@ -146,6 +138,10 @@ public class CartServlet extends HttpServlet {
 				System.out.println("creating new...");
 				Customer c = (Customer) request.getSession().getAttribute(
 						"customer");
+				if (c == null){
+					
+					return "Login.jsp";
+				}
 				Invoice invoice = new Invoice();
 				invoice.setCustomer(c);
 				Invoice returned = InvoiceDb.createInvoice(invoice);
@@ -225,9 +221,9 @@ public class CartServlet extends HttpServlet {
 		InventoryDb.updateInventory(i);
 	}
 	
-	private void inventoryCheck(HttpServletRequest request,
+	private String inventoryCheck(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-	
+		boolean disableButton = false;
 		String lineItemId = request.getParameter("lineId");
 		System.out.println(lineItemId);
 		LineItem update = LineItemDb.getLineItem(Integer.parseInt(lineItemId));
@@ -239,12 +235,18 @@ public class CartServlet extends HttpServlet {
 		System.out.println("quantity is " + name);
 		
 		Inventory returned = InventoryDb.getInventory(update.getBook().getId());
+		if (request.getSession().getAttribute("disableButton") != null){
+			request.getSession().removeAttribute("disableButton");
 		
-		if (returned.getQuantity() <= 0 || (returned.getQuantity() - Integer.parseInt(name)) < 0) {
-			out.print("<p style='color:red'>We only have " + returned.getQuantity() + " left in stock");
 		}
-		
+		if (returned.getQuantity() <= 0 || (returned.getQuantity() - Integer.parseInt(name)) < 0) {
+			out.print("<p style='color:red'>We only have " + returned.getQuantity() + " left in stock</p>");
+			disableButton= true;
+		}
+		request.getSession().setAttribute("disableButton", disableButton );
 		out.close();
+		
+		return "Cart.jsp";
 		
 		/*try {
 			request.getRequestDispatcher("Cart.jsp").forward(request, response);
