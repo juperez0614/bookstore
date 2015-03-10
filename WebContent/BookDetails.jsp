@@ -11,7 +11,6 @@
 <body>
 	<jsp:include page="/Partial/Header.jsp"></jsp:include>
 	<div class="container theme-showcase">
-
 				<p><b>Title: </b> ${Book.title}</p>
 				<p><b>Price: </b>${Book.priceFormat}</p>
 				<p><b>ISBN: </b>${Book.ISBN }</p>
@@ -48,18 +47,18 @@
 		<form action="CartServlet" method="POST" class="form-inline">
 			<input type="hidden" name="manageLineItem" value="addToCart" /> 
 			<div class="form-group">
-			<input
-				type="text" name="quantity" value="1" id = "purchasequantity"
+			<input type="hidden" id="lineid" value="${Inventory.bookid }" />
+			<input type="text" name="quantity" value="1" id="purchasequantity"
 				onkeypress="return isNumber(event)" class="form-control" /> 
+				<div class="status"></div>
 				<input type="submit" id="purchasesubmit" value="puchase" class="btn btn-default"/>
 				<div id="msg" style="color:red" ></div>
 			</div>
 		</form>
-
 		<jsp:include page="Partial/ShowRatings.jsp"></jsp:include>
 		<c:if test="${ratingList.size() == 5}">
 			<form id='ratingForm' action="BookServlet">
-				<input type="hidden" name="action" value="showAllRatings" /> <input
+				<input type="hidden" name="action" value="showAllRatings" /><input
 					type="hidden" name="bookId" value="${Book.id }" /> <input
 					type="submit" value="show all ratings" class="btn btn-default"/>
 			</form>
@@ -84,8 +83,6 @@
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script>
-	
-
 	$('#showRatingForm').click(function(){
 		$('#ratingInput').css('visibility', 'visible');
 	});
@@ -102,11 +99,30 @@
 	console.log(document.getElementById("inventoryquantity").innerText);
 	console.log(document.getElementById("purchasesubmit").value);
 	if(document.getElementById("inventoryquantity").innerText == "Out of stock!!"){
-		console.log("were in");
 		document.getElementById("purchasesubmit").disabled = true;
 		document.getElementById("msg").innerText = "No Inventory";
-	}
-	</script>
+	};
+	$(document).ready(function() {
+				$("#purchasequantity").keyup(function() {
+					var quantity = $(this).val();
+					var bookId = $("#lineid").val();
+						$(".status").html(' Checking availability...');
+						$.ajax({
+							type : "POST",
+							url : "CartServlet?manageLineItem=quantityCheck&quantity="+ quantity + "&bookid=" + bookId,
+							success : function(msg) {
+								$('.status').html(msg);
+								if(msg != ""){
+									$("#purchasesubmit").attr("disabled", true);
+								}else{
+									$("#purchasesubmit").attr("disabled", false);
+								}
+								
+							}
+						});
+			});
+});
+</script>
 
 
 </body>

@@ -55,9 +55,6 @@ public class CartServlet extends HttpServlet {
 		String Url = "";
 
 		System.out.println("action is cart " + action);
-		// TODO: figure out how to display total price
-		// TODO: add cookies to keep contents of cart
-		// TODO: figure out inventory stuff
 		if (action.equals("addToCart")) {
 			Url = addToCart(request, response, quantity);
 		} else if (action.equals("update")) {
@@ -81,13 +78,29 @@ public class CartServlet extends HttpServlet {
 			request.getSession().removeAttribute("Invoice");
 			request.getSession().removeAttribute("cart");
 			Url = "index.jsp";
-		}
-		else if(action.equals("updateQuantityVerify")){
+		} else if (action.equals("updateQuantityVerify")) {
 			Url = inventoryCheck(request, response);
+			return;
+		}else if(action.equals("quantityCheck")){
+			String bookId = request.getParameter("bookid");
+			quantityCheck(response, quantity, bookId);
 			return;
 		}
 
 		response.sendRedirect(Url);
+	}
+
+	private void quantityCheck(HttpServletResponse response, String quantity,
+			String bookId) throws IOException {
+		System.out.println(bookId);
+		Inventory inventory = InventoryDb.getInventory(Integer.parseInt(bookId));
+		if(inventory.getQuantity() <= 0
+				|| (inventory.getQuantity() - Integer.parseInt(quantity)) < 0){
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print("<p style='color:red'>We only have "
+					+ inventory.getQuantity() + " left in stock</p>");
+		}
 	}
 
 	private String deleteLineItem(HttpServletRequest request,
@@ -106,13 +119,13 @@ public class CartServlet extends HttpServlet {
 
 		LineItem update = LineItemDb.getLineItem(Integer.parseInt(lineItemId));
 		update.setQuantity(Integer.parseInt(quantity));
-		if(verifyInventory(update) == true){
+		if (verifyInventory(update) == true) {
 			LineItemDb.updateLineItems(update);
+		} else {
+			request.getSession().setAttribute("quantityupdateerror",
+					"Not Enough Stock");
 		}
-		else{
-			request.getSession().setAttribute("quantityupdateerror", "Not Enough Stock");
-		}
-		
+
 		populateCart(request, response);
 		return "Cart.jsp";
 	}
@@ -138,8 +151,8 @@ public class CartServlet extends HttpServlet {
 				System.out.println("creating new...");
 				Customer c = (Customer) request.getSession().getAttribute(
 						"customer");
-				if (c == null){
-					
+				if (c == null) {
+
 					return "Login.jsp";
 				}
 				Invoice invoice = new Invoice();
@@ -171,10 +184,10 @@ public class CartServlet extends HttpServlet {
 	private boolean updateDoubleEntry(HttpServletRequest request,
 			HttpServletResponse response, Invoice toCheck, Cart toCart,
 			LineItem newItem) {
-		//System.out.println("cart object " + toCart.getLineItems().get(0));
+		// System.out.println("cart object " + toCart.getLineItems().get(0));
 		System.out.println("invoice " + toCheck.getId());
 		System.out.println("lineitem " + newItem.getId());
-		if (toCart != null) { //this doesn't work
+		if (toCart != null) { // this doesn't work
 			for (int i = 0; i < toCart.getLineItems().size(); i++) {
 				// book exists in cart already
 				if (newItem.getBook().getId() == toCart.getLineItems().get(i)
@@ -220,41 +233,30 @@ public class CartServlet extends HttpServlet {
 		i.setQuantity(i.getQuantity() + toCheck.getQuantity());
 		InventoryDb.updateInventory(i);
 	}
-	
+
 	private String inventoryCheck(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		boolean disableButton = false;
 		String lineItemId = request.getParameter("lineId");
 		System.out.println(lineItemId);
 		LineItem update = LineItemDb.getLineItem(Integer.parseInt(lineItemId));
-		
+
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		
+
 		String name = request.getParameter("quantity");
 		System.out.println("quantity is " + name);
-		
+
 		Inventory returned = InventoryDb.getInventory(update.getBook().getId());
-		if (request.getSession().getAttribute("disableButton") != null){
-			request.getSession().removeAttribute("disableButton");
-		
+		if (returned.getQuantity() <= 0
+				|| (returned.getQuantity() - Integer.parseInt(name)) < 0) {
+			out.print("<p style='color:red'>We only have "
+					+ returned.getQuantity() + " left in stock</p>");
+			
 		}
-		if (returned.getQuantity() <= 0 || (returned.getQuantity() - Integer.parseInt(name)) < 0) {
-			out.print("<p style='color:red'>We only have " + returned.getQuantity() + " left in stock</p>");
-			disableButton= true;
-		}
-		request.getSession().setAttribute("disableButton", disableButton );
+	
 		out.close();
-		
+
 		return "Cart.jsp";
-		
-		/*try {
-			request.getRequestDispatcher("Cart.jsp").forward(request, response);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/
 	}
 
 }

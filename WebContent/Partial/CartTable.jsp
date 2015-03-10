@@ -2,11 +2,10 @@
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
 </head>
 <body>
 			<div class="row">
@@ -42,54 +41,31 @@
 									</td>
 									
 								</tr>
-														</c:forEach>
+							</c:forEach>
 						</table>
 						
 					</div>
-				</div>	
-
-				
+				</div>			
 		<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript">
-	
-	  $(document)
-	.ready(
-			
-			
-			function() {
+	  $(document).ready(function() {
 				var table = $("#table");
-				console.log(table);
-				$(table).find(".quantity")
-						.keyup(
-								function() {
+				$(table).find(".quantity").keyup(function() {
 								    var $row = $(this).closest("tr");    // Find the row
 								    var $tds = $row.find("form");
-								    var $id = $tds.find(".idLine").val();
-								    console.log($id);
+								    var $id = $tds.find(".idLine").val();								  
 								    var $quants = $tds.find(".quantity").val();
-								    console.log($quants);
 									var button = $tds.find("#update");
-									console.log(button);
 									var status = $tds.find(".status");
-										$(status)
-												.html(
-														' Checking availability...');
-										$
-												.ajax({
-													type : "POST",
-													url : "CartServlet?manageLineItem=updateQuantityVerify&lineId=" 
-															+ $id + "&quantity=" + $quants,
-													
-													success : function(
-															msg) {
-														
-														
-														$(status)
-																.html(
-																		msg);
+									$(status).html(' Checking availability...');
+									$.ajax({
+										type : "POST",
+										url : "CartServlet?manageLineItem=updateQuantityVerify&lineId=" 
+											+ $id + "&quantity=" + $quants,	
+													success : function(msg) {														
+														$(status).html(msg);
 														if (msg != ""){
-				
 															$(button).attr("disabled", true);
 														}
 														else {
@@ -97,16 +73,9 @@
 														}
 														
 													}
-											
-												});
-												
-
-								}); 
-				
-				
+									});
+					}); 
 			});
-	  
 	</script>
-				
 </body>
 </html>
