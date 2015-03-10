@@ -117,6 +117,7 @@ public class CustomerDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -157,6 +158,7 @@ public class CustomerDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -209,6 +211,8 @@ public class CustomerDb {
 			e.printStackTrace();
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
+			
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -266,6 +270,7 @@ public class CustomerDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -303,6 +308,7 @@ public class CustomerDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {

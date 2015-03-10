@@ -38,26 +38,43 @@ public class BookServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String action = request.getParameter("action");
-		
-		String displayUrl = "";
-		
-		System.out.println("action is " + action);
 
-		if (action.equals("getall") ) {
+		String displayUrl = "";
+
+
+		if (action.equals("getall")) {
 			displayUrl = getAll(request, response);
-			
-		}
-		else if(action.matches("\\d+")){
+
+		} else if (action.matches("\\d+")) {
 			displayUrl = getBook(request, response);
-			request.getSession().setAttribute("ratingList", RatingDb.getLast5RatingByBook(Integer.parseInt(action)));
-		}
-		else if(action.equals("showAllRatings")){
+			request.getSession().setAttribute("ratingList",
+					RatingDb.getLast5RatingByBook(Integer.parseInt(action)));
+		} else if (action.equals("showAllRatings")) {
 			String bookId = request.getParameter("bookId");
-			request.getSession().setAttribute("ratingList", RatingDb.getAllRatingByBook(Integer.parseInt(bookId)));
+			request.getSession().setAttribute("ratingList",
+					RatingDb.getAllRatingByBook(Integer.parseInt(bookId)));
 			displayUrl = "BookDetails.jsp?id=" + Integer.parseInt(bookId);
 		}
 		response.sendRedirect(displayUrl);
 
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		String action = request.getParameter("insertBook");
+
+		String Url = "";
+
+		if (action.equals("bookmanagement")) {
+			Url = bookAccount(request, response);
+		}
+
+		response.sendRedirect(Url);
 	}
 
 	private String getBook(HttpServletRequest request,
@@ -78,32 +95,13 @@ public class BookServlet extends HttpServlet {
 		b = BookDb.getAllBooks();
 
 		request.getSession().setAttribute("List", b);
-		
+
 		return "BookDisplay.jsp";
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
-		String action = request.getParameter("insertBook");
-
-		String Url = "";
-
-		if (action.equals("bookmanagement")) {
-			Url = bookAccount(request, response);
-		}
-		
-		response.sendRedirect(Url);
-	}
-
 	private String bookAccount(HttpServletRequest request,
 			HttpServletResponse response) {
-		//HttpSession session = request.getSession();
 		String title = request.getParameter("title");
 		String isbn = request.getParameter("isbn");
 		String summary = request.getParameter("summary");

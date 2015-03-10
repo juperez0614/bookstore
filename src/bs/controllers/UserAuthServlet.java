@@ -40,7 +40,6 @@ public class UserAuthServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-		System.out.println("actino is: " + action);
 		String url = "index.jsp";
 		if (action.equals("checkUser")) {
 			url = checkUser(request, response);
@@ -51,7 +50,6 @@ public class UserAuthServlet extends HttpServlet {
 
 	private String checkUser(HttpServletRequest request,
 			HttpServletResponse response) {
-		//String test = (String) request.getSession().getAttribute("uname");
 		UserAuth user = (UserAuth) request.getSession()
 				.getAttribute("uname");
 
@@ -61,8 +59,6 @@ public class UserAuthServlet extends HttpServlet {
 			String username = CookieUtil.getCookieValue(cookies,
 					"usernameCookie");
 
-			System.out.println("username cookie is the following value: "
-					+ username);
 			// cookie doesn't exist, go to login
 			if (username == null || username.equals("")) {
 				url = "Login.jsp";
@@ -77,7 +73,7 @@ public class UserAuthServlet extends HttpServlet {
 
 			}
 		} else {
-			// if user exists go to home page TODO: consider where to route to
+			// if user exists go to home page
 			url = "index.jsp";
 		}
 
@@ -93,7 +89,7 @@ public class UserAuthServlet extends HttpServlet {
 		String Url = "";
 		String action = request.getParameter("insertUser");
 		
-System.out.println(action);
+
 		if (action.equals("usercred")) {
 			Url = createUserAccount(request, response);
 			response.sendRedirect(Url);
@@ -112,7 +108,6 @@ System.out.println(action);
 		PrintWriter out = response.getWriter();
 
 		String name = request.getParameter("username");
-		System.out.println("name is " + name);
 		UserAuth returned = UserAuthDb.getUserAuth((String) request
 				.getParameter("username"));
 
@@ -133,7 +128,6 @@ System.out.println(action);
 		
 		
 		String password = request.getParameter("password");
-		System.out.println("passworkd " + password);
 
 		if (returned != null && returned.getPassword().equals(password)) {
 			request.getSession().setAttribute("userauth", returned);
@@ -158,7 +152,6 @@ System.out.println(action);
 			HttpServletResponse response) {
 		String userName = request.getParameter("username");
 		String passWord = request.getParameter("password");
-		System.out.println(passWord + " is the password");
 
 		UserAuth userToAdd = new UserAuth(userName, passWord);
 

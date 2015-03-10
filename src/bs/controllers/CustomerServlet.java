@@ -11,14 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bs.dataaccess.BookDb;
 import bs.dataaccess.CustomerDb;
-import bs.dataaccess.InventoryDb;
 import bs.dataaccess.InvoiceDb;
 import bs.dataaccess.UserAuthDb;
-import bs.models.Book;
 import bs.models.Customer;
-import bs.models.Inventory;
 import bs.models.Invoice;
 import bs.models.UserAuth;
 
@@ -103,14 +99,11 @@ public class CustomerServlet extends HttpServlet {
 				UserAuthDb.getUserAuth(username));
 		int idCheck = CustomerDb.emailExists(email);
 		Customer returned = new Customer();
-		System.out.println(UserAuthDb.getUserAuth(username));
-		System.out.println(idCheck);
 		if (idCheck != 0) { // move to update
 			customerToAdd.setId(idCheck);
 			returned = CustomerDb.updateCustomer(customerToAdd);
 		} else { // move to create new user
 			returned = CustomerDb.createCustomer(customerToAdd);
-			System.out.println("name returned id: " + returned.getFirstName());
 		}
 
 		session.setAttribute("customer", returned);

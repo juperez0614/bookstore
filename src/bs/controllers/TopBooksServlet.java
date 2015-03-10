@@ -26,7 +26,6 @@ public class TopBooksServlet extends HttpServlet {
      */
     public TopBooksServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -48,12 +47,4 @@ public class TopBooksServlet extends HttpServlet {
 		request.getSession().setAttribute("genretable", genreTable);
 		 
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
-
 }

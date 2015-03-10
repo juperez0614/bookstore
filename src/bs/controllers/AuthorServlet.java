@@ -17,47 +17,46 @@ import bs.models.Author;
 @WebServlet("/AuthorServlet")
 public class AuthorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AuthorServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AuthorServlet() {
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("insertAuthor");
-		
-		String Url = "";
 
 		if (action.equals("authormanagement")) {
-			Url = authorAccount(request, response);
+			authorAccount(request, response);
 		}
 	}
 
-	private String authorAccount(HttpServletRequest request, HttpServletResponse response){
-		//HttpSession session = request.getSession();
+	private String authorAccount(HttpServletRequest request,
+			HttpServletResponse response) {
+
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String bio = request.getParameter("biography");
 
-		
 		Author authorToAdd = new Author(firstName, lastName, bio);
 
 		AuthorDb.createAuthor(authorToAdd);
-		
-		
-		//session.setAttribute("customer", customerToAdd);
-		
+
 		return "AuthorManagement.jsp";
 	}
 }

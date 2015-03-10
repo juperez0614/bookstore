@@ -110,6 +110,7 @@ public class PublisherDb {
 				return null;
 			} finally {
 				DBUtil.closePreparedStatement(ps);
+				DBUtil.closeResultSet(rs);
 				try {
 					conn.close();
 				} catch (SQLException e) {
@@ -147,6 +148,7 @@ public class PublisherDb {
 				return null;
 			} finally {
 				DBUtil.closePreparedStatement(ps);
+				DBUtil.closeResultSet(rs);
 				try {
 					conn.close();
 				} catch (SQLException e) {

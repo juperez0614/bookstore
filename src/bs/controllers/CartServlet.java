@@ -36,14 +36,6 @@ public class CartServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -54,7 +46,6 @@ public class CartServlet extends HttpServlet {
 		String invoiceId = request.getParameter("invoiceId");
 		String Url = "";
 
-		System.out.println("action is cart " + action);
 		if (action.equals("addToCart")) {
 			Url = addToCart(request, response, quantity);
 		} else if (action.equals("update")) {
@@ -71,17 +62,18 @@ public class CartServlet extends HttpServlet {
 			Url = "PurchaseConfirmation.jsp";
 
 		} else if (action.equals("confirmCheckout")) {
-			Cart c = (Cart) request.getSession().getAttribute("cart");
-			System.out.println("cart size is " + c.getLineItems().size());
-			Invoice i = (Invoice) request.getSession().getAttribute("Invoice");
-			System.out.println("invoice is : " + i.getId());
+			/*
+			 * Cart c = (Cart) request.getSession().getAttribute("cart");
+			 * Invoice i = (Invoice)
+			 * request.getSession().getAttribute("Invoice");
+			 */
 			request.getSession().removeAttribute("Invoice");
 			request.getSession().removeAttribute("cart");
 			Url = "index.jsp";
 		} else if (action.equals("updateQuantityVerify")) {
 			Url = inventoryCheck(request, response);
 			return;
-		}else if(action.equals("quantityCheck")){
+		} else if (action.equals("quantityCheck")) {
 			String bookId = request.getParameter("bookid");
 			quantityCheck(response, quantity, bookId);
 			return;
@@ -92,10 +84,10 @@ public class CartServlet extends HttpServlet {
 
 	private void quantityCheck(HttpServletResponse response, String quantity,
 			String bookId) throws IOException {
-		System.out.println(bookId);
-		Inventory inventory = InventoryDb.getInventory(Integer.parseInt(bookId));
-		if(inventory.getQuantity() <= 0
-				|| (inventory.getQuantity() - Integer.parseInt(quantity)) < 0){
+		Inventory inventory = InventoryDb
+				.getInventory(Integer.parseInt(bookId));
+		if (inventory.getQuantity() <= 0
+				|| (inventory.getQuantity() - Integer.parseInt(quantity)) < 0) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print("<p style='color:red'>We only have "
@@ -132,7 +124,6 @@ public class CartServlet extends HttpServlet {
 
 	private String addToCart(HttpServletRequest request,
 			HttpServletResponse response, String quantity) {
-		System.out.println("in add to cart");
 		String url = "Cart.jsp";
 		if (quantity.equals("") || quantity == null) {
 			quantity = "1";
@@ -146,9 +137,7 @@ public class CartServlet extends HttpServlet {
 				.getAttribute("Book"), Integer.parseInt(quantity));
 
 		if (verifyInventory(newItem) != false) {
-			System.out.println("made it through verify");
 			if (toCheck == null) {
-				System.out.println("creating new...");
 				Customer c = (Customer) request.getSession().getAttribute(
 						"customer");
 				if (c == null) {
@@ -160,8 +149,6 @@ public class CartServlet extends HttpServlet {
 				Invoice returned = InvoiceDb.createInvoice(invoice);
 				request.getSession().setAttribute("Invoice", returned);// add to
 																		// session
-				// CookieUtil.createCookie(response,
-				// Integer.toString(returned.getId()));
 				LineItemDb.createLineItem(newItem, (Invoice) request
 						.getSession().getAttribute("Invoice"));
 
@@ -184,9 +171,6 @@ public class CartServlet extends HttpServlet {
 	private boolean updateDoubleEntry(HttpServletRequest request,
 			HttpServletResponse response, Invoice toCheck, Cart toCart,
 			LineItem newItem) {
-		// System.out.println("cart object " + toCart.getLineItems().get(0));
-		System.out.println("invoice " + toCheck.getId());
-		System.out.println("lineitem " + newItem.getId());
 		if (toCart != null) { // this doesn't work
 			for (int i = 0; i < toCart.getLineItems().size(); i++) {
 				// book exists in cart already
@@ -219,7 +203,6 @@ public class CartServlet extends HttpServlet {
 
 	private boolean verifyInventory(LineItem toCheck) {
 		Inventory i = InventoryDb.getInventory(toCheck.getBook().getId());
-		System.out.println("inventory bookid: " + i.getBookid());
 		if (i.getQuantity() >= toCheck.getQuantity()) {
 			i.setQuantity(i.getQuantity() - toCheck.getQuantity());
 			InventoryDb.updateInventory(i);
@@ -237,25 +220,22 @@ public class CartServlet extends HttpServlet {
 	private String inventoryCheck(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String lineItemId = request.getParameter("lineId");
-		System.out.println(lineItemId);
 		LineItem update = LineItemDb.getLineItem(Integer.parseInt(lineItemId));
 
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
 		String name = request.getParameter("quantity");
-		System.out.println("quantity is " + name);
 
 		Inventory returned = InventoryDb.getInventory(update.getBook().getId());
 		if (returned.getQuantity() <= 0
 				|| (returned.getQuantity() - Integer.parseInt(name)) < 0) {
 			out.print("<p style='color:red'>We only have "
 					+ returned.getQuantity() + " left in stock</p>");
-			
-		}
-	
-		out.close();
 
+		}
+
+		out.close();
 		return "Cart.jsp";
 	}
 

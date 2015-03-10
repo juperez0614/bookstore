@@ -66,6 +66,7 @@ public class RatingDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {

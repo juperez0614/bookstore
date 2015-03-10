@@ -26,21 +26,13 @@ public class CustomerAnalysisServlet extends HttpServlet {
      */
     public CustomerAnalysisServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Customer target = new Customer(); 
 		String action = request.getParameter("actionTag");
 		List<Customer> custList = new ArrayList<Customer>();
@@ -101,9 +93,6 @@ public class CustomerAnalysisServlet extends HttpServlet {
 		if (toMod.getAddress() == null){
 			toMod.setAddress("");
 		}
-/*		if (toMod.getAddress2() == null){
-			toMod.setAddress2("");
-		}*/
 		if(toMod.getCity() == null){
 			toMod.setCity("");
 		}

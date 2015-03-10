@@ -4,7 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtil {
-	
+
 	public static String getCookieValue(Cookie[] cookies, String cookieName) {
 		String cookieValue = "";
 
@@ -18,13 +18,14 @@ public class CookieUtil {
 		return cookieValue;
 	}
 
-	public static void createCookie(HttpServletResponse response, String cookieName) {
-		Cookie cookie = new Cookie("invoiceCookie", cookieName); // add to cookies
-		System.out.println("cookie value is: " + cookie.getValue());
+	public static void createCookie(HttpServletResponse response,
+			String cookieName) {
+		Cookie cookie = new Cookie("invoiceCookie", cookieName); // add to
+																	// cookies
+
 		cookie.setMaxAge(60 * 60 * 24 * 365 * 2);
-		cookie.setPath("/");	
+		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
-	
-	
+
 }

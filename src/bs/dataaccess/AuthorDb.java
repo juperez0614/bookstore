@@ -6,7 +6,6 @@ import java.util.List;
 
 import bs.models.Author;
 
-
 public class AuthorDb {
 
 	public static Author createAuthor(Author author) {
@@ -63,8 +62,7 @@ public class AuthorDb {
 		return author;
 	}
 
-	
-	public static List<Author> getAll(){
+	public static List<Author> getAll() {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -75,7 +73,7 @@ public class AuthorDb {
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 
-			Author author = null; 
+			Author author = null;
 			while (rs.next()) {
 				author = new Author();
 				author.setId(rs.getInt("Id"));
@@ -90,6 +88,7 @@ public class AuthorDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -97,6 +96,7 @@ public class AuthorDb {
 			}
 		}
 	}
+
 	public static Author getAuthor(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
@@ -122,6 +122,7 @@ public class AuthorDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -134,8 +135,7 @@ public class AuthorDb {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "DELETE FROM Author" 
-		+ " WHERE Id = ?";
+		String query = "DELETE FROM Author" + " WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, author.getId());

@@ -10,9 +10,8 @@ import java.util.List;
 import bs.models.Author;
 import bs.models.Book;
 
-public class BookAuthorDb 
-{
-	public static void insertIntoBA(int bookId, int authorId){
+public class BookAuthorDb {
+	public static void insertIntoBA(int bookId, int authorId) {
 		Connection conn = DBUtil.connectToDb();
 
 		PreparedStatement ps = null;
@@ -35,7 +34,7 @@ public class BookAuthorDb
 			}
 		}
 	}
-	
+
 	public static List<Book> getBookByAuthor(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
@@ -60,6 +59,7 @@ public class BookAuthorDb
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -67,38 +67,36 @@ public class BookAuthorDb
 			}
 		}
 	}
-	
-	
+
 	public static List<Book> getBookByAuthor(String name) {
-		String [] fullname = name.split(" ");
-		String firstname; 
-		String lastname; 
+		String[] fullname = name.split(" ");
+		String firstname;
+		String lastname;
 		String query;
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Book> toReturn = null;
-		if (fullname.length == 2){
+		if (fullname.length == 2) {
 			firstname = fullname[0];
 			lastname = fullname[1];
 			query = "select bookid from bookauthor "
-				+ "join author on author.id = bookauthor.AuthorId "
-				+ "where author.firstname = ? and author.lastname = ? ";
-			
-		}
-		else {
+					+ "join author on author.id = bookauthor.AuthorId "
+					+ "where author.firstname = ? and author.lastname = ? ";
+
+		} else {
 			firstname = fullname[0];
 			lastname = fullname[0];
 			query = "select bookid from bookauthor "
 					+ "join author on author.id = bookauthor.AuthorId "
 					+ "where author.firstname = ? or author.lastname = ? ";
 		}
-		
+
 		try {
 			ps = conn.prepareStatement(query);
-				ps.setString(1, firstname);
-				ps.setString(2, lastname);
-			
+			ps.setString(1, firstname);
+			ps.setString(2, lastname);
+
 			rs = ps.executeQuery();
 
 			Book b = null;
@@ -114,6 +112,7 @@ public class BookAuthorDb
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -121,7 +120,7 @@ public class BookAuthorDb
 			}
 		}
 	}
-	
+
 	public static List<Author> getAuthorByBook(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
@@ -146,6 +145,7 @@ public class BookAuthorDb
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {

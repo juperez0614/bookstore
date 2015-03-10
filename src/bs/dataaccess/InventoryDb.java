@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import bs.models.Inventory;
 
@@ -89,6 +88,7 @@ public class InventoryDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {

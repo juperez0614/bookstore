@@ -45,7 +45,7 @@ public class BookDb {
 		PreparedStatement ps = null;
 
 		String query = "UPDATE Book SET " + "ISBN = ?, " + "Price = ?, "
-				+ "Summary = ?, " +"Title = ?, " +"Cost = ?"+ "WHERE Id = ?";
+				+ "Summary = ?, " + "Title = ?, " + "Cost = ?" + "WHERE Id = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, book.getISBN());
@@ -90,7 +90,8 @@ public class BookDb {
 				book.setTitle(rs.getString("Title"));
 				book.setSummary(rs.getString("Summary"));
 				book.setGenre(GenreDb.getGenre(rs.getInt("genreId")));
-				book.setPublisher(PublisherDb.getPublisher(rs.getInt("publisherid")));
+				book.setPublisher(PublisherDb.getPublisher(rs
+						.getInt("publisherid")));
 				book.setAuthorList(BookAuthorDb.getAuthorByBook(rs.getInt("Id")));
 				book.setRatingList(RatingDb.getAllRatingByBook(book.getId()));
 			}
@@ -100,6 +101,7 @@ public class BookDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -131,8 +133,7 @@ public class BookDb {
 			}
 		}
 	}
-	
-	
+
 	public static List<Book> getAllBookByPrice(double price) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
@@ -149,7 +150,7 @@ public class BookDb {
 			toReturn = new ArrayList<Book>();
 			while (rs.next()) {
 				book = new Book();
-				book= getBook(rs.getInt("Id"));
+				book = getBook(rs.getInt("Id"));
 				toReturn.add(book);
 			}
 			return toReturn;
@@ -158,6 +159,7 @@ public class BookDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -165,13 +167,13 @@ public class BookDb {
 			}
 		}
 	}
-	
+
 	public static List<Book> getBookByISBN(String isbn) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Book> toReturn = null;
-		
+
 		String query = "SELECT * FROM Book" + " WHERE isbn = ?";
 		try {
 			ps = conn.prepareStatement(query);
@@ -182,7 +184,7 @@ public class BookDb {
 			toReturn = new ArrayList<Book>();
 			while (rs.next()) {
 				book = new Book();
-				book= getBook(rs.getInt("Id"));
+				book = getBook(rs.getInt("Id"));
 				toReturn.add(book);
 			}
 			return toReturn;
@@ -191,6 +193,7 @@ public class BookDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -198,7 +201,7 @@ public class BookDb {
 			}
 		}
 	}
-	
+
 	public static List<Book> getBookByTitle(String title) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
@@ -215,7 +218,7 @@ public class BookDb {
 			toReturn = new ArrayList<Book>();
 			while (rs.next()) {
 				book = new Book();
-				book= getBook(rs.getInt("Id"));
+				book = getBook(rs.getInt("Id"));
 				toReturn.add(book);
 			}
 			return toReturn;
@@ -224,6 +227,7 @@ public class BookDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -231,17 +235,16 @@ public class BookDb {
 			}
 		}
 	}
-	
-	
+
 	public static List<Book> getBookByPub(String publisher) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Book> toReturn = null;
 
-		String query = "SELECT * FROM Book " 
-					+ "join publisher on publisher.id = book.publisherid " 
-					+ " WHERE publisher.companyname Like ?";
+		String query = "SELECT * FROM Book "
+				+ "join publisher on publisher.id = book.publisherid "
+				+ " WHERE publisher.companyname Like ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, "%" + publisher + "%");
@@ -251,7 +254,7 @@ public class BookDb {
 			toReturn = new ArrayList<Book>();
 			while (rs.next()) {
 				book = new Book();
-				book= getBook(rs.getInt("Id"));
+				book = getBook(rs.getInt("Id"));
 				toReturn.add(book);
 			}
 			return toReturn;
@@ -260,6 +263,7 @@ public class BookDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -267,21 +271,19 @@ public class BookDb {
 			}
 		}
 	}
-	
-	
+
 	public static List<Book> getBookByGenre(String key) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Book> bookList = new ArrayList<Book>(); 
+		List<Book> bookList = new ArrayList<Book>();
 
 		String query = "SELECT book.id FROM book "
 				+ "join genre on book.genreid = genre.id "
-				+ "Left JOIN lineItem ON book.id = lineitem.bookid " 
-				+ "where genre.genre = ? "
-				+ "group by book.id "
+				+ "Left JOIN lineItem ON book.id = lineitem.bookid "
+				+ "where genre.genre = ? " + "group by book.id "
 				+ "order by sum(lineitem.quantity) desc;";
-		
+
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, key);
@@ -292,14 +294,15 @@ public class BookDb {
 				book = new Book();
 				book = getBook(rs.getInt("Id"));
 				bookList.add(book);
-				
+
 			}
-			return bookList; 
+			return bookList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -307,12 +310,12 @@ public class BookDb {
 			}
 		}
 	}
-	
+
 	public static List<Book> getAllBooks() {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Book> bookList = new ArrayList<Book>(); 
+		List<Book> bookList = new ArrayList<Book>();
 
 		String query = "SELECT * FROM book ";
 		try {
@@ -324,14 +327,15 @@ public class BookDb {
 				book = new Book();
 				book = getBook(rs.getInt("Id"));
 				bookList.add(book);
-				
+
 			}
-			return bookList; 
+			return bookList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -339,20 +343,19 @@ public class BookDb {
 			}
 		}
 	}
-	
+
 	public static List<Book> getTop5ByGenre(String genre) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Book> bookList = new ArrayList<Book>(); 
+		List<Book> bookList = new ArrayList<Book>();
 
-		String query = "select book.id, book.title from book " +
-							"join genre on genre.id = book.genreid " +
-							"join lineitem on lineitem.bookid = book.id " +
-							"where genre.genre = ? " +
-							"group by lineitem.bookid " +
-							"order by sum(lineitem.quantity) desc limit 5";
-		
+		String query = "select book.id, book.title from book "
+				+ "join genre on genre.id = book.genreid "
+				+ "join lineitem on lineitem.bookid = book.id "
+				+ "where genre.genre = ? " + "group by lineitem.bookid "
+				+ "order by sum(lineitem.quantity) desc limit 5";
+
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, "%" + genre + "%");
@@ -363,14 +366,15 @@ public class BookDb {
 				book = new Book();
 				book = getBook(rs.getInt("Id"));
 				bookList.add(book);
-				
+
 			}
-			return bookList; 
+			return bookList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -378,20 +382,20 @@ public class BookDb {
 			}
 		}
 	}
-	
+
 	public static List<Book> getTopTenBooks() {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Book> bookList = new ArrayList<Book>(); 
+		List<Book> bookList = new ArrayList<Book>();
 
-		String query = "select book.id, book.title, lineItem.Quantity FROM book " +
-				"join lineItem on book.id = lineItem.BookId " +
-				"join invoice on lineItem.InvoiceId = invoice.Id " +
-				"Where invoice.transactionDate between DATE_SUB(CURDATE(), INTERVAL 10 DAY) and CURDATE() " +
-				"Group By LineItem.bookid " +
-				"order by sum(quantity) desc limit 10;";
-		
+		String query = "select book.id, book.title, lineItem.Quantity FROM book "
+				+ "join lineItem on book.id = lineItem.BookId "
+				+ "join invoice on lineItem.InvoiceId = invoice.Id "
+				+ "Where invoice.transactionDate between DATE_SUB(CURDATE(), INTERVAL 10 DAY) and CURDATE() "
+				+ "Group By LineItem.bookid "
+				+ "order by sum(quantity) desc limit 10;";
+
 		try {
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -401,35 +405,36 @@ public class BookDb {
 				book = new Book();
 				book = getBook(rs.getInt("Id"));
 				bookList.add(book);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return bookList; 
+		return bookList;
 	}
-	
+
 	public static List<Book> getTrendingBooks() {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Book> bookList = new ArrayList<Book>(); 
+		List<Book> bookList = new ArrayList<Book>();
 
-		String query = "select book.id, book.title FROM book " + 
-				"join rating on book.id = rating.BookId " +
-				"where rating.ratingDate between DATE_SUB(CURDATE(), INTERVAL 14 DAY) and CURDATE() " + 
-				"Group By book.id " +
-				"order by AVG(rating.rating) desc limit 10;";
-		
+		String query = "select book.id, book.title FROM book "
+				+ "join rating on book.id = rating.BookId "
+				+ "where rating.ratingDate between DATE_SUB(CURDATE(), INTERVAL 14 DAY) and CURDATE() "
+				+ "Group By book.id "
+				+ "order by AVG(rating.rating) desc limit 10;";
+
 		try {
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -439,21 +444,22 @@ public class BookDb {
 				book = new Book();
 				book = getBook(rs.getInt("Id"));
 				bookList.add(book);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return bookList; 
+		return bookList;
 	}
-	
+
 }

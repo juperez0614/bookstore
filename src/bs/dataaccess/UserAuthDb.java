@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 import bs.models.UserAuth;
 
 public class UserAuthDb {
@@ -34,13 +33,13 @@ public class UserAuthDb {
 		}
 		return user;
 	}
-	
+
 	public static UserAuth updateUserAuth(UserAuth user) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "UPDATE UserAuth SET " 
-				+ "userpassword = ? " + "WHERE username = ?";
+		String query = "UPDATE UserAuth SET " + "userpassword = ? "
+				+ "WHERE username = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, user.getPassword());
@@ -83,6 +82,7 @@ public class UserAuthDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -95,8 +95,7 @@ public class UserAuthDb {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "DELETE FROM UserAuth" 
-		+ " WHERE username = ?";
+		String query = "DELETE FROM UserAuth" + " WHERE username = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, user.getUsername());

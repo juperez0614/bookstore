@@ -33,13 +33,13 @@ public class UserRoleDb {
 		}
 		return user;
 	}
-	
+
 	public static UserRole updateUserRole(UserRole user) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "UPDATE UserRole SET " 
-				+ "role = ? " + "WHERE username = ?";
+		String query = "UPDATE UserRole SET " + "role = ? "
+				+ "WHERE username = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, user.getRole());
@@ -82,6 +82,7 @@ public class UserRoleDb {
 			return null;
 		} finally {
 			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -94,8 +95,7 @@ public class UserRoleDb {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 
-		String query = "DELETE FROM UserRole" 
-		+ " WHERE username = ?";
+		String query = "DELETE FROM UserRole" + " WHERE username = ?";
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, user.getUser().getUsername());
