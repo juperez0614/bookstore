@@ -13,9 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import bs.dataaccess.CustomerDb;
 import bs.dataaccess.InvoiceDb;
+import bs.dataaccess.RatingDb;
 import bs.dataaccess.UserAuthDb;
 import bs.models.Customer;
 import bs.models.Invoice;
+import bs.models.Rating;
 import bs.models.UserAuth;
 
 /**
@@ -54,11 +56,16 @@ public class CustomerServlet extends HttpServlet {
 	private String getCustomer(HttpServletRequest request,
 			HttpServletResponse response) {
 		Customer c = new Customer();
+		List<Rating> rList = new ArrayList<Rating>();
 		List<Invoice> iList = new ArrayList<Invoice>();
 		c = CustomerDb.getCustomer(Integer.parseInt(request.getParameter("action")));
 		iList = InvoiceDb.getInvoiceListForCustomer(c.getId());
+		rList = RatingDb.getRatingByCustomer(c.getId());
+		System.out.println("customer id" + c.getId());
+		System.out.println("rlist" + rList.size());
 		request.getSession().setAttribute("customer", c);
 		request.getSession().setAttribute("invoiceList", iList);
+		request.getSession().setAttribute("customerRatings", rList);
 		return "CustomerDetails.jsp?id=" + c.getId();
 	}
 

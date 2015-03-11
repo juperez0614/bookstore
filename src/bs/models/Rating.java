@@ -12,6 +12,7 @@ public class Rating implements Serializable{
 	private Date ratingDate;
 	private int bookid;
 	private int customerid;
+	private double ratingAvg;
 	
 
 	public Rating(int nRating, String nReview)
@@ -68,6 +69,14 @@ public class Rating implements Serializable{
 
 	public void setCustomerid(int customerid) {
 		this.customerid = customerid;
+	}
+
+	public double getRatingAvg() {
+		return ratingAvg;
+	}
+
+	public void setRatingAvg(double ratingAvg) {
+		this.ratingAvg = ratingAvg;
 	}
 	
 	

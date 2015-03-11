@@ -11,6 +11,8 @@
 	<jsp:include page="/Partial/Header.jsp"></jsp:include>
 	<div class="container theme-showcase">
 		<form action="ProfitServlet" method="POST" class="form-inline">
+		<div class="col-md-6">
+		<h3>Time Period 1</h3>
 			<div class="form-group">
 				<label>Start year</label> <input type="text" id="startyear" name="startyear" class="form-control"/> 
 			</div>
@@ -33,6 +35,34 @@
 			<br>
 			<div class="form-group">
 				<label>end day</label> <input type="text" id="endday" name="endday" class="form-control"/>
+			</div>
+			<br>
+			</div>
+			<div class="col-md-6">
+			<h3>Time Period 2</h3>
+			<div class="form-group">
+				<label>Start year</label> <input type="text" id="startyear2" name="startyear1" class="form-control"/> 
+			</div>
+			<br>
+			<div class="form-group">
+				<label>Start month</label> <input type="text" id="startmonth2" name="startmonth1" class="form-control" />
+			</div>
+			<br>
+			<div class="form-group">
+				<label>Start day</label> <input type="text" id="startday2" name="startday1" class="form-control"/>
+			</div>
+			<br>
+			<div class="form-group">
+				<label>end year</label> <input type="text" id="endyear2" name="endyear1" class="form-control"/>
+			</div>
+			<br>
+			<div class="form-group">
+				<label>end month</label> <input type="text" id="endmonth2" name="endmonth1" class="form-control"/>
+			</div>
+			<br>
+			<div class="form-group">
+				<label>end day</label> <input type="text" id="endday2" name="endday1" class="form-control"/>
+			</div>
 			</div>
 			<br>
 			<div id="warning" style="color:red"></div>

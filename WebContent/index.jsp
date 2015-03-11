@@ -42,6 +42,7 @@
 						<tr>
 							<th>Title</th>
 							<th>Price</th>
+							<th>Rating</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,6 +50,7 @@
 							<tr>
 								<td>${item.title }</td>
 								<td>${item.price }</td>
+								<td>${item.averageRating}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

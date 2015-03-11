@@ -429,7 +429,7 @@ public class BookDb {
 		ResultSet rs = null;
 		List<Book> bookList = new ArrayList<Book>();
 
-		String query = "select book.id, book.title FROM book "
+		String query = "select book.id, book.title, AVG(rating.rating) AS Average FROM book "
 				+ "join rating on book.id = rating.BookId "
 				+ "where rating.ratingDate between DATE_SUB(CURDATE(), INTERVAL 14 DAY) and CURDATE() "
 				+ "Group By book.id "
@@ -438,11 +438,11 @@ public class BookDb {
 		try {
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
-
 			Book book = null;
 			while (rs.next()) {
 				book = new Book();
 				book = getBook(rs.getInt("Id"));
+				book.setAverageRating(rs.getDouble("Average"));
 				bookList.add(book);
 
 			}

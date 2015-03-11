@@ -35,11 +35,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="item" items="${genreList}">
+						<c:forEach var="item" items="${genreList}" varStatus="count">
+						
 							<tr>
-								<td><a href="BookServlet?action=${item.id }">${item.title}
-								</a></td>
-								<td>${item.priceFormat}</td>
+								<td><a href="BookServlet?action=${item.id }">${item.title}</a></td>
+								<td>${item.priceFormat}   <c:if test="${count.index <= 4 }"><span style="color:red">Top Seller!</span></c:if></td>
 							</tr>
 						</c:forEach>
 					</tbody>

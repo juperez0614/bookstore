@@ -4,22 +4,44 @@ SELECT DISTINCT title from book
 join lineItem on book.id = lineitem.BookId
 order by lineItem.Quantity desc limit 5; 
 
+delete from rating where id = 32; 
+
+Select sum(totalamount) from invoice where Transactiondate between '2015-01-01' and '2015-03-07'; 
+
+
+
+
+Select sum(totalamount), transactiondate, week(transactiondate, 1) from invoice group by week(transactiondate, 1);
+
+Select sum(totalamount), transactiondate, month(transactiondate) from invoice group by month(transactiondate);
+
+
+select DATEFIRST 6; 
+SELECT      DATEPART(wk, Transactiondate)     weekno
+        ,   SUM(totalamount)           totalvalue
+FROM        invoice
+GROUP BY    DATEPART(wk, datevalue);
+
 select * from userauth;
+select * from book where id = 57;
+Insert into BookAuthor (BookId, AuthorId)
+Values (1, 3);
+select * from bookauthor where bookid = 1;
 
-select * from book;
+SELECT * FROM Rating WHERE bookId = 4 order by RatingDate DESC;
+select * from inventory;
+delete from rating where bookid = 60;
+select * from customer;
+
+UPDATE inventory SET Quantity = 20 where bookid > 0; 
 
 
-UPDATE LineItem SET BookId =  
-				+ "quantity = ?, " + "InvoiceId = ?, "
-						+ "WHERE id = ?";
-
-
-select book.id, book.title from book
+select book.id, book.title, lineItem.Quantity from book
 join genre on genre.id = book.genreid
-join lineitem on lineitem.bookid = book.id
-where genre.genre = "suspense"
-group by lineitem.bookid
-order by sum(lineitem.quantity) desc limit 5;
+left join lineitem on lineitem.bookid = book.id
+where genre.genre = "action"
+group by book.id
+order by sum(lineitem.quantity) desc;
 
 
 select book.id, book.title, sum(lineitem.quantity), genre.genre from book
@@ -46,7 +68,7 @@ order by sum(lineitem.quantity) desc;
 
 select book.isbn, book.title from book;
 
-
+delete from inventory where bookid <= 10;
 select * from bookauthor 
 join author on author.id = bookauthor.AuthorId
 where author.firstname = "john" and author.lastname = "Mclain";
@@ -133,7 +155,15 @@ WHERE a.emp_supv = b.emp_id;
 
 select * from invoice;
 
-select (Sum(Book.price * lineItem.quantity) - sum(Book.cost * lineItem.quantity)) AS Profit 
+select sum(totalamount) from invoice where isprocessed = true and transactiondate >'2015-01-01';
+
+select Sum(Book.price * lineItem.quantity) as cost, sum(TotalAmount) as sales, (sum(TotalAmount) - Sum(Book.price * lineItem.quantity)) as profit, week(transactiondate, 1) 
  from lineItem inner join Book on book.Id = lineItem.BookId
  inner join Invoice on lineItem.InvoiceId = Invoice.Id
- where TransactionDate between '2015-01-28' and '2015-03-06'; 
+ where IsProcessed = True
+ group by week(TransactionDate); 
+
+select Sum(Book.price * lineItem.quantity) as cost, sum(TotalAmount) as sales, (sum(TotalAmount) - Sum(Book.price * lineItem.quantity)) as profit, month(transactiondate) 
+ from lineItem inner join Book on book.Id = lineItem.BookId
+ inner join Invoice on lineItem.InvoiceId = Invoice.Id
+ where TransactionDate > '2015-01-01' group by extract(YEAR_MONTH from TransactionDate); 

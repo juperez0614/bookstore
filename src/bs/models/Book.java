@@ -16,6 +16,7 @@ public class Book implements Serializable {
 	private Publisher publisher; 
 	private List<Author> authorList; //in case of multiple authors
 	private List<Rating> ratingList;
+	private double averageRating;
 	
 	public Book(){}
 	
@@ -109,5 +110,13 @@ public class Book implements Serializable {
 	public String getPriceFormat(){
 		NumberFormat currency = NumberFormat.getCurrencyInstance();
 		return currency.format(price);
+	}
+
+	public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
 	}
 }

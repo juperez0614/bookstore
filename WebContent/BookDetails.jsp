@@ -16,6 +16,7 @@
 				<p><b>ISBN: </b>${Book.ISBN }</p>
 				<p><b>Genre: </b>${Book.genre.genre }</p>
 				<p><b>Publisher: </b>${Book.publisher.companyName }</p>
+				<p><b>Average Rating:</b>${Rating.ratingAvg}</p>
 				<c:choose>
 					<c:when test="${Inventory.quantity  > 0}">
 						<p id="inventoryquantity" ><b>Quantity</b> ${Inventory.quantity }</p>
@@ -50,9 +51,8 @@
 			<input type="hidden" id="lineid" value="${Inventory.bookid }" />
 			<input type="text" name="quantity" value="1" id="purchasequantity"
 				onkeypress="return isNumber(event)" class="form-control" /> 
-				<div class="status"></div>
+				<div class="status" ></div>
 				<input type="submit" id="purchasesubmit" value="puchase" class="btn btn-default"/>
-				<div id="msg" style="color:red" ></div>
 			</div>
 		</form>
 		<jsp:include page="Partial/ShowRatings.jsp"></jsp:include>
@@ -114,7 +114,12 @@
 								$('.status').html(msg);
 								if(msg != ""){
 									$("#purchasesubmit").attr("disabled", true);
-								}else{
+								}
+								else if (  quantity == 0 && msg == ""){
+									$('.status').html("<p style='color:red'> 0 is not a valid quantity</p>");
+									$("#purchasesubmit").attr("disabled", true);
+								}
+								else{
 									$("#purchasesubmit").attr("disabled", false);
 								}
 								

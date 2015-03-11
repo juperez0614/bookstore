@@ -65,7 +65,11 @@
 											+ $id + "&quantity=" + $quants,	
 													success : function(msg) {														
 														$(status).html(msg);
-														if (msg != ""){
+														if (msg != "" ){
+															$(button).attr("disabled", true);
+														}
+														else if (  $quants == 0 && msg == ""){
+															$(status).html("<p style='color:red'> 0 is not a valid quantity</p>");
 															$(button).attr("disabled", true);
 														}
 														else {

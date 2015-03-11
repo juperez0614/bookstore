@@ -1,6 +1,7 @@
 package bs.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 2L;
@@ -14,6 +15,7 @@ public class Customer implements Serializable {
 	private int zipcode;
 	private String email; 
 	private UserAuth userName;
+	private List<Rating> ratings;
 	
 	public Customer(){}
 	
@@ -109,6 +111,14 @@ public class Customer implements Serializable {
 
 	public void setUserName(UserAuth userName) {
 		this.userName = userName;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
 	}	
 
 	

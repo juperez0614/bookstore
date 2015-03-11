@@ -10,29 +10,64 @@
 <body>
 	<jsp:include page="/Partial/Header.jsp"></jsp:include>
 	<div class="container theme-showcase">
-	<h4><b>Name:</b> ${customer.firstName} ${customer.lastName}</h4>
-	<p><b>Username:</b> ${customer.userName.username }</p>
-	<p><b>Email:</b> ${customer.email }</p>
-	<p><b>Address: </b> ${customer.address}</p>
-	<p><b>Address:</b> ${customer.address2}</p>
-	<p><b>City:</b> ${customer.city} <b>State:</b> ${customer.state} <b>Zipcode:</b> ${customer.zipcode}</p>
+		<h4>
+			<b>Name:</b> ${customer.firstName} ${customer.lastName}
+		</h4>
+		<p>
+			<b>Username:</b> ${customer.userName.username }
+		</p>
+		<p>
+			<b>Email:</b> ${customer.email }
+		</p>
+		<p>
+			<b>Address: </b> ${customer.address}
+		</p>
+		<p>
+			<b>Address:</b> ${customer.address2}
+		</p>
+		<p>
+			<b>City:</b> ${customer.city} <b>State:</b> ${customer.state} <b>Zipcode:</b>
+			${customer.zipcode}
+		</p>
 		<div class="row">
 			<div class="col-md-6">
 				<table class="table">
-				<thead>
+					<thead>
 						<tr>
 							<th>Transaction Date</th>
 							<th>Total Amount</th>
 						</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<c:forEach var="receipt" items="${invoiceList}">
-							<tr>
-								<td>${receipt.transactionDate }</td>
-								<td>${receipt.totalAmount }</td>
-							</tr>
-						</c:forEach>
+						<tr>
+							<c:forEach var="receipt" items="${invoiceList}">
+								<tr>
+									<td>${receipt.transactionDate }</td>
+									<td>${receipt.totalAmount }</td>
+								</tr>
+							</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-md-6">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Rating</th>
+							<th>Review</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<c:forEach var="item" items="${customerRatings}">
+								<tr>
+									<td>${item.rating}</td>
+									<td>${item.review}</td>
+									<td>${item.ratingDate }</td>
+								</tr>
+							</c:forEach>
 					</tbody>
 				</table>
 			</div>

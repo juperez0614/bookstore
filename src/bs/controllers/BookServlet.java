@@ -15,6 +15,7 @@ import bs.dataaccess.InventoryDb;
 import bs.dataaccess.RatingDb;
 import bs.models.Book;
 import bs.models.Inventory;
+import bs.models.Rating;
 
 /**
  * Servlet implementation class BookServlet
@@ -81,10 +82,13 @@ public class BookServlet extends HttpServlet {
 			HttpServletResponse response) {
 		Book b = new Book();
 		Inventory i = new Inventory();
+		Rating r = new Rating();
 		b = BookDb.getBook(Integer.parseInt(request.getParameter("action")));
 		i = InventoryDb.getInventory(b.getId());
+		r = RatingDb.getRating(b.getId());
 		request.getSession().setAttribute("Book", b);
 		request.getSession().setAttribute("Inventory", i);
+		request.getSession().setAttribute("Rating", r);
 		return "BookDetails.jsp?id=" + b.getId();
 	}
 

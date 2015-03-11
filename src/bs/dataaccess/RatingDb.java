@@ -41,15 +41,15 @@ public class RatingDb {
 
 
 
-	public static Rating getRating(int id) {
+	public static Rating getRating(int bookid) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		String query = "SELECT * FROM Rating" + " WHERE Id = ?";
+		String query = "SELECT *, AVG(Rating) As Average FROM Rating" + " WHERE bookId = ?";
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, id);
+			ps.setInt(1, bookid);
 			rs = ps.executeQuery();
 
 			Rating rating = null;
@@ -59,6 +59,7 @@ public class RatingDb {
 				rating.setRating(rs.getInt("Rating"));
 				rating.setReview(rs.getString("Review"));
 				rating.setRatingDate(rs.getDate("RatingDate"));
+				rating.setRatingAvg(rs.getDouble("Average"));
 			}
 			return rating;
 		} catch (SQLException e) {
@@ -112,6 +113,42 @@ public class RatingDb {
 		}
 	}
 	
+	public static List<Rating> getRatingByCustomer(int customerId) {
+		Connection conn = DBUtil.connectToDb();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Rating> results = new ArrayList<Rating>();
+
+		String query = "SELECT * FROM Rating" + " WHERE customerId = ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, customerId);
+			rs = ps.executeQuery();
+
+			Rating rating = null;
+			while (rs.next()) {
+				rating = new Rating();
+				rating.setId(rs.getInt("Id"));
+				rating.setRating(rs.getInt("Rating"));
+				rating.setReview(rs.getString("Review"));
+				rating.setRatingDate(rs.getDate("RatingDate"));
+				results.add(rating);
+			}
+			return results;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			DBUtil.closePreparedStatement(ps);
+			DBUtil.closeResultSet(rs);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static List<Rating> getLast5RatingByBook(int id) {
 		Connection conn = DBUtil.connectToDb();
 		PreparedStatement ps = null;
